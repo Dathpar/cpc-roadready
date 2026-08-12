@@ -133,6 +133,15 @@
   .opt.wrong{border-color:var(--bad);background:#fdeeee}.opt.wrong .k{background:var(--bad);color:#fff}
   .feedback{font-size:13.5px;padding:13px 15px;border-radius:11px;margin-top:4px;display:none;background:#eef8ec;color:#1f6b3a}
   .feedback.show{display:block;animation:rise .3s}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+  .tc{background:#f5f9fc;border:1px solid var(--card-line);border-radius:12px;padding:14px 16px}
+  .tc h5{font-size:12.5px;color:var(--blue);margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px}
+  .tc ul{margin:0;padding-left:16px}
+  .tc li{font-size:13px;color:#33485a;line-height:1.5;margin-bottom:5px}
+  .qblock{border-top:1px solid var(--card-line);padding-top:16px;margin-top:16px}
+  .qblock:first-of-type{border-top:none;padding-top:0;margin-top:0}
+  .formwrap{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 24px 50px rgba(0,0,0,.32);margin-top:14px}
+  .formwrap iframe{width:100%;height:660px;border:0;display:block}
   /* signature */
   .sigwrap{background:var(--card);color:var(--card-ink);border-radius:20px;padding:26px 28px;box-shadow:0 24px 50px rgba(0,0,0,.32)}
   .sigwrap .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
@@ -169,7 +178,7 @@
   .foot{color:var(--muted);font-size:12px;text-align:center;margin-top:34px;letter-spacing:.3px;line-height:1.6}
   .foot b{color:var(--gold)}
   .confetti{position:fixed;top:-10px;width:9px;height:14px;z-index:50;pointer-events:none}
-  @media(max-width:640px){.vgrid{grid-template-columns:1fr}.stat3{grid-template-columns:1fr 1fr}.hero h2{font-size:30px}}
+  @media(max-width:640px){.vgrid{grid-template-columns:1fr}.stat3{grid-template-columns:1fr 1fr}.twocol{grid-template-columns:1fr}.hero h2{font-size:30px}}
 </style>
 </head>
 <body>
@@ -253,39 +262,64 @@
   <section class="screen" id="s3">
     <div class="chap-kick"><span class="no">Chapter 3 of 6</span> · Your safety is the point</div>
     <h3 class="hook">The best drivers <em>get home safe</em>. This one's for you.</h3>
-    <p class="chap-sub">Not the filing cabinet — you. A quick, required safety module, then a two-minute detail.</p>
+    <p class="chap-sub">Not the filing cabinet — you. A short required safety module with a three-question check, then your confidential emergency contact form.</p>
     <div class="learn">
       <div class="top">
         <div class="tag learn">▲ Required training · OHSA</div>
-        <h3>Everyone has the right to a safe, respectful workplace</h3>
+        <h3>Workplace violence &amp; harassment — know it, refuse it, report it</h3>
       </div>
       <div class="content">
-        <p>Workplace violence is any use — or threat — of force that could hurt you. Harassment is unwelcome conduct someone knows, or should know, isn't welcome. Both are covered by Ontario's <strong>Occupational Health and Safety Act</strong>, and CPC has a program to prevent them.</p>
-        <p>You work alone and off-site, so knowing how to recognize, avoid and <strong>report</strong> matters. Reporting is confidential, and we can't penalize you for raising a concern in good faith.</p>
+        <p><strong>Workplace violence</strong> is any use — or threat — of physical force that could injure you: a shove, a raised fist, a thrown object, or a threat that makes you fear for your safety. <strong>Harassment</strong> is a course of comments or conduct someone knows, or ought to know, is unwelcome — including <strong>sexual harassment</strong>. Both are covered by Ontario's <strong>Occupational Health and Safety Act (OHSA)</strong>.</p>
+        <p>As a driver you're often alone and off-site — at customer docks, truck stops, and border crossings. Aggression can come from people outside CPC as much as inside it. This training is about spotting it early, keeping yourself safe, and knowing that reporting is safe too.</p>
+        <div class="twocol">
+          <div class="tc"><h5>What it can look like</h5><ul><li>An aggressive customer or member of the public at a delivery</li><li>Threats, intimidation, or someone blocking you in</li><li>Repeated unwelcome comments about your appearance, race, or gender</li><li>Bullying or humiliation from a coworker or supervisor</li></ul></div>
+          <div class="tc"><h5>Your rights under OHSA</h5><ul><li>A workplace with a violence &amp; harassment program</li><li>Information and instruction on that program (this module)</li><li>The right to <strong>refuse unsafe work</strong></li><li><strong>No reprisal</strong> for reporting in good faith</li></ul></div>
+        </div>
         <div class="stat3">
           <div><b>24/7</b><span>Report line to dispatch</span></div>
           <div><b>0</b><span>Tolerance for retaliation</span></div>
           <div><b>You</b><span>Right to refuse unsafe work</span></div>
         </div>
+        <p><strong>How to report:</strong> get to safety first, then call dispatch or your supervisor as soon as you can — you can also report in writing. CPC keeps it confidential, investigates, and takes action. You're protected from any penalty for raising a genuine concern.</p>
       </div>
       <div class="quiz">
-        <h4>Quick check</h4>
-        <div class="q">Someone at a delivery site turns aggressive and threatening. What's your first move?</div>
-        <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Handle it yourself so the load isn't delayed</button>
-        <button class="opt" onclick="answer(this,false)"><span class="k">B</span> Ignore it — comes with the job</button>
-        <button class="opt" onclick="answer(this,true)"><span class="k">C</span> Get yourself clear if you can, then report it to dispatch</button>
-        <div class="feedback" id="fb"><strong>That's it.</strong> Your safety comes first — disengage when you safely can, then report so CPC can act.</div>
+        <h4>Knowledge check <span style="color:var(--card-muted);font-weight:400;font-size:13px">· answer all three</span></h4>
+        <div class="qblock">
+          <div class="q">1 · Someone at a delivery site turns aggressive and threatening. What's your first move?</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Handle it yourself so the load isn't delayed</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">B</span> Ignore it — comes with the job</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">C</span> Get yourself clear if you can, then report it to dispatch</button>
+          <div class="feedback"><strong>That's it.</strong> Your safety comes first — disengage when you safely can, then report so CPC can act.</div>
+        </div>
+        <div class="qblock">
+          <div class="q">2 · Which of these is workplace harassment?</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> A supervisor giving you fair feedback on a late delivery</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">B</span> A coworker making repeated unwelcome comments about your appearance</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">C</span> Security asking to see your ID at a gate</button>
+          <div class="feedback"><strong>Correct.</strong> Reasonable, work-related direction isn't harassment — repeated unwelcome personal comments are.</div>
+        </div>
+        <div class="qblock">
+          <div class="q">3 · You report a safety concern in good faith. What can CPC do?</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Discipline you for causing trouble</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">B</span> Ignore it if the load is on time</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">C</span> Investigate it confidentially — with no penalty to you</button>
+          <div class="feedback"><strong>Right.</strong> Reprisal is prohibited. A good-faith report is always handled confidentially and taken seriously.</div>
+        </div>
       </div>
     </div>
-    <div class="paper">
-      <div class="tag do">◐ Two minutes</div>
-      <h3>Emergency response — your contact</h3>
-      <div class="body"><p>If something happens on the road, we call the person you trust. Who should that be?</p></div>
-      <div class="field" style="max-width:100%;margin:6px 0 0"><input type="text" id="ice" placeholder="Emergency contact name & number" autocomplete="off"></div>
+
+    <div class="paper" style="margin-top:14px">
+      <div class="tag do">◐ Confidential form</div>
+      <h3>Emergency contact information</h3>
+      <div class="body"><p>If something happens on the road, we call the person you trust. Complete CPC's confidential Annual Emergency Contact form below — it goes straight into your confidential file in Microsoft 365, not the shared packet.</p></div>
     </div>
+    <div class="formwrap">
+      <iframe title="Annual Emergency Contact Info" src="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=g2KsrKcOMUK1Toqr5oCbeNgAZeN3E6pHmUouf7yL7D5UM0JYTUpXOVgxNEJIWDRGTVI0RkhVMzlKVi4u&embed=true" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen></iframe>
+    </div>
+
     <div class="seal" onclick="toggleSeal('seal3')">
       <input type="checkbox" id="seal3" onclick="event.stopPropagation()">
-      <label for="seal3">I've completed the safety training and understand how to report a concern.</label>
+      <label for="seal3">I've completed the safety training and submitted my emergency contact form.</label>
     </div>
     <div class="nav">
       <div class="bridge">Up next: how we <b>roll together</b> out on the road.</div>
@@ -419,7 +453,7 @@
                 'I understand this policy protects the privacy and security of CPC and its clients.']},
       {slug:'Emergency-Response-Form', kind:'emergency', kicker:'EMERGENCY RESPONSE',
         title:'Emergency Response Form',
-        intro:'In the event of an emergency on the road, CPC Logistics Canada will make reasonable efforts to contact the person named below on my behalf.'},
+        intro:'Emergency contact information for this driver is collected through CPC’s confidential Annual Emergency Contact form (Microsoft Forms) and is retained separately in the employee’s confidential file.'},
       {slug:'Workplace-Violence-Harassment-Certificate', kind:'cert', kicker:'CERTIFICATE OF TRAINING COMPLETION',
         title:'Workplace Violence & Harassment', ref:'Ontario Occupational Health and Safety Act (OHSA)'},
       {slug:'Drug-Alcohol-Background-Consent', kind:'consent', kicker:'CONSENT',
@@ -503,11 +537,11 @@
       y=bodyText(doc, d.intro, y)+8; y=bullets(doc, d.points, y);
     } else if(d.kind==='emergency'){
       y=bodyText(doc, d.intro, y)+14;
-      doc.setFillColor(245,249,252); doc.roundedRect(M,y-4,CW,54,6,6,'F');
+      doc.setFillColor(245,249,252); doc.roundedRect(M,y-4,CW,58,6,6,'F');
       doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(GREY[0],GREY[1],GREY[2]);
-      doc.text('EMERGENCY CONTACT', M+14, y+16);
-      doc.setFont('helvetica','normal'); doc.setFontSize(12); doc.setTextColor(NAVY[0],NAVY[1],NAVY[2]);
-      doc.text(data.ec||'(not provided)', M+14, y+36);
+      doc.text('CONFIDENTIAL · FILED SEPARATELY', M+14, y+18);
+      doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(NAVY[0],NAVY[1],NAVY[2]);
+      doc.text('Submitted via Microsoft Forms — Annual Emergency Contact Info.', M+14, y+38);
     } else if(d.kind==='cert'){
       doc.setDrawColor(GOLD[0],GOLD[1],GOLD[2]); doc.setLineWidth(2);
       doc.roundedRect(M,y,CW,150,8,8,'S');
@@ -532,7 +566,7 @@
         ['Chapter 1 — Welcome & details confirmed','Complete'],
         ['Chapter 2 — Benefits & value reviewed','Complete'],
         ['Chapter 3 — OHSA safety training + knowledge check','Passed'],
-        ['Chapter 3 — Emergency contact provided', data.ec?'Complete':'—'],
+        ['Chapter 3 — Emergency contact form submitted','Complete'],
         ['Chapter 4 — On-the-road conduct acknowledged','Signed'],
         ['Chapter 5 — Drug/alcohol consent', data.c1?'Consented':'—'],
         ['Chapter 5 — Background check authorization', data.c2?'Authorized':'—'],
@@ -599,25 +633,29 @@ document.getElementById('start').addEventListener('click',function(){go(1);});
 nameEl.addEventListener('keydown',function(e){if(e.key==='Enter'&&nameEl.value.trim().length>=2)go(1);});
 function markDone(btn,txt){ btn.textContent='✓ '+txt; btn.disabled=true; btn.style.opacity=.7; }
 /* seals */
-function toggleSeal(id){var b=document.getElementById(id);b.checked=!b.checked;sealCheck();}
-function sealCheck(){
-  document.getElementById('n3').disabled=!(document.getElementById('seal3').checked);
+function toggleSeal(id){var b=document.getElementById(id);b.checked=!b.checked;gateAll();}
+function gateAll(){
+  document.getElementById('n3').disabled=!(window.quizAnswered>=3 && document.getElementById('seal3').checked);
   document.getElementById('n4').disabled=!(document.getElementById('seal4').checked);
 }
-document.getElementById('seal3').addEventListener('change',sealCheck);
-document.getElementById('seal4').addEventListener('change',sealCheck);
+document.getElementById('seal3').addEventListener('change',gateAll);
+document.getElementById('seal4').addEventListener('change',gateAll);
 /* consents */
 function toggleConsent(id){var b=document.getElementById(id);b.checked=!b.checked;consentCheck();}
 function consentCheck(){document.getElementById('n5').disabled=!(document.getElementById('c1').checked&&document.getElementById('c2').checked);}
 document.getElementById('c1').addEventListener('change',consentCheck);
 document.getElementById('c2').addEventListener('change',consentCheck);
 /* quiz */
+window.quizAnswered=0;
 function answer(btn,correct){
-  var opts=btn.parentNode.querySelectorAll('.opt');
+  var qb=btn.closest('.qblock'); if(!qb||qb.dataset.done) return;
+  qb.dataset.done='1'; window.quizAnswered++;
+  var opts=qb.querySelectorAll('.opt');
   opts.forEach(function(o){o.style.pointerEvents='none'});
   if(correct){btn.classList.add('correct');}
   else{btn.classList.add('wrong');opts.forEach(function(o){if(o.getAttribute('onclick').indexOf('true')>-1)o.classList.add('correct');});}
-  document.getElementById('fb').classList.add('show');
+  qb.querySelector('.feedback').classList.add('show');
+  gateAll();
 }
 /* signature */
 var pad,ctx,drawing=false;
@@ -710,9 +748,11 @@ function confetti(){
 function restart(){
   window.driver='';nameEl.value='';document.getElementById('start').disabled=true;
   ['seal3','seal4','c1','c2'].forEach(function(id){document.getElementById(id).checked=false;});
-  sealCheck();consentCheck();
+  window.quizAnswered=0;
+  document.querySelectorAll('.qblock').forEach(function(q){delete q.dataset.done;});
+  document.querySelectorAll('.feedback').forEach(function(f){f.classList.remove('show');});
   document.querySelectorAll('.opt').forEach(function(o){o.className='opt';o.style.pointerEvents='auto';});
-  document.getElementById('fb').classList.remove('show');
+  gateAll();consentCheck();
   document.getElementById('drv-email').value='';document.getElementById('send-btn').textContent='Open email';
   document.getElementById('sent-msg').classList.remove('show');
   go(0);

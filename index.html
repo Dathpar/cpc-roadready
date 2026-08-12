@@ -150,6 +150,10 @@
   .listen:hover{background:#1c3d5c}
   .listen.playing{background:var(--gold);color:#3a2600}
   .listen .ic{font-size:12px}
+  .polreadhead{font-size:12px;color:var(--card-muted);letter-spacing:.4px;text-transform:uppercase;margin:18px 0 8px;font-weight:600}
+  .polframe{border-radius:12px;overflow:hidden;border:1px solid var(--card-line)}
+  .polframe iframe{width:100%;height:440px;border:0;display:block;background:#fff}
+  .polnote{color:var(--card-muted);font-size:13px;margin-top:16px;font-style:italic}
   /* signature */
   .sigwrap{background:var(--card);color:var(--card-ink);border-radius:20px;padding:26px 28px;box-shadow:0 24px 50px rgba(0,0,0,.32)}
   .sigwrap .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
@@ -408,7 +412,7 @@
           <button class="btn primary" id="send-btn" onclick="sendCopy()">Open email</button>
         </div>
         <div class="sent" id="sent-msg">✓ Email opening — attach the packet and send to <span id="sent-to"></span></div>
-        <button class="btn ghost" onclick="genPacket()" style="margin-top:12px;width:100%;justify-content:center">↓ Download packet again</button>
+        <button class="btn ghost" id="pkgbtn" onclick="genPacket()" style="margin-top:12px;width:100%;justify-content:center">↓ Download packet again</button>
       </div>
       <div class="bundle" id="bundle"></div>
       <button class="btn ghost" onclick="restart()" style="margin-top:4px">Run the demo again</button>
@@ -419,6 +423,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script>
 // CPC RoadReady — PDF generation (browser + node compatible)
 // Exposes window.CPCPDF in browser; module.exports in node.
@@ -678,39 +683,36 @@ var sections=[
     {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}]}
 ];
 window.POLICIES=[
- {slug:'Cell-Phone-Distracted-Driving',tag:'Conduct',title:'Cell Phone & Distracted Driving Policy',revised:'Rev. 2017',
+ {slug:'Cell-Phone-Distracted-Driving',orig:'Cell-Phone-Distracted-Driving.pdf',tag:'Conduct',title:'Cell Phone & Distracted Driving Policy',revised:'Rev. 2017',
   points:['Handheld phone or device use while driving is prohibited — no calls, texting, internet, email, or checking messages in motion, for business or personal reasons.','Hands-free is allowed only where it complies with DOT guidelines and your assignment.','Pull over to a safe location to use a handheld device or return calls.','Any fines for violations are the driver’s responsibility — CPC does not cover them.'],
   statement:'I have read and understand CPC Logistics Canada’s Cell Phone & Distracted Driving Policy, and I agree to comply with it at all times while operating a company vehicle.'},
  {slug:'Photographic-Equipment',tag:'Conduct',title:'Photographic Equipment Policy',revised:'',
   points:['No personal photographic equipment in restricted or private areas without authorization.','Report any unauthorized photography to management or security.','Protects the privacy and security of CPC and its clients, including John Deere.'],
   statement:'I have read and understand the Photographic Equipment Policy and agree to follow it.'},
- {slug:'Dash-Camera-Policy',tag:'Conduct',title:'Dash Camera Policy',revised:'',
+ {slug:'Dash-Camera-Policy',orig:'Dash-Camera-Policy.pdf',tag:'Conduct',title:'Dash Camera Policy',revised:'',
   points:['Cameras save only about 20 seconds around a hard-driving event — there is no live watching.','Footage protects you by providing evidence when you are not at fault.','Tampering with or obstructing the camera is prohibited.'],
   statement:'I acknowledge that I have received and read the Dash Camera information and policy, and I agree to comply with it.'},
- {slug:'Electronic-Cigarettes',tag:'Health & Safety',title:'Electronic Cigarettes Policy',revised:'',
+ {slug:'Electronic-Cigarettes',orig:'Electronic-Cigarettes.pdf',tag:'Health & Safety',title:'Electronic Cigarettes Policy',revised:'',
   points:['Zero-tolerance for e-cigarette or vape use outside designated smoking areas.','Vaping only in designated outdoor areas on scheduled breaks.','Cannabis, including cannabis oils in a vape, is prohibited on company property or during work hours unless approved for medical use with documentation.'],
   statement:'I have read and understand the Electronic Cigarettes Policy, and I agree to adhere to it.'},
- {slug:'Smoke-Free-Workplace-Ontario',tag:'Health & Safety',title:'Smoke-Free Workplace Policy (Ontario)',revised:'Updated Jan 2024',
+ {slug:'Smoke-Free-Workplace-Ontario',orig:'Smoke-Free-Workplace-Ontario.pdf',tag:'Health & Safety',title:'Smoke-Free Workplace Policy (Ontario)',revised:'Updated Jan 2024',
   points:['Under the Smoke-Free Ontario Act, 2017: no smoking or vaping in any enclosed workplace, company vehicles, or company-booked hotel rooms and rental cars — tobacco or cannabis.','Smoke or vape only on scheduled breaks, outside; never cannabis during breaks or in a way that affects fitness for duty.','Violations may result in discipline up to termination and loss of any safety bonus.'],
   statement:'I have read and understand the Smoke-Free Workplace Policy, and I agree to comply with it.'},
- {slug:'Attendance-Absenteeism',tag:'Employment',title:'Attendance Management & Absenteeism Policy',revised:'',
+ {slug:'Attendance-Absenteeism',orig:'Attendance-Absenteeism.pdf',tag:'Employment',title:'Attendance Management & Absenteeism Policy',revised:'',
   points:['Regular attendance and punctuality are expected; minimize absences.','Report absences promptly to your supervisor with the reason and expected duration; a medical note may be required.','Culpable or excessive absences may lead to corrective action up to termination.'],
   statement:'I have read and understand the Attendance Management & Absenteeism Policy, and I agree to comply with it.'},
- {slug:'Controlled-Substances-Alcohol-Testing',tag:'Safety',title:'Controlled Substances & Alcohol Use & Testing Policy',revised:'Feb 2017',
+ {slug:'Controlled-Substances-Alcohol-Testing',orig:'Controlled-Substances-Alcohol-Testing.pdf',tag:'Safety',title:'Controlled Substances & Alcohol Use & Testing Policy',revised:'Feb 2017',
   points:['A program to prevent accidents from alcohol misuse or controlled-substance use by commercial drivers, under the Canadian National Safety Code.','Testing is administered through DriveCheck at designated sites.','Only authorized administrators may see results; an Employee Assistance Plan is available for support.'],
   statement:'I have read and understand the Controlled Substances & Alcohol Use & Testing Policy, and I agree to comply with it.'},
- {slug:'DOT-US-Clearinghouse',tag:'Cross-border',title:'DOT / US Clearinghouse Policy',revised:'Jan 2020',
+ {slug:'DOT-US-Clearinghouse',orig:'DOT-US-Clearinghouse.pdf',tag:'Cross-border',title:'DOT / US Clearinghouse Policy',revised:'Jan 2020',
   points:['Before operating a commercial vehicle in the USA, CPC must run a US DOT Clearinghouse check — you provide electronic consent on the Clearinghouse site.','Refusing consent means you cannot drive in the US for CPC.','Managed through a certified Medical Review Officer and Third-Party Administrator; a SAP process applies to any violations.'],
   statement:'I have read and understand the DOT / US Clearinghouse Policy, and I agree to comply with it.'},
- {slug:'Progressive-Discipline',tag:'Employment',title:'Progressive Discipline Policy',revised:'Rev. Dec 2024',
+ {slug:'Progressive-Discipline',orig:'Progressive-Discipline.pdf',tag:'Employment',title:'Progressive Discipline Policy',revised:'Rev. Dec 2024',
   points:['Used to correct deliberate misconduct or performance issues fairly and consistently.','One informal step (coaching) plus four formal steps: verbal, written, final written or suspension, and termination.','Serious misconduct such as theft, wilful damage, or weapons can start at a later step, up to immediate termination.'],
   statement:'I have read and understand the Progressive Discipline Policy.'},
- {slug:'Accommodation-Policy',tag:'Rights',title:'Accommodation Policy',revised:'',
+ {slug:'Accommodation-Policy',orig:'Accommodation-Policy.pdf',tag:'Rights',title:'Accommodation Policy',revised:'',
   points:['CPC accommodates needs tied to Human Rights Code grounds up to the point of undue hardship.','Undue hardship means excessive cost with no funding available, or a genuine health or safety hazard.','Medical needs, including medical cannabis, go through the accommodation process.'],
   statement:'I have read and understand the Accommodation Policy.'},
- {slug:'Physical-Demands-Assessment',tag:'Safety',title:'Physical Demands Assessment',revised:'',
-  points:['Describes the physical requirements of the driver role so you know what is expected.','Lifting and lowering up to about 24 kg (53 lb) maximum, usually about 4.5 kg (10 lb); regular climbing in and out of the cab and load handling.','Raise any accommodation needs through the Accommodation Policy.'],
-  statement:'I acknowledge that I have reviewed and understand the Physical Demands Assessment for the Commercial Vehicle Operator role.'},
  {slug:'Training-Manual-Safety-Book',tag:'Reference',title:'Training Manual & Drivers Safety Book',revised:'',
   points:['The CPC Canada Training Manual and Drivers Safety Book are your day-to-day reference for procedures and safe practices.','You are responsible for reading them and following the practices they describe.','Ask your trainer or supervisor if anything is unclear.'],
   statement:'I acknowledge that I have received and reviewed the CPC Canada Training Manual and the Drivers Safety Book.'}
@@ -729,6 +731,7 @@ function renderPolicy(){
     +'<button class="listen" id="listenbtn" onclick="toggleSpeak()"><span class="ic">▶</span> <span id="listentxt">Listen</span></button>'
     +'<h3>'+p.title+'</h3>'+(p.revised?'<div class="rev">CPC Logistics Canada · '+p.revised+'</div>':'')
     +'<ul class="rulebox">'+pts+'</ul>'
+    +(p.orig?'<div class="polreadhead">The full policy — please read</div><div class="polframe"><iframe src="'+p.orig+'#view=FitH" title="Full policy document"></iframe></div>':'<div class="polnote">This document is reviewed with your trainer during onboarding.</div>')
     +'<div class="seal" onclick="polToggle()"><input type="checkbox" id="polagree" '+(agreed?'checked':'')+' onclick="event.stopPropagation()"><label for="polagree">I have read and agree to the '+p.title+'.</label></div>'
     +'</div>';
   document.getElementById('polagree').addEventListener('change',polSync);
@@ -785,8 +788,13 @@ function collectData(){
     policies:window.POLICIES};
 }
 function lastName(){var p=(window.driver||'Driver').trim().split(/\s+/);return p[p.length-1];}
-function genPacket(){try{var doc=window.CPCPDF.buildPacket(window.pdfData,window.jspdf.jsPDF);doc.save(lastName()+'_CPC_Onboarding_Packet.pdf');}catch(e){console.error(e);}}
-function genSingle(slug){try{var doc=window.CPCPDF.buildSingle(slug,window.pdfData,window.jspdf.jsPDF);doc.save(lastName()+'_'+slug+'.pdf');}catch(e){console.error(e);}}
+function downloadBytes(bytes,name){var blob=new Blob([bytes],{type:'application/pdf'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(url);a.remove();},1500);}
+function setPacketStatus(t){var b=document.getElementById('pkgbtn');if(b)b.textContent=t;}
+async function mergeMany(arr){var out=await PDFLib.PDFDocument.create();for(var i=0;i<arr.length;i++){try{var src=await PDFLib.PDFDocument.load(arr[i],{ignoreEncryption:true});var pg=await out.copyPages(src,src.getPageIndices());pg.forEach(function(x){out.addPage(x);});}catch(e){console.error('merge fail',i,e);}}return await out.save();}
+function ackBytes(slug){return window.CPCPDF.buildSingle(slug,window.pdfData,window.jspdf.jsPDF).output('arraybuffer');}
+async function policyBytes(pl){var ab=ackBytes(pl.slug);if(pl.orig){try{var r=await fetch(pl.orig);var ob=await r.arrayBuffer();return await mergeMany([ab,ob]);}catch(e){console.error('orig fetch fail',pl.slug,e);return ab;}}return ab;}
+async function genSingle(slug){try{var pl=(window.POLICIES||[]).filter(function(x){return x.slug===slug;})[0];var bytes=pl?await policyBytes(pl):ackBytes(slug);downloadBytes(bytes,lastName()+'_'+slug+'.pdf');}catch(e){console.error(e);}}
+async function genPacket(){try{setPacketStatus('Generating packet…');var parts=[];for(var i=0;i<window.POLICIES.length;i++){parts.push(await policyBytes(window.POLICIES[i]));}['Workplace-Violence-Harassment-Certificate','Emergency-Response-Form','Drug-Alcohol-Background-Consent','Onboarding-Summary'].forEach(function(sl){parts.push(ackBytes(sl));});var merged=await mergeMany(parts);downloadBytes(merged,lastName()+'_CPC_Onboarding_Packet.pdf');setPacketStatus('↓ Download packet again');}catch(e){console.error(e);setPacketStatus('Packet error — retry');}}
 function finish(){
   window.pdfData=collectData();
   go(7);

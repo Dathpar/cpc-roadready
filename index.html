@@ -142,6 +142,14 @@
   .qblock:first-of-type{border-top:none;padding-top:0;margin-top:0}
   .formwrap{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 24px 50px rgba(0,0,0,.32);margin-top:14px}
   .formwrap iframe{width:100%;height:660px;border:0;display:block}
+  .polbar{height:6px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;margin-bottom:8px}
+  .polbar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue-l),var(--gold));transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .polcount{color:var(--muted);font-size:12px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:16px}
+  .secpill{display:inline-flex;align-items:center;gap:8px;background:#eaf1fb;color:var(--blue);font-weight:600;font-size:12px;padding:6px 12px;border-radius:999px;margin-bottom:12px}
+  .listen{display:inline-flex;align-items:center;gap:9px;background:#12293f;color:#fff;border:none;border-radius:12px;padding:11px 18px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;margin:2px 0 16px;transition:.18s}
+  .listen:hover{background:#1c3d5c}
+  .listen.playing{background:var(--gold);color:#3a2600}
+  .listen .ic{font-size:12px}
   /* signature */
   .sigwrap{background:var(--card);color:var(--card-ink);border-radius:20px;padding:26px 28px;box-shadow:0 24px 50px rgba(0,0,0,.32)}
   .sigwrap .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
@@ -327,35 +335,17 @@
     </div>
   </section>
 
-  <!-- 4 CONDUCT -->
+  <!-- 4 POLICIES -->
   <section class="screen" id="s4">
-    <div class="chap-kick"><span class="no">Chapter 4 of 6</span> · On the road together</div>
-    <h3 class="hook">Great driving is a <em>habit</em>, not an accident.</h3>
-    <p class="chap-sub">Here's how we keep ours sharp — the day-to-day that protects you, the fleet, and our name.</p>
-    <div class="paper">
-      <div class="tag read">● Policy</div>
-      <h3>Phones &amp; distracted driving</h3>
-      <div class="rev">CPC Logistics Canada · Revised 2025</div>
-      <div class="body">
-        <p>Handheld device use while the vehicle is moving is <strong>prohibited</strong> — in Ontario and everywhere we run, including cross-border.</p>
-        <ul class="rulebox">
-          <li>No handheld calls, texts, or apps in motion.</li>
-          <li>Hands-free only where lawful and only if it doesn't distract you.</li>
-          <li>Set your route and messages before you roll, or while safely parked.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="callout">
-      <div class="i">◉</div>
-      <div><h4>The dash cam is on your side</h4><p>It only saves 20 seconds around a hard event — no live watching. When a four-wheeler cuts you off, that footage is what clears your name. It's there to defend the best drivers, not police them.</p></div>
-    </div>
-    <div class="seal" onclick="toggleSeal('seal4')">
-      <input type="checkbox" id="seal4" onclick="event.stopPropagation()">
-      <label for="seal4">I've read and agree to the on-the-road conduct policies.</label>
-    </div>
+    <div class="chap-kick"><span class="no">Chapter 4 of 6</span> · Company policies</div>
+    <h3 class="hook">Here's how we <em>roll together</em>.</h3>
+    <p class="chap-sub">A quick pass through the policies that keep you, the fleet, and our name in good shape. Read or listen to each, then agree — your signature at the end seals them all.</p>
+    <div class="polbar"><div class="polbar-fill" id="polfill"></div></div>
+    <div class="polcount" id="polcount">Policy 1</div>
+    <div id="polcard"></div>
     <div class="nav">
-      <div class="bridge">Up next: a little <b>straight talk</b> — keeping the fleet's name clean.</div>
-      <div class="navbtns"><button class="btn ghost" onclick="go(3)">Back</button><button class="btn primary" id="n4" disabled onclick="go(5)">Continue →</button></div>
+      <div class="bridge" id="polbridge">&nbsp;</div>
+      <div class="navbtns"><button class="btn ghost" id="polback" onclick="polPrev()">Back</button><button class="btn primary" id="polnext" disabled onclick="polNext()">Next policy →</button></div>
     </div>
   </section>
 
@@ -436,32 +426,29 @@
   var NAVY=[15,34,51], BLUE=[28,86,168], GOLD=[213,143,0], GREY=[110,124,138], LINE=[210,222,234];
   var M=54, PW=612, CW=PW-2*M;
 
-  function docSet(){
+  // Fixed (non-policy) documents rendered after the policy acknowledgements.
+  function fixedDocs(){
     return [
-      {slug:'Cell-Phone-Distracted-Driving-Ack', kind:'ack', kicker:'POLICY ACKNOWLEDGEMENT',
-        title:'Cell Phone & Distracted Driving Policy',
-        intro:'I have read and understand CPC Logistics Canada’s Cell Phone & Distracted Driving Policy, and I agree to comply with it at all times while operating a company vehicle, including on cross-border runs.',
-        points:['No handheld calls, texting, or app use while the vehicle is in motion.',
-                'Hands-free use only where lawful and only when it does not distract from driving.',
-                'Routes and messages are set before driving or while safely parked.',
-                'I understand violations may result in progressive discipline, up to termination.']},
-      {slug:'Photographic-Equipment-Policy-Ack', kind:'ack', kicker:'POLICY ACKNOWLEDGEMENT',
-        title:'Photographic Equipment Policy',
-        intro:'I have read and understand the Photographic Equipment Policy and agree to follow it, including all requirements regarding videography and photography at client sites such as John Deere.',
-        points:['I will not use personal photographic equipment in restricted or private areas without authorization.',
-                'I will report any unauthorized photography to management or security.',
-                'I understand this policy protects the privacy and security of CPC and its clients.']},
+      {slug:'Workplace-Violence-Harassment-Certificate', kind:'cert', kicker:'CERTIFICATE OF TRAINING COMPLETION',
+        title:'Workplace Violence & Harassment', ref:'Ontario Occupational Health and Safety Act (OHSA)'},
       {slug:'Emergency-Response-Form', kind:'emergency', kicker:'EMERGENCY RESPONSE',
         title:'Emergency Response Form',
         intro:'Emergency contact information for this driver is collected through CPC’s confidential Annual Emergency Contact form (Microsoft Forms) and is retained separately in the employee’s confidential file.'},
-      {slug:'Workplace-Violence-Harassment-Certificate', kind:'cert', kicker:'CERTIFICATE OF TRAINING COMPLETION',
-        title:'Workplace Violence & Harassment', ref:'Ontario Occupational Health and Safety Act (OHSA)'},
       {slug:'Drug-Alcohol-Background-Consent', kind:'consent', kicker:'CONSENT',
         title:'Drug & Alcohol and Background Check Consent',
         intro:'I provide the following consents as part of my onboarding with CPC Logistics Canada:'},
-      {slug:'Onboarding-Summary', kind:'summary', kicker:'RECORD OF COMPLETION',
-        title:'Onboarding Summary'}
+      {slug:'Onboarding-Summary', kind:'summary', kicker:'RECORD OF COMPLETION', title:'Onboarding Summary'}
     ];
+  }
+
+  // Full document set = policy acknowledgements (from data.policies) + fixed docs.
+  function docSet(data){
+    var pol=(data && data.policies ? data.policies : []).map(function(p){
+      return {slug:p.slug, kind:'ack', kicker:'POLICY ACKNOWLEDGEMENT',
+        title:p.title, intro:p.statement||('I have read and understand CPC Logistics Canada’s '+p.title+', and I agree to comply with it.'),
+        points:p.points||[]};
+    });
+    return pol.concat(fixedDocs());
   }
 
   function header(doc, logo){
@@ -494,11 +481,11 @@
     doc.text(lines, M, y); return y+lines.length*16;
   }
   function bullets(doc, arr, y){
-    doc.setFontSize(11);
+    doc.setFontSize(10.5);
     arr.forEach(function(p){
-      doc.setFillColor(BLUE[0],BLUE[1],BLUE[2]); doc.circle(M+3, y-3.5, 1.9, 'F');
+      doc.setFillColor(BLUE[0],BLUE[1],BLUE[2]); doc.circle(M+3, y-3.5, 1.8, 'F');
       doc.setTextColor(40,55,70); doc.setFont('helvetica','normal');
-      var l=doc.splitTextToSize(p, CW-20); doc.text(l, M+16, y); y+=l.length*15+5;
+      var l=doc.splitTextToSize(p, CW-20); doc.text(l, M+16, y); y+=l.length*14+5;
     });
     return y;
   }
@@ -534,7 +521,12 @@
     header(doc, data.logo);
     var y=titleBlock(doc, d, data);
     if(d.kind==='ack'){
-      y=bodyText(doc, d.intro, y)+8; y=bullets(doc, d.points, y);
+      y=bodyText(doc, d.intro, y)+8;
+      if(d.points && d.points.length){
+        doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(GREY[0],GREY[1],GREY[2]);
+        doc.text('KEY POINTS', M, y); y+=16;
+        y=bullets(doc, d.points, y);
+      }
     } else if(d.kind==='emergency'){
       y=bodyText(doc, d.intro, y)+14;
       doc.setFillColor(245,249,252); doc.roundedRect(M,y-4,CW,58,6,6,'F');
@@ -561,24 +553,21 @@
         {checked:!!data.c2, text:'I authorize a criminal record check through ISB for the purpose of employment screening.'}
       ], y);
     } else if(d.kind==='summary'){
+      var np=(data.policies?data.policies.length:0);
       y=bodyText(doc, 'The following onboarding items were completed by '+data.name+' via CPC RoadReady.', y)+10;
       var rows=[
-        ['Chapter 1 — Welcome & details confirmed','Complete'],
-        ['Chapter 2 — Benefits & value reviewed','Complete'],
-        ['Chapter 3 — OHSA safety training + knowledge check','Passed'],
-        ['Chapter 3 — Emergency contact form submitted','Complete'],
-        ['Chapter 4 — On-the-road conduct acknowledged','Signed'],
-        ['Chapter 5 — Drug/alcohol consent', data.c1?'Consented':'—'],
-        ['Chapter 5 — Background check authorization', data.c2?'Authorized':'—'],
-        ['Chapter 6 — Signature captured','Signed '+data.date]
+        ['Company policies acknowledged & signed', np+' policies'],
+        ['OHSA safety training + knowledge check','Passed'],
+        ['Emergency contact form submitted','Complete'],
+        ['Drug/alcohol testing consent', data.c1?'Consented':'—'],
+        ['Background check authorization', data.c2?'Authorized':'—'],
+        ['Signature captured','Signed '+data.date]
       ];
       doc.setFontSize(10.5);
       rows.forEach(function(r){
         doc.setDrawColor(235,240,246); doc.line(M,y+6,PW-M,y+6);
-        doc.setTextColor(40,55,70); doc.setFont('helvetica','normal');
-        doc.text(r[0], M, y);
-        doc.setTextColor(BLUE[0],BLUE[1],BLUE[2]); doc.setFont('helvetica','bold');
-        doc.text(r[1], PW-M, y, {align:'right'});
+        doc.setTextColor(40,55,70); doc.setFont('helvetica','normal'); doc.text(r[0], M, y);
+        doc.setTextColor(BLUE[0],BLUE[1],BLUE[2]); doc.setFont('helvetica','bold'); doc.text(r[1], PW-M, y, {align:'right'});
         y+=22;
       });
     }
@@ -588,14 +577,15 @@
 
   function buildPacket(data, JSPDF){
     var doc=new JSPDF({unit:'pt',format:'letter'});
-    var ds=docSet();
+    var ds=docSet(data);
     ds.forEach(function(d,i){ if(i>0) doc.addPage(); renderDoc(doc,d,data); });
     return doc;
   }
   function buildSingle(slug, data, JSPDF){
     var doc=new JSPDF({unit:'pt',format:'letter'});
-    var d=docSet().filter(function(x){return x.slug===slug;})[0];
-    renderDoc(doc,d,data); return doc;
+    var d=docSet(data).filter(function(x){return x.slug===slug;})[0];
+    if(d) renderDoc(doc,d,data);
+    return doc;
   }
 
   var api={docSet:docSet, buildPacket:buildPacket, buildSingle:buildSingle};
@@ -605,7 +595,7 @@
 </script>
 <script>
 var cur=0;
-var badges=["Welcome","Ch 1 · Welcome","Ch 2 · Value","Ch 3 · Safety","Ch 4 · On the road","Ch 5 · Trust","Ch 6 · Sign off","Road ready"];
+var badges=["Welcome","Ch 1 · Welcome","Ch 2 · Value","Ch 3 · Safety","Ch 4 · Policies","Ch 5 · Consents","Ch 6 · Sign off","Road ready"];
 function setRail(){
   var segs=document.querySelectorAll('#rail .seg');
   segs.forEach(function(s,i){
@@ -621,6 +611,7 @@ function go(n){
   document.getElementById('stepbadge').textContent=badges[cur];
   setRail(); window.scrollTo({top:0,behavior:'smooth'});
   if(cur===1){ var nm=(window.driver||'').split(' ')[0]||'driver'; document.getElementById('h1').innerHTML="Every strong run starts with a <em>solid first mile</em>, "+nm+"."; }
+  if(cur===4){ initPolicies(); }
   if(cur===6){
     document.getElementById('sig-name').textContent=window.driver||'—';
     document.getElementById('sig-date').textContent=new Date().toLocaleDateString('en-CA',{year:'numeric',month:'short',day:'numeric'});
@@ -636,10 +627,8 @@ function markDone(btn,txt){ btn.textContent='✓ '+txt; btn.disabled=true; btn.s
 function toggleSeal(id){var b=document.getElementById(id);b.checked=!b.checked;gateAll();}
 function gateAll(){
   document.getElementById('n3').disabled=!(window.quizAnswered>=3 && document.getElementById('seal3').checked);
-  document.getElementById('n4').disabled=!(document.getElementById('seal4').checked);
 }
 document.getElementById('seal3').addEventListener('change',gateAll);
-document.getElementById('seal4').addEventListener('change',gateAll);
 /* consents */
 function toggleConsent(id){var b=document.getElementById(id);b.checked=!b.checked;consentCheck();}
 function consentCheck(){document.getElementById('n5').disabled=!(document.getElementById('c1').checked&&document.getElementById('c2').checked);}
@@ -688,6 +677,101 @@ var sections=[
     {t:'Drug & Alcohol + Background Consent',s:'Signed consent',slug:'Drug-Alcohol-Background-Consent'},
     {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}]}
 ];
+window.POLICIES=[
+ {slug:'Cell-Phone-Distracted-Driving',tag:'Conduct',title:'Cell Phone & Distracted Driving Policy',revised:'Rev. 2017',
+  points:['Handheld phone or device use while driving is prohibited — no calls, texting, internet, email, or checking messages in motion, for business or personal reasons.','Hands-free is allowed only where it complies with DOT guidelines and your assignment.','Pull over to a safe location to use a handheld device or return calls.','Any fines for violations are the driver’s responsibility — CPC does not cover them.'],
+  statement:'I have read and understand CPC Logistics Canada’s Cell Phone & Distracted Driving Policy, and I agree to comply with it at all times while operating a company vehicle.'},
+ {slug:'Photographic-Equipment',tag:'Conduct',title:'Photographic Equipment Policy',revised:'',
+  points:['No personal photographic equipment in restricted or private areas without authorization.','Report any unauthorized photography to management or security.','Protects the privacy and security of CPC and its clients, including John Deere.'],
+  statement:'I have read and understand the Photographic Equipment Policy and agree to follow it.'},
+ {slug:'Dash-Camera-Policy',tag:'Conduct',title:'Dash Camera Policy',revised:'',
+  points:['Cameras save only about 20 seconds around a hard-driving event — there is no live watching.','Footage protects you by providing evidence when you are not at fault.','Tampering with or obstructing the camera is prohibited.'],
+  statement:'I acknowledge that I have received and read the Dash Camera information and policy, and I agree to comply with it.'},
+ {slug:'Electronic-Cigarettes',tag:'Health & Safety',title:'Electronic Cigarettes Policy',revised:'',
+  points:['Zero-tolerance for e-cigarette or vape use outside designated smoking areas.','Vaping only in designated outdoor areas on scheduled breaks.','Cannabis, including cannabis oils in a vape, is prohibited on company property or during work hours unless approved for medical use with documentation.'],
+  statement:'I have read and understand the Electronic Cigarettes Policy, and I agree to adhere to it.'},
+ {slug:'Smoke-Free-Workplace-Ontario',tag:'Health & Safety',title:'Smoke-Free Workplace Policy (Ontario)',revised:'Updated Jan 2024',
+  points:['Under the Smoke-Free Ontario Act, 2017: no smoking or vaping in any enclosed workplace, company vehicles, or company-booked hotel rooms and rental cars — tobacco or cannabis.','Smoke or vape only on scheduled breaks, outside; never cannabis during breaks or in a way that affects fitness for duty.','Violations may result in discipline up to termination and loss of any safety bonus.'],
+  statement:'I have read and understand the Smoke-Free Workplace Policy, and I agree to comply with it.'},
+ {slug:'Attendance-Absenteeism',tag:'Employment',title:'Attendance Management & Absenteeism Policy',revised:'',
+  points:['Regular attendance and punctuality are expected; minimize absences.','Report absences promptly to your supervisor with the reason and expected duration; a medical note may be required.','Culpable or excessive absences may lead to corrective action up to termination.'],
+  statement:'I have read and understand the Attendance Management & Absenteeism Policy, and I agree to comply with it.'},
+ {slug:'Controlled-Substances-Alcohol-Testing',tag:'Safety',title:'Controlled Substances & Alcohol Use & Testing Policy',revised:'Feb 2017',
+  points:['A program to prevent accidents from alcohol misuse or controlled-substance use by commercial drivers, under the Canadian National Safety Code.','Testing is administered through DriveCheck at designated sites.','Only authorized administrators may see results; an Employee Assistance Plan is available for support.'],
+  statement:'I have read and understand the Controlled Substances & Alcohol Use & Testing Policy, and I agree to comply with it.'},
+ {slug:'DOT-US-Clearinghouse',tag:'Cross-border',title:'DOT / US Clearinghouse Policy',revised:'Jan 2020',
+  points:['Before operating a commercial vehicle in the USA, CPC must run a US DOT Clearinghouse check — you provide electronic consent on the Clearinghouse site.','Refusing consent means you cannot drive in the US for CPC.','Managed through a certified Medical Review Officer and Third-Party Administrator; a SAP process applies to any violations.'],
+  statement:'I have read and understand the DOT / US Clearinghouse Policy, and I agree to comply with it.'},
+ {slug:'Progressive-Discipline',tag:'Employment',title:'Progressive Discipline Policy',revised:'Rev. Dec 2024',
+  points:['Used to correct deliberate misconduct or performance issues fairly and consistently.','One informal step (coaching) plus four formal steps: verbal, written, final written or suspension, and termination.','Serious misconduct such as theft, wilful damage, or weapons can start at a later step, up to immediate termination.'],
+  statement:'I have read and understand the Progressive Discipline Policy.'},
+ {slug:'Accommodation-Policy',tag:'Rights',title:'Accommodation Policy',revised:'',
+  points:['CPC accommodates needs tied to Human Rights Code grounds up to the point of undue hardship.','Undue hardship means excessive cost with no funding available, or a genuine health or safety hazard.','Medical needs, including medical cannabis, go through the accommodation process.'],
+  statement:'I have read and understand the Accommodation Policy.'},
+ {slug:'Physical-Demands-Assessment',tag:'Safety',title:'Physical Demands Assessment',revised:'',
+  points:['Describes the physical requirements of the driver role so you know what is expected.','Lifting and lowering up to about 24 kg (53 lb) maximum, usually about 4.5 kg (10 lb); regular climbing in and out of the cab and load handling.','Raise any accommodation needs through the Accommodation Policy.'],
+  statement:'I acknowledge that I have reviewed and understand the Physical Demands Assessment for the Commercial Vehicle Operator role.'},
+ {slug:'Training-Manual-Safety-Book',tag:'Reference',title:'Training Manual & Drivers Safety Book',revised:'',
+  points:['The CPC Canada Training Manual and Drivers Safety Book are your day-to-day reference for procedures and safe practices.','You are responsible for reading them and following the practices they describe.','Ask your trainer or supervisor if anything is unclear.'],
+  statement:'I acknowledge that I have received and reviewed the CPC Canada Training Manual and the Drivers Safety Book.'}
+];
+window.polIndex=0; window.polAgreed={};
+function initPolicies(){ window.polIndex=0; renderPolicy(); }
+function renderPolicy(){
+  var N=window.POLICIES.length, i=window.polIndex, p=window.POLICIES[i];
+  document.getElementById('polfill').style.width=Math.round((i+1)/N*100)+'%';
+  document.getElementById('polcount').textContent='Policy '+(i+1)+' of '+N;
+  var pts=p.points.map(function(x){return '<li>'+x+'</li>';}).join('');
+  var agreed=!!window.polAgreed[p.slug];
+  document.getElementById('polcard').innerHTML=
+    '<div class="paper">'
+    +'<div class="secpill">▸ '+p.tag+'</div>'
+    +'<button class="listen" id="listenbtn" onclick="toggleSpeak()"><span class="ic">▶</span> <span id="listentxt">Listen</span></button>'
+    +'<h3>'+p.title+'</h3>'+(p.revised?'<div class="rev">CPC Logistics Canada · '+p.revised+'</div>':'')
+    +'<ul class="rulebox">'+pts+'</ul>'
+    +'<div class="seal" onclick="polToggle()"><input type="checkbox" id="polagree" '+(agreed?'checked':'')+' onclick="event.stopPropagation()"><label for="polagree">I have read and agree to the '+p.title+'.</label></div>'
+    +'</div>';
+  document.getElementById('polagree').addEventListener('change',polSync);
+  document.getElementById('polback').textContent = i===0 ? 'Back' : '← Previous';
+  document.getElementById('polnext').textContent = (i===N-1?'Agree & continue →':'Next policy →');
+  document.getElementById('polnext').disabled=!agreed;
+  document.getElementById('polbridge').innerHTML = (i===N-1? 'Last one — up next, a couple of <b>consents</b>.' : '<b>'+(N-i-1)+'</b> policies to go.');
+}
+function polToggle(){ var b=document.getElementById('polagree'); b.checked=!b.checked; polSync(); }
+function polSync(){
+  var p=window.POLICIES[window.polIndex];
+  var c=document.getElementById('polagree').checked;
+  window.polAgreed[p.slug]=c;
+  document.getElementById('polnext').disabled=!c;
+}
+function polNext(){
+  var N=window.POLICIES.length, a=document.getElementById('polagree');
+  if(!a || !a.checked) return;
+  stopSpeak();
+  if(window.polIndex>=N-1){ go(5); return; }
+  window.polIndex++; renderPolicy(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function polPrev(){
+  stopSpeak();
+  if(window.polIndex<=0){ go(3); return; }
+  window.polIndex--; renderPolicy(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function speakText(){ var p=window.POLICIES[window.polIndex]; return p.title+'. '+p.points.join(' ')+''; }
+function toggleSpeak(){
+  if(!('speechSynthesis' in window)) return;
+  if(window.speechSynthesis.speaking){ stopSpeak(); return; }
+  var u=new SpeechSynthesisUtterance(speakText()); u.rate=1; u.pitch=1;
+  u.onend=function(){ setListen(false); };
+  window.speechSynthesis.cancel(); window.speechSynthesis.speak(u); setListen(true);
+}
+function stopSpeak(){ if('speechSynthesis' in window){ window.speechSynthesis.cancel(); } setListen(false); }
+function setListen(on){
+  var b=document.getElementById('listenbtn'); if(!b) return;
+  b.classList.toggle('playing',on);
+  var t=document.getElementById('listentxt'); if(t) t.textContent = on?'Stop':'Listen';
+  var ic=b.querySelector('.ic'); if(ic) ic.textContent = on?'■':'▶';
+}
+
 function collectData(){
   var d=new Date();
   return {name:window.driver||'Driver',
@@ -697,7 +781,8 @@ function collectData(){
     c1:!!(document.getElementById('c1')&&document.getElementById('c1').checked),
     c2:!!(document.getElementById('c2')&&document.getElementById('c2').checked),
     logo:(document.querySelector('.logo img')||{}).src||null,
-    sig:(typeof pad!=='undefined'&&pad)?pad.toDataURL('image/png'):null};
+    sig:(typeof pad!=='undefined'&&pad)?pad.toDataURL('image/png'):null,
+    policies:window.POLICIES};
 }
 function lastName(){var p=(window.driver||'Driver').trim().split(/\s+/);return p[p.length-1];}
 function genPacket(){try{var doc=window.CPCPDF.buildPacket(window.pdfData,window.jspdf.jsPDF);doc.save(lastName()+'_CPC_Onboarding_Packet.pdf');}catch(e){console.error(e);}}
@@ -706,16 +791,25 @@ function finish(){
   window.pdfData=collectData();
   go(7);
   document.getElementById('done-name').textContent=(window.driver||'driver').split(' ')[0];
-  var box=document.getElementById('bundle');box.innerHTML='';var delay=250;
-  sections.forEach(function(sec){
+  var groups=[
+    {name:'Section 1 · Policies acknowledged',items:window.POLICIES.map(function(p){return {t:p.title,s:'Signed acknowledgement',slug:p.slug};})},
+    {name:'Section 2 · Safety & emergency',items:[
+      {t:'Workplace Violence & Harassment',s:'Training certificate · OHSA',slug:'Workplace-Violence-Harassment-Certificate'},
+      {t:'Emergency Response Form',s:'Confidential · via Microsoft Forms',slug:'Emergency-Response-Form'}]},
+    {name:'Section 3 · Consents & record',items:[
+      {t:'Drug & Alcohol + Background Consent',s:'Signed consent',slug:'Drug-Alcohol-Background-Consent'},
+      {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}]}
+  ];
+  var box=document.getElementById('bundle');box.innerHTML='';var delay=200;
+  groups.forEach(function(sec){
     var g=document.createElement('div');g.className='secgroup';
     g.innerHTML='<div class="sh">'+sec.name+'<span class="ln"></span></div>';
     var fl=document.createElement('div');fl.className='files';
-    sec.files.forEach(function(f){
+    sec.items.forEach(function(f){
       var d=document.createElement('div');d.className='file';d.style.cursor='pointer';d.title='Download this PDF';
       d.innerHTML='<div class="ic2">▤</div><div><h5>'+f.t+'</h5><p>'+f.s+'</p></div><div class="st">↓ PDF</div>';
       d.addEventListener('click',function(){genSingle(f.slug);});
-      fl.appendChild(d);setTimeout(function(){d.classList.add('in');},delay);delay+=210;
+      fl.appendChild(d);setTimeout(function(){d.classList.add('in');},delay);delay+=120;
     });
     g.appendChild(fl);box.appendChild(g);
   });
@@ -727,7 +821,7 @@ function sendCopy(){
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){document.getElementById('drv-email').focus();return;}
   var nm=(window.driver||'').trim();
   var subject='Your CPC Logistics Canada onboarding documents';
-  var body='Hi '+(nm.split(' ')[0]||'')+',\n\nWelcome to CPC — the best drivers drive CPC, and now that\'s you.\n\nAttached is your completed onboarding packet:\n  • Section 1 - On-the-road conduct (signed acknowledgements)\n  • Section 2 - Emergency & safety (Emergency Response + Workplace Violence & Harassment training certificate)\n  • Section 3 - Trust & records (consents + onboarding summary)\n\nKeep this for your records. Safe travels.\n\nCPC Logistics Canada';
+  var body='Hi '+(nm.split(' ')[0]||'')+',\n\nWelcome to CPC — the best drivers drive CPC, and now that\'s you.\n\nAttached is your completed onboarding packet \u2014 your signed policy acknowledgements, safety training certificate, consents, and onboarding summary.\n\nKeep this for your records. Safe travels.\n\nCPC Logistics Canada';
   var link='mailto:'+encodeURIComponent(em)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
   document.getElementById('sent-to').textContent=em;
   document.getElementById('sent-msg').classList.add('show');
@@ -747,8 +841,8 @@ function confetti(){
 }
 function restart(){
   window.driver='';nameEl.value='';document.getElementById('start').disabled=true;
-  ['seal3','seal4','c1','c2'].forEach(function(id){document.getElementById(id).checked=false;});
-  window.quizAnswered=0;
+  ['seal3','c1','c2'].forEach(function(id){var e=document.getElementById(id);if(e)e.checked=false;});
+  window.quizAnswered=0; window.polIndex=0; window.polAgreed={};
   document.querySelectorAll('.qblock').forEach(function(q){delete q.dataset.done;});
   document.querySelectorAll('.feedback').forEach(function(f){f.classList.remove('show');});
   document.querySelectorAll('.opt').forEach(function(o){o.className='opt';o.style.pointerEvents='auto';});

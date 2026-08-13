@@ -295,6 +295,21 @@
         <div id="bsaved" style="display:none;margin-top:10px;color:#1f6b3a;font-weight:500;font-size:14px">✓ Enrolment saved — your Manulife form will be filled and filed with your packet.</div>
       </div>
     </div>
+    <div class="paper">
+      <div class="tag do">◐ Do it now</div>
+      <h3>Payroll &amp; tax forms</h3>
+      <div class="body"><p>We'll complete your 2026 federal <b>TD1</b> and Ontario <b>TD1ON</b> personal tax credit forms using the details you just entered. Add your Social Insurance Number and we'll fill, sign, and file both — claiming the basic personal amount, which is what most drivers claim.</p></div>
+      <button class="btn ghost" id="paybtn" style="margin-top:4px" onclick="beginPayroll()">Start tax forms</button>
+      <div id="payform" style="display:none;margin-top:16px">
+        <div class="bgrid">
+          <div class="bf"><label>Social Insurance Number</label><input type="text" id="p_sin" placeholder="9 digits" inputmode="numeric"></div>
+          <div class="bf"><label>Employee number (if known)</label><input type="text" id="p_empno" placeholder="Optional"></div>
+          <div class="bf full"><div class="seal" onclick="payToggle()"><input type="checkbox" id="p_basic" checked onclick="event.stopPropagation()"><label for="p_basic">I'm claiming the basic personal amount only — Federal $16,452 · Ontario $12,989. Uncheck if you have other credits to claim; you can add those on the filled form.</label></div></div>
+        </div>
+        <button class="btn primary" style="margin-top:14px" onclick="savePayroll()">Save tax forms</button>
+        <div id="psaved" style="display:none;margin-top:10px;color:#1f6b3a;font-weight:500;font-size:14px">✓ Saved — your TD1 and TD1ON will be filled, signed, and filed with your packet.</div>
+      </div>
+    </div>
     <div class="nav">
       <div class="bridge">Up next: the part we care about most — <b>getting you home safe</b>.</div>
       <div class="navbtns"><button class="btn ghost" onclick="go(1)">Back</button><button class="btn primary" onclick="go(3)">Continue →</button></div>
@@ -766,6 +781,9 @@ document.getElementById('start').addEventListener('click',function(){go(1);});
 nameEl.addEventListener('keydown',function(e){if(e.key==='Enter'&&nameEl.value.trim().length>=2)go(1);});
 function markDone(btn,txt){ btn.textContent='✓ '+txt; btn.disabled=true; btn.style.opacity=.7; }
 function beginBenefits(){ document.getElementById('benbtn').style.display='none'; document.getElementById('benform').style.display='block'; }
+function beginPayroll(){ document.getElementById('paybtn').style.display='none'; document.getElementById('payform').style.display='block'; }
+function payToggle(){ var b=document.getElementById('p_basic'); b.checked=!b.checked; }
+function savePayroll(){ window.payroll={sin:bval('p_sin'),empno:bval('p_empno'),basicOnly:document.getElementById('p_basic').checked}; document.getElementById('psaved').style.display='block'; }
 function bval(id){var e=document.getElementById(id);return e?e.value.trim():'';}
 function saveBenefits(){
   window.benefits={dob:bval('b_dob'),sex:bval('b_sex'),prov:bval('b_prov'),lang:bval('b_lang'),address:bval('b_addr'),city:bval('b_city'),postal:bval('b_postal'),spouse:bval('b_spouse'),email:bval('b_email'),health:bval('b_health'),dental:bval('b_dental'),depLife:bval('b_deplife')};
@@ -1023,8 +1041,34 @@ async function fillCPS(){
   try{ form.acroForm.dict.delete(PDFLib.PDFName.of('XFA')); form.acroForm.dict.set(PDFLib.PDFName.of('NeedAppearances'),PDFLib.PDFBool.True); }catch(e){}
   return await doc.save();
 }
-async function genSingle(slug){try{if(slug==='Manulife-Enrolment'){downloadBytes(await fillManulife(),lastName()+'_Manulife-Enrolment.pdf');return;}if(slug==='CPS-Consent'){downloadBytes(await fillCPS(),lastName()+'_CPS-Consent.pdf');return;}var pl=(window.POLICIES||[]).filter(function(x){return x.slug===slug;})[0];var bytes=pl?await policyBytes(pl):ackBytes(slug);downloadBytes(bytes,lastName()+'_'+slug+'.pdf');}catch(e){console.error(e);}}
-async function genPacket(){try{setPacketStatus('Generating packet…');var parts=[];for(var i=0;i<window.POLICIES.length;i++){parts.push(await policyBytes(window.POLICIES[i]));}['Workplace-Violence-Harassment-Quiz-Results','Emergency-Response-Form','Drug-Alcohol-Background-Consent','Drug-Alcohol-Policy-Release','Onboarding-Summary'].forEach(function(sl){parts.push(ackBytes(sl));});if(window.benefits){try{parts.push(await fillManulife());}catch(e){console.error('manulife',e);}}if(window.pdfData&&window.pdfData.c2){try{parts.push(await fillCPS());}catch(e){console.error('cps',e);}}var merged=await mergeMany(parts);downloadBytes(merged,lastName()+'_CPC_Onboarding_Packet.pdf');setPacketStatus('↓ Download packet again');}catch(e){console.error(e);setPacketStatus('Packet error — retry');}}
+function dobSlash(d){ var y=dobYMD(d); return y&&y.length===8 ? y.slice(0,4)+'/'+y.slice(4,6)+'/'+y.slice(6,8) : ''; }
+async function fillTaxForm(cfg){
+  var r=await fetch(cfg.file); var bytes=await r.arrayBuffer();
+  var doc=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true});
+  var form=doc.getForm(); var b=window.benefits||{}; var p=window.payroll||{};
+  var nm=(window.driver||'').trim().split(/\s+/);
+  var ln=nm.length>1?nm[nm.length-1]:''; var fn=(nm.length>1?nm.slice(0,nm.length-1):nm).join(' ');
+  function T(n,v){ try{ if(v!=null&&v!=='') form.getTextField(n).setText(String(v)); }catch(e){} }
+  var ID=cfg.pfx+cfg.idsf+'[0].Identification[0].';
+  T(ID+'Last_name[0]',ln); T(ID+'First_name[0]',fn);
+  T(ID+'DOB[0]',dobSlash(b.dob));
+  T(ID+'Employee_number[0]',p.empno);
+  T(ID+'Address[0]',(b.address||'')+(b.city?', '+b.city:''));
+  T(ID+'PostalCode_Comb_BordersAll[0].PostalCode[0]',(b.postal||'').replace(/\s+/g,'').toUpperCase());
+  T(ID+'SIN_Comb_BordersAll[0].SIN_Comb[0]',(p.sin||'').replace(/\D/g,''));
+  if(p.basicOnly!==false){
+    T(cfg.pfx+cfg.idsf+'[0].number1_subform[0].Amount_fld[0]',cfg.basic);
+    T(cfg.pfx+cfg.idsf+'[0].'+cfg.totalField+'[0].Amount_fld[0]',cfg.basic);
+  }
+  T('form1[0].Page2[0].Certification_subform[0].DateYYYYMMDD_BordersAll[0]',ymdToday());
+  if(window.masterSig){ try{ var png=await doc.embedPng(window.masterSig); doc.getPages()[1].drawImage(png,cfg.sig); }catch(e){console.error('tax sig',e);} }
+  try{ doc.catalog.lookup(PDFLib.PDFName.of('AcroForm')).set(PDFLib.PDFName.of('NeedAppearances'),PDFLib.PDFBool.True); }catch(e){}
+  return await doc.save();
+}
+function fillTD1(){ return fillTaxForm({file:'TD1-2026.pdf',pfx:'form1[0].Page1[0].',idsf:'Subform1',basic:'16,452.00',totalField:'number13_subform',sig:{x:80,y:82,width:150,height:22}}); }
+function fillTD1ON(){ return fillTaxForm({file:'TD1ON-2026.pdf',pfx:'form1[0].Page1[0].',idsf:'Main_SF',basic:'12,989.00',totalField:'number10_subform',sig:{x:80,y:300,width:150,height:22}}); }
+async function genSingle(slug){try{if(slug==='Manulife-Enrolment'){downloadBytes(await fillManulife(),lastName()+'_Manulife-Enrolment.pdf');return;}if(slug==='CPS-Consent'){downloadBytes(await fillCPS(),lastName()+'_CPS-Consent.pdf');return;}if(slug==='TD1-2026'){downloadBytes(await fillTD1(),lastName()+'_TD1-2026.pdf');return;}if(slug==='TD1ON-2026'){downloadBytes(await fillTD1ON(),lastName()+'_TD1ON-2026.pdf');return;}var pl=(window.POLICIES||[]).filter(function(x){return x.slug===slug;})[0];var bytes=pl?await policyBytes(pl):ackBytes(slug);downloadBytes(bytes,lastName()+'_'+slug+'.pdf');}catch(e){console.error(e);}}
+async function genPacket(){try{setPacketStatus('Generating packet…');var parts=[];for(var i=0;i<window.POLICIES.length;i++){parts.push(await policyBytes(window.POLICIES[i]));}['Workplace-Violence-Harassment-Quiz-Results','Emergency-Response-Form','Drug-Alcohol-Background-Consent','Drug-Alcohol-Policy-Release','Onboarding-Summary'].forEach(function(sl){parts.push(ackBytes(sl));});if(window.benefits){try{parts.push(await fillManulife());}catch(e){console.error('manulife',e);}}if(window.pdfData&&window.pdfData.c2){try{parts.push(await fillCPS());}catch(e){console.error('cps',e);}}if(window.payroll){try{parts.push(await fillTD1());}catch(e){console.error('td1',e);}try{parts.push(await fillTD1ON());}catch(e){console.error('td1on',e);}}var merged=await mergeMany(parts);downloadBytes(merged,lastName()+'_CPC_Onboarding_Packet.pdf');setPacketStatus('↓ Download packet again');}catch(e){console.error(e);setPacketStatus('Packet error — retry');}}
 function finish(){
   window.pdfData=collectData();
   go(7);
@@ -1037,7 +1081,7 @@ function finish(){
     {name:'Section 3 · Benefits, consents & record',items:[
       {t:'Drug & Alcohol + Background Consent',s:'Signed consent',slug:'Drug-Alcohol-Background-Consent'},
       {t:'DOT Alcohol & Drug Policy — Acknowledgement',s:'Signed release',slug:'Drug-Alcohol-Policy-Release'},
-      {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}].concat(window.benefits?[{t:'Manulife Group Benefits Enrolment',s:'Filled form',slug:'Manulife-Enrolment'}]:[]).concat((window.pdfData&&window.pdfData.c2)?[{t:'Criminal Record Check Consent (ISB)',s:'Filled & signed',slug:'CPS-Consent'}]:[])}
+      {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}].concat(window.benefits?[{t:'Manulife Group Benefits Enrolment',s:'Filled form',slug:'Manulife-Enrolment'}]:[]).concat((window.pdfData&&window.pdfData.c2)?[{t:'Criminal Record Check Consent (ISB)',s:'Filled & signed',slug:'CPS-Consent'}]:[]).concat(window.payroll?[{t:'TD1 · 2026 Federal Personal Tax Credits',s:'Filled & signed',slug:'TD1-2026'},{t:'TD1ON · 2026 Ontario Personal Tax Credits',s:'Filled & signed',slug:'TD1ON-2026'}]:[])}
   ];
   var box=document.getElementById('bundle');box.innerHTML='';var delay=200;
   groups.forEach(function(sec){
@@ -1081,7 +1125,7 @@ function confetti(){
 function restart(){
   window.driver='';nameEl.value='';document.getElementById('start').disabled=true;
   ['seal3','c1','c2'].forEach(function(id){var e=document.getElementById(id);if(e)e.checked=false;});
-  window.quizAnswered=0; window.quizScore=0; window.quizDetail=[]; window.polIndex=0; window.polAgreed={}; window.masterSig=null;
+  window.quizAnswered=0; window.quizScore=0; window.quizDetail=[]; window.polIndex=0; window.polAgreed={}; window.masterSig=null; window.payroll=null;
   document.querySelectorAll('.qblock').forEach(function(q){delete q.dataset.done;});
   document.querySelectorAll('.feedback').forEach(function(f){f.classList.remove('show');});
   document.querySelectorAll('.opt').forEach(function(o){o.className='opt';o.style.pointerEvents='auto';});

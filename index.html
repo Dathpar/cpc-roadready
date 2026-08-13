@@ -279,9 +279,8 @@
     <div class="paper">
       <div class="tag do">◐ Do it now</div>
       <h3>Start your benefits enrolment</h3>
-      <div class="body"><p>Answer a few questions and we'll fill your Manulife Group Benefits enrolment form for you — health and dental through the CPC plan. You can finish it later if you'd rather roll now.</p></div>
-      <button class="btn ghost" id="benbtn" style="margin-top:4px" onclick="beginBenefits()">Begin enrolment</button>
-      <div id="benform" style="display:none;margin-top:16px">
+      <div class="body"><p>Answer a few questions and we'll fill your Manulife Group Benefits enrolment form for you — health and dental through the CPC plan.</p></div>
+      <div id="benform" style="margin-top:8px">
         <div class="bgrid">
           <div class="bf"><label>Date of birth</label><input type="text" id="b_dob" placeholder="dd/mm/yyyy"></div>
           <div class="bf"><label>Sex</label><select id="b_sex"><option value="">Select…</option><option>Male</option><option>Female</option><option>Non-binary</option></select></div>
@@ -296,28 +295,25 @@
           <div class="bf full"><label>Dental Care — I'm applying for</label><select id="b_dental"><option value="">Select…</option><option value="Myself only">Myself only</option><option value="Myself and 1 dependant, child or spouse">Myself and 1 dependant</option><option value="Myself and 2 or more dependants, spouse and children">Myself and 2+ dependants</option><option value="None, because my spouse has coverage">None — spouse has coverage</option></select></div>
           <div class="bf"><label>Applying for Dependant Life?</label><select id="b_deplife"><option value="">Select…</option><option>Yes</option><option>No</option></select></div>
         </div>
-        <button class="btn primary" style="margin-top:14px" onclick="saveBenefits()">Save enrolment</button>
-        <div id="bsaved" style="display:none;margin-top:10px;color:#1f6b3a;font-weight:500;font-size:14px">✓ Enrolment saved — your Manulife form will be filled and filed with your packet.</div>
+        <div id="bsaved" style="margin-top:12px;color:var(--card-muted);font-weight:500;font-size:13px">✓ Your Manulife enrolment form is filled and filed with your packet automatically — no save needed.</div>
       </div>
     </div>
     <div class="paper">
       <div class="tag do">◐ Do it now</div>
       <h3>Payroll &amp; tax forms</h3>
       <div class="body"><p>We'll complete your 2026 federal <b>TD1</b> and Ontario <b>TD1ON</b> personal tax credit forms using the details you just entered. Add your Social Insurance Number and we'll fill, sign, and file both — claiming the basic personal amount, which is what most drivers claim.</p></div>
-      <button class="btn ghost" id="paybtn" style="margin-top:4px" onclick="beginPayroll()">Start tax forms</button>
-      <div id="payform" style="display:none;margin-top:16px">
+      <div id="payform" style="margin-top:8px">
         <div class="bgrid">
           <div class="bf"><label>Social Insurance Number</label><input type="text" id="p_sin" placeholder="9 digits" inputmode="numeric"></div>
           <div class="bf"><label>Employee number (if known)</label><input type="text" id="p_empno" placeholder="Optional"></div>
           <div class="bf full"><div class="seal" onclick="payToggle()"><input type="checkbox" id="p_basic" checked onclick="event.stopPropagation()"><label for="p_basic">I'm claiming the basic personal amount only — Federal $16,452 · Ontario $12,989. Uncheck if you have other credits to claim; you can add those on the filled form.</label></div></div>
         </div>
-        <button class="btn primary" style="margin-top:14px" onclick="savePayroll()">Save tax forms</button>
-        <div id="psaved" style="display:none;margin-top:10px;color:#1f6b3a;font-weight:500;font-size:14px">✓ Saved — your TD1 and TD1ON will be filled, signed, and filed with your packet.</div>
+        <div id="psaved" style="margin-top:12px;color:var(--card-muted);font-weight:500;font-size:13px">✓ Your TD1 and TD1ON are filled, signed, and filed with your packet automatically — no save needed.</div>
       </div>
     </div>
     <div class="nav">
       <div class="bridge">Up next: the part we care about most — <b>getting you home safe</b>.</div>
-      <div class="navbtns"><button class="btn ghost" onclick="go(1)">Back</button><button class="btn primary" onclick="go(3)">Continue →</button></div>
+      <div class="navbtns"><button class="btn ghost" onclick="go(1)">Back</button><button class="btn primary" onclick="saveBenefits();savePayroll();go(3)">Continue →</button></div>
     </div>
   </section>
 

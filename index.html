@@ -90,11 +90,18 @@
   .rulebox li{list-style:none;display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:14px;color:#33485a}
   .rulebox li::before{content:"\2713";color:var(--blue);font-weight:800;margin-top:1px}
   /* value cards */
-  .vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:14px}
+  .vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:13px;margin-bottom:14px}
   .vcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 18px}
   .vcard .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:20px;margin-bottom:12px}
   .vcard h4{font-size:15.5px;margin-bottom:5px}
   .vcard p{color:var(--muted);font-size:13px;line-height:1.5}
+  .bgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .bf{display:flex;flex-direction:column;gap:5px}
+  .bf.full{grid-column:1/-1}
+  .bf label{font-size:11px;color:var(--card-muted);text-transform:uppercase;letter-spacing:.3px;font-weight:600}
+  .bf input,.bf select{background:#f5f9fc;border:1px solid var(--card-line);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--card-ink);font-family:inherit;outline:none;width:100%}
+  .bf input:focus,.bf select:focus{border-color:var(--blue-l);background:#fff}
+  @media(max-width:560px){.bgrid{grid-template-columns:1fr}}
   .ic.b{background:rgba(53,133,219,.16);color:var(--blue-l)}.ic.g{background:rgba(61,220,151,.16);color:var(--green)}
   .ic.a{background:rgba(245,168,0,.16);color:var(--gold)}
   /* callout */
@@ -261,15 +268,32 @@
     <h3 class="hook">The best drivers <em>earn the best backing</em>.</h3>
     <p class="chap-sub">Before we ask anything of you, here's what's on your side from day one.</p>
     <div class="vgrid">
-      <div class="vcard"><div class="ic b">$</div><h4>Pay &amp; schedule</h4><p>Steady miles, clear pay, and a schedule built around real life.</p></div>
       <div class="vcard"><div class="ic g">✚</div><h4>Benefits</h4><p>Health &amp; dental through Manulife — enrol in a couple of taps.</p></div>
       <div class="vcard"><div class="ic a">☎</div><h4>Support</h4><p>Dispatch and safety on call 24/7. You're never out there alone.</p></div>
     </div>
     <div class="paper">
       <div class="tag do">◐ Do it now</div>
       <h3>Start your benefits enrolment</h3>
-      <div class="body"><p>We'll pre-fill what we can and hand you off to Manulife when you're ready. Takes about three minutes — and you can finish it later if you'd rather roll now.</p></div>
-      <button class="btn ghost" style="margin-top:4px" onclick="markDone(this,'Benefits enrolment started')">Begin enrolment</button>
+      <div class="body"><p>Answer a few questions and we'll fill your Manulife Group Benefits enrolment form for you — health and dental through the CPC plan. You can finish it later if you'd rather roll now.</p></div>
+      <button class="btn ghost" id="benbtn" style="margin-top:4px" onclick="beginBenefits()">Begin enrolment</button>
+      <div id="benform" style="display:none;margin-top:16px">
+        <div class="bgrid">
+          <div class="bf"><label>Date of birth</label><input type="text" id="b_dob" placeholder="dd/mm/yyyy"></div>
+          <div class="bf"><label>Sex</label><select id="b_sex"><option value="">Select…</option><option>Male</option><option>Female</option><option>Non-binary</option></select></div>
+          <div class="bf"><label>Province of residence</label><select id="b_prov"><option value="">Select…</option><option>Alberta</option><option>British Columbia</option><option>Manitoba</option><option>New Brunswick</option><option>Newfoundland and Labrador</option><option>Northwest Territories</option><option>Nova Scotia</option><option>Nunavut</option><option selected>Ontario</option><option>Prince Edward Island</option><option>Quebec</option><option>Saskatchewan</option><option>Yukon</option></select></div>
+          <div class="bf"><label>Preferred language</label><select id="b_lang"><option>English</option><option>French</option></select></div>
+          <div class="bf full"><label>Home address</label><input type="text" id="b_addr" placeholder="Number, street, apt."></div>
+          <div class="bf"><label>City</label><input type="text" id="b_city"></div>
+          <div class="bf"><label>Postal code</label><input type="text" id="b_postal"></div>
+          <div class="bf"><label>Do you have a spouse?</label><select id="b_spouse"><option value="">Select…</option><option>Yes</option><option>No</option></select></div>
+          <div class="bf"><label>Email</label><input type="email" id="b_email"></div>
+          <div class="bf full"><label>Extended Health Care — I'm applying for</label><select id="b_health"><option value="">Select…</option><option value="Myself only">Myself only</option><option value="Myself and 1 dependant, child or spouse">Myself and 1 dependant</option><option value="Myself and 2 or more dependants, spouse and children">Myself and 2+ dependants</option><option value="None, because my spouse has coverage">None — spouse has coverage</option></select></div>
+          <div class="bf full"><label>Dental Care — I'm applying for</label><select id="b_dental"><option value="">Select…</option><option value="Myself only">Myself only</option><option value="Myself and 1 dependant, child or spouse">Myself and 1 dependant</option><option value="Myself and 2 or more dependants, spouse and children">Myself and 2+ dependants</option><option value="None, because my spouse has coverage">None — spouse has coverage</option></select></div>
+          <div class="bf"><label>Applying for Dependant Life?</label><select id="b_deplife"><option value="">Select…</option><option>Yes</option><option>No</option></select></div>
+        </div>
+        <button class="btn primary" style="margin-top:14px" onclick="saveBenefits()">Save enrolment</button>
+        <div id="bsaved" style="display:none;margin-top:10px;color:#1f6b3a;font-weight:500;font-size:14px">✓ Enrolment saved — your Manulife form will be filled and filed with your packet.</div>
+      </div>
     </div>
     <div class="nav">
       <div class="bridge">Up next: the part we care about most — <b>getting you home safe</b>.</div>
@@ -736,6 +760,34 @@ nameEl.addEventListener('input',function(){var v=nameEl.value.trim();window.driv
 document.getElementById('start').addEventListener('click',function(){go(1);});
 nameEl.addEventListener('keydown',function(e){if(e.key==='Enter'&&nameEl.value.trim().length>=2)go(1);});
 function markDone(btn,txt){ btn.textContent='✓ '+txt; btn.disabled=true; btn.style.opacity=.7; }
+function beginBenefits(){ document.getElementById('benbtn').style.display='none'; document.getElementById('benform').style.display='block'; }
+function bval(id){var e=document.getElementById(id);return e?e.value.trim():'';}
+function saveBenefits(){
+  window.benefits={dob:bval('b_dob'),sex:bval('b_sex'),prov:bval('b_prov'),lang:bval('b_lang'),address:bval('b_addr'),city:bval('b_city'),postal:bval('b_postal'),spouse:bval('b_spouse'),email:bval('b_email'),health:bval('b_health'),dental:bval('b_dental'),depLife:bval('b_deplife')};
+  document.getElementById('bsaved').style.display='block';
+}
+function mfSetRadio(form,name,value){
+  try{ var f=form.getField(name); if(!f||!value) return; var af=f.acroField;
+    af.dict.set(PDFLib.PDFName.of('V'), PDFLib.PDFName.of(value));
+    af.getWidgets().forEach(function(w){ var wd=w.dict; var ap=wd.lookup(PDFLib.PDFName.of('AP')); var has=false;
+      if(ap){ var n=ap.lookup(PDFLib.PDFName.of('N')); if(n&&n.keys){ n.keys().forEach(function(k){ if(k.encodedName===PDFLib.PDFName.of(value).encodedName) has=true; }); } }
+      wd.set(PDFLib.PDFName.of('AS'), has?PDFLib.PDFName.of(value):PDFLib.PDFName.of('Off')); });
+  }catch(e){ console.error('mfRadio',name,e); }
+}
+async function fillManulife(){
+  var r=await fetch('Manulife-Enrolment.pdf'); var bytes=await r.arrayBuffer();
+  var doc=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true});
+  var form=doc.getForm(); var b=window.benefits||{}; var nm=(window.driver||'').trim().split(/\s+/);
+  var ln=nm.length>1?nm[nm.length-1]:''; var fn=(nm.length>1?nm.slice(0,nm.length-1):nm).join(' ');
+  function T(n,v){ try{ if(v) form.getTextField(n).setText(String(v)); }catch(e){} }
+  function D(n,v){ try{ if(v) form.getDropdown(n).select(v); }catch(e){} }
+  T('lname',ln); T('fname',fn); T('date.4',b.dob); T('member_address',b.address); T('city',b.city); T('code.1',b.postal); T('email',b.email); T('members_occ','Commercial Driver');
+  D('prov_of_res',b.prov); D('plan_member_prov',b.prov);
+  mfSetRadio(form,'sex',b.sex); mfSetRadio(form,'language',b.lang); mfSetRadio(form,'haveSpouse',b.spouse);
+  mfSetRadio(form,'health',b.health); mfSetRadio(form,'dental',b.dental); mfSetRadio(form,'depend_life',b.depLife);
+  try{ form.acroForm.dict.delete(PDFLib.PDFName.of('XFA')); form.acroForm.dict.set(PDFLib.PDFName.of('NeedAppearances'),PDFLib.PDFBool.True); }catch(e){}
+  return await doc.save();
+}
 /* seals */
 function toggleSeal(id){var b=document.getElementById(id);b.checked=!b.checked;gateAll();}
 function gateAll(){
@@ -950,8 +1002,8 @@ async function stampPolicy(pl){
   if(d.sig){try{var png=await doc.embedPng(d.sig);pg.drawImage(png,{x:cfg.sig.x,y:cfg.sig.y,width:cfg.sig.w,height:cfg.sig.h});}catch(e){console.error('sig',e);}}
   return await doc.save();
 }
-async function genSingle(slug){try{var pl=(window.POLICIES||[]).filter(function(x){return x.slug===slug;})[0];var bytes=pl?await policyBytes(pl):ackBytes(slug);downloadBytes(bytes,lastName()+'_'+slug+'.pdf');}catch(e){console.error(e);}}
-async function genPacket(){try{setPacketStatus('Generating packet…');var parts=[];for(var i=0;i<window.POLICIES.length;i++){parts.push(await policyBytes(window.POLICIES[i]));}['Workplace-Violence-Harassment-Quiz-Results','Emergency-Response-Form','Drug-Alcohol-Background-Consent','Onboarding-Summary'].forEach(function(sl){parts.push(ackBytes(sl));});var merged=await mergeMany(parts);downloadBytes(merged,lastName()+'_CPC_Onboarding_Packet.pdf');setPacketStatus('↓ Download packet again');}catch(e){console.error(e);setPacketStatus('Packet error — retry');}}
+async function genSingle(slug){try{if(slug==='Manulife-Enrolment'){downloadBytes(await fillManulife(),lastName()+'_Manulife-Enrolment.pdf');return;}var pl=(window.POLICIES||[]).filter(function(x){return x.slug===slug;})[0];var bytes=pl?await policyBytes(pl):ackBytes(slug);downloadBytes(bytes,lastName()+'_'+slug+'.pdf');}catch(e){console.error(e);}}
+async function genPacket(){try{setPacketStatus('Generating packet…');var parts=[];for(var i=0;i<window.POLICIES.length;i++){parts.push(await policyBytes(window.POLICIES[i]));}['Workplace-Violence-Harassment-Quiz-Results','Emergency-Response-Form','Drug-Alcohol-Background-Consent','Onboarding-Summary'].forEach(function(sl){parts.push(ackBytes(sl));});if(window.benefits){try{parts.push(await fillManulife());}catch(e){console.error('manulife',e);}}var merged=await mergeMany(parts);downloadBytes(merged,lastName()+'_CPC_Onboarding_Packet.pdf');setPacketStatus('↓ Download packet again');}catch(e){console.error(e);setPacketStatus('Packet error — retry');}}
 function finish(){
   window.pdfData=collectData();
   go(7);
@@ -959,11 +1011,11 @@ function finish(){
   var groups=[
     {name:'Section 1 · Policies acknowledged',items:window.POLICIES.map(function(p){return {t:p.title,s:'Signed acknowledgement',slug:p.slug};})},
     {name:'Section 2 · Safety & emergency',items:[
-      {t:'Workplace Violence & Harassment',s:'Training certificate · OHSA',slug:'Workplace-Violence-Harassment-Certificate'},
+      {t:'Workplace Violence & Harassment',s:'Quiz results · scored',slug:'Workplace-Violence-Harassment-Quiz-Results'},
       {t:'Emergency Response Form',s:'Confidential · via Microsoft Forms',slug:'Emergency-Response-Form'}]},
-    {name:'Section 3 · Consents & record',items:[
+    {name:'Section 3 · Benefits, consents & record',items:[
       {t:'Drug & Alcohol + Background Consent',s:'Signed consent',slug:'Drug-Alcohol-Background-Consent'},
-      {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}]}
+      {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}].concat(window.benefits?[{t:'Manulife Group Benefits Enrolment',s:'Filled form',slug:'Manulife-Enrolment'}]:[])}
   ];
   var box=document.getElementById('bundle');box.innerHTML='';var delay=200;
   groups.forEach(function(sec){

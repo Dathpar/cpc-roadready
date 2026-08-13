@@ -551,6 +551,9 @@
       {slug:'Drug-Alcohol-Background-Consent', kind:'consent', kicker:'CONSENT',
         title:'Drug & Alcohol and Background Check Consent',
         intro:'I provide the following consents as part of my onboarding with CPC Logistics Canada:'},
+      {slug:'Drug-Alcohol-Policy-Release', kind:'release', kicker:'ACKNOWLEDGEMENT & RELEASE',
+        title:'DOT Alcohol & Drug Policy — Acknowledgement',
+        paras:['I hereby acknowledge and agree that I have received, have read, and understand the DOT Alcohol & Drug Policy addendum, Appendix A — US DOT 49 CFR Part 382.7 (The Clearinghouse), and I agree to abide by the terms and conditions of the addendum.','I understand and agree that my compliance with the terms and conditions of the addendum forms part of my essential job functions, and that the terms of the addendum have been properly mandated by the Company for my own safety, that of my co-workers, and that of the general public.','I understand and agree that my compliance with this addendum is an essential and required term of my new or continuing contract of employment or contract for services with the Company, and that my offer of, or continuation of, employment or services is conditional upon my signing of this Acknowledgement.']},
       {slug:'Onboarding-Summary', kind:'summary', kicker:'RECORD OF COMPLETION', title:'Onboarding Summary'}
     ];
   }
@@ -690,6 +693,8 @@
         {checked:!!data.c1, text:'I consent to CPC’s drug & alcohol testing program (pre-employment, random, and post-incident) administered through DriveCheck, meeting Canadian and US (FMCSA) requirements.'},
         {checked:!!data.c2, text:'I authorize a criminal record check through ISB for the purpose of employment screening.'}
       ], y);
+    } else if(d.kind==='release'){
+      (d.paras||[]).forEach(function(pp){ y=bodyText(doc, pp, y)+12; });
     } else if(d.kind==='summary'){
       var np=(data.policies?data.policies.length:0);
       y=bodyText(doc, 'The following onboarding items were completed by '+data.name+' via CPC RoadReady.', y)+10;
@@ -1002,8 +1007,24 @@ async function stampPolicy(pl){
   if(d.sig){try{var png=await doc.embedPng(d.sig);pg.drawImage(png,{x:cfg.sig.x,y:cfg.sig.y,width:cfg.sig.w,height:cfg.sig.h});}catch(e){console.error('sig',e);}}
   return await doc.save();
 }
-async function genSingle(slug){try{if(slug==='Manulife-Enrolment'){downloadBytes(await fillManulife(),lastName()+'_Manulife-Enrolment.pdf');return;}var pl=(window.POLICIES||[]).filter(function(x){return x.slug===slug;})[0];var bytes=pl?await policyBytes(pl):ackBytes(slug);downloadBytes(bytes,lastName()+'_'+slug+'.pdf');}catch(e){console.error(e);}}
-async function genPacket(){try{setPacketStatus('Generating packet…');var parts=[];for(var i=0;i<window.POLICIES.length;i++){parts.push(await policyBytes(window.POLICIES[i]));}['Workplace-Violence-Harassment-Quiz-Results','Emergency-Response-Form','Drug-Alcohol-Background-Consent','Onboarding-Summary'].forEach(function(sl){parts.push(ackBytes(sl));});if(window.benefits){try{parts.push(await fillManulife());}catch(e){console.error('manulife',e);}}var merged=await mergeMany(parts);downloadBytes(merged,lastName()+'_CPC_Onboarding_Packet.pdf');setPacketStatus('↓ Download packet again');}catch(e){console.error(e);setPacketStatus('Packet error — retry');}}
+function dobYMD(d){ if(!d) return ''; var m=String(d).split('/'); if(m.length===3){ return m[2]+String(m[1]).padStart(2,'0')+String(m[0]).padStart(2,'0'); } return String(d).replace(/\D/g,''); }
+function ymdToday(){ var d=new Date(); return ''+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0'); }
+async function fillCPS(){
+  var r=await fetch('CPS-Consent.pdf'); var bytes=await r.arrayBuffer();
+  var doc=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true});
+  var form=doc.getForm(); var b=window.benefits||{}; var nm=(window.driver||'').trim().split(/\s+/);
+  var ln=nm.length>1?nm[nm.length-1]:''; var fn=(nm.length>1?nm.slice(0,nm.length-1):nm).join(' ');
+  function T(n,v){ try{ if(v) form.getTextField(n).setText(String(v)); }catch(e){} }
+  T('Given namess',fn); T('Surname last name at birth',ln); T('Date of birth YYYYMMDD',dobYMD(b.dob));
+  T('Email address',b.email); T('Street',b.address); T('City',b.city); T('Prov Terr State',b.prov); T('Postal Code',b.postal);
+  T('Date YYYYMMDD',ymdToday());
+  mfSetRadio(form,'Sex',b.sex);
+  if(window.masterSig){ try{ var png=await doc.embedPng(window.masterSig); doc.getPages()[0].drawImage(png,{x:26,y:196,width:120,height:26}); doc.getPages()[1].drawImage(png,{x:50,y:189,width:130,height:24}); }catch(e){console.error('cps sig',e);} }
+  try{ form.acroForm.dict.delete(PDFLib.PDFName.of('XFA')); form.acroForm.dict.set(PDFLib.PDFName.of('NeedAppearances'),PDFLib.PDFBool.True); }catch(e){}
+  return await doc.save();
+}
+async function genSingle(slug){try{if(slug==='Manulife-Enrolment'){downloadBytes(await fillManulife(),lastName()+'_Manulife-Enrolment.pdf');return;}if(slug==='CPS-Consent'){downloadBytes(await fillCPS(),lastName()+'_CPS-Consent.pdf');return;}var pl=(window.POLICIES||[]).filter(function(x){return x.slug===slug;})[0];var bytes=pl?await policyBytes(pl):ackBytes(slug);downloadBytes(bytes,lastName()+'_'+slug+'.pdf');}catch(e){console.error(e);}}
+async function genPacket(){try{setPacketStatus('Generating packet…');var parts=[];for(var i=0;i<window.POLICIES.length;i++){parts.push(await policyBytes(window.POLICIES[i]));}['Workplace-Violence-Harassment-Quiz-Results','Emergency-Response-Form','Drug-Alcohol-Background-Consent','Drug-Alcohol-Policy-Release','Onboarding-Summary'].forEach(function(sl){parts.push(ackBytes(sl));});if(window.benefits){try{parts.push(await fillManulife());}catch(e){console.error('manulife',e);}}if(window.pdfData&&window.pdfData.c2){try{parts.push(await fillCPS());}catch(e){console.error('cps',e);}}var merged=await mergeMany(parts);downloadBytes(merged,lastName()+'_CPC_Onboarding_Packet.pdf');setPacketStatus('↓ Download packet again');}catch(e){console.error(e);setPacketStatus('Packet error — retry');}}
 function finish(){
   window.pdfData=collectData();
   go(7);
@@ -1015,7 +1036,8 @@ function finish(){
       {t:'Emergency Response Form',s:'Confidential · via Microsoft Forms',slug:'Emergency-Response-Form'}]},
     {name:'Section 3 · Benefits, consents & record',items:[
       {t:'Drug & Alcohol + Background Consent',s:'Signed consent',slug:'Drug-Alcohol-Background-Consent'},
-      {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}].concat(window.benefits?[{t:'Manulife Group Benefits Enrolment',s:'Filled form',slug:'Manulife-Enrolment'}]:[])}
+      {t:'DOT Alcohol & Drug Policy — Acknowledgement',s:'Signed release',slug:'Drug-Alcohol-Policy-Release'},
+      {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}].concat(window.benefits?[{t:'Manulife Group Benefits Enrolment',s:'Filled form',slug:'Manulife-Enrolment'}]:[]).concat((window.pdfData&&window.pdfData.c2)?[{t:'Criminal Record Check Consent (ISB)',s:'Filled & signed',slug:'CPS-Consent'}]:[])}
   ];
   var box=document.getElementById('bundle');box.innerHTML='';var delay=200;
   groups.forEach(function(sec){

@@ -152,6 +152,11 @@
   .listen .ic{font-size:12px}
   .videohead{font-size:12.5px;color:var(--card-muted);letter-spacing:.4px;text-transform:uppercase;font-weight:600;margin:2px 0 8px}
   .videowrap{border-radius:12px;overflow:hidden;margin:0 0 6px;box-shadow:0 10px 30px rgba(0,0,0,.22);background:#000}
+  .sigwrap input.val{background:#f5f9fc;border:1px solid var(--card-line);border-radius:11px;padding:12px 14px;font-size:14.5px;color:var(--card-ink);font-weight:500;width:100%;font-family:inherit;outline:none}
+  .sigwrap input.val:focus{border-color:var(--blue-l);background:#fff}
+  .trainerhead{font-size:12px;color:var(--blue);letter-spacing:.4px;text-transform:uppercase;font-weight:600;margin:4px 0 10px}
+  .trainer{color:#33485a;font-size:15px;line-height:1.72;background:#f5f9fc;border:1px solid var(--card-line);border-radius:12px;padding:16px 18px}
+  .trainer p{margin-bottom:12px}.trainer p:last-child{margin-bottom:0}
   .polreadhead{font-size:12px;color:var(--card-muted);letter-spacing:.4px;text-transform:uppercase;margin:18px 0 8px;font-weight:600}
   .polframe{border-radius:12px;overflow:hidden;border:1px solid var(--card-line)}
   .polframe iframe{width:100%;height:440px;border:0;display:block;background:#fff}
@@ -412,7 +417,7 @@
     <div id="polsign">
       <div class="sigwrap">
         <div class="row">
-          <div class="f"><label>Driver</label><div class="val" id="sig-name">—</div></div>
+          <div class="f"><label>Driver</label><input type="text" class="val" id="sig-name" placeholder="Your full name" oninput="window.driver=this.value;"></div>
           <div class="f"><label>Date</label><div class="val" id="sig-date">—</div></div>
         </div>
         <div class="padlabel"><span>Sign once</span><a onclick="clearPad()">Clear</a></div>
@@ -466,7 +471,7 @@
     <p class="chap-sub">Your signature — captured at the start — has been applied to every policy and acknowledgement. One tap and we generate your filed documents.</p>
     <div class="sigwrap">
       <div class="row">
-        <div class="f"><label>Driver</label><div class="val" id="sig-name2">—</div></div>
+        <div class="f"><label>Driver</label><input type="text" class="val" id="sig-name2" placeholder="Your full name" oninput="window.driver=this.value;"></div>
         <div class="f"><label>Date</label><div class="val" id="sig-date2">—</div></div>
       </div>
       <p class="consent-txt">By completing, you confirm you've reviewed and agree to the policies, safety training, and consents above. Your name, signature, and today's date are recorded on each generated document.</p>
@@ -630,6 +635,31 @@
       doc.setTextColor(pc[0],pc[1],pc[2]); doc.text(pass?'PASS':'FAIL', M+372, y+62);
       doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(GREY[0],GREY[1],GREY[2]);
       doc.text('Workplace Violence & Harassment knowledge check ('+qt+' questions). Passing score: 80%.', M+24, y+90);
+      signatureBlock(doc, data); footer(doc, data.ts);
+      var det=(data.detail||[]).slice().sort(function(a,b){return (a.n||0)-(b.n||0);});
+      if(det.length){
+        doc.addPage(); header(doc, data.logo);
+        doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]); doc.text('ANSWER REVIEW', M, 128);
+        doc.setFont('helvetica','bold'); doc.setFontSize(18); doc.setTextColor(NAVY[0],NAVY[1],NAVY[2]); doc.text('Quiz answer review', M, 150);
+        var yy=180;
+        det.forEach(function(it,ix){
+          if(yy>706){ footer(doc, data.ts); doc.addPage(); header(doc, data.logo); yy=128; }
+          doc.setFont('helvetica','bold'); doc.setFontSize(10.5); doc.setTextColor(NAVY[0],NAVY[1],NAVY[2]);
+          var ql=doc.splitTextToSize((it.n||ix+1)+'. '+it.q, CW); doc.text(ql, M, yy); yy+=ql.length*14+3;
+          var gc=[30,140,90], rc=[196,45,45], mk=it.correct?gc:rc;
+          doc.setFillColor(mk[0],mk[1],mk[2]); doc.circle(M+3, yy-3.4, 2.2, 'F');
+          doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(mk[0],mk[1],mk[2]);
+          var al=doc.splitTextToSize('Your answer: '+it.selected+(it.correct?'   — correct':'   — incorrect'), CW-18); doc.text(al, M+14, yy); yy+=al.length*13+2;
+          if(!it.correct){
+            doc.setFillColor(gc[0],gc[1],gc[2]); doc.circle(M+3, yy-3.4, 2.2, 'F');
+            doc.setTextColor(gc[0],gc[1],gc[2]);
+            var cl=doc.splitTextToSize('Correct answer: '+it.answer, CW-18); doc.text(cl, M+14, yy); yy+=cl.length*13+2;
+          }
+          yy+=9;
+        });
+        footer(doc, data.ts);
+      }
+      return;
     } else if(d.kind==='consent'){
       y=bodyText(doc, d.intro, y)+12;
       y=checkRows(doc, [
@@ -695,9 +725,9 @@ function go(n){
   document.getElementById('stepbadge').textContent=badges[cur];
   setRail(); window.scrollTo({top:0,behavior:'smooth'});
   if(cur===1){ var nm=(window.driver||'').split(' ')[0]||'driver'; document.getElementById('h1').innerHTML="Every strong run starts with a <em>solid first mile</em>, "+nm+"."; }
-  if(cur===4){ if(window.masterSig){ document.getElementById('polsign').style.display='none'; document.getElementById('polstepper').style.display='block'; if(!document.querySelector('#polcard .paper')) initPolicies(); } else { document.getElementById('polsign').style.display='block'; document.getElementById('polstepper').style.display='none'; document.getElementById('sig-name').textContent=window.driver||'\u2014'; document.getElementById('sig-date').textContent=todayStr(); setTimeout(initPad,50); } }
+  if(cur===4){ if(window.masterSig){ document.getElementById('polsign').style.display='none'; document.getElementById('polstepper').style.display='block'; if(!document.querySelector('#polcard .paper')) initPolicies(); } else { document.getElementById('polsign').style.display='block'; document.getElementById('polstepper').style.display='none'; document.getElementById('sig-name').value=window.driver||''; document.getElementById('sig-date').textContent=todayStr(); setTimeout(initPad,50); } }
   if(cur===6){
-    document.getElementById('sig-name2').textContent=window.driver||'\u2014';
+    document.getElementById('sig-name2').value=window.driver||'';
     document.getElementById('sig-date2').textContent=todayStr();
   }
 }
@@ -718,15 +748,19 @@ function consentCheck(){document.getElementById('n5').disabled=!(document.getEle
 document.getElementById('c1').addEventListener('change',consentCheck);
 document.getElementById('c2').addEventListener('change',consentCheck);
 /* quiz */
-window.quizAnswered=0; window.quizScore=0;
+window.quizAnswered=0; window.quizScore=0; window.quizDetail=[];
 function answer(btn,correct){
   var qb=btn.closest('.qblock'); if(!qb||qb.dataset.done) return;
   qb.dataset.done='1'; window.quizAnswered++; if(correct) window.quizScore++;
-  var opts=qb.querySelectorAll('.opt');
-  opts.forEach(function(o){o.style.pointerEvents='none'});
+  var opts=qb.querySelectorAll('.opt'); opts.forEach(function(o){o.style.pointerEvents='none'});
+  var correctBtn=null; opts.forEach(function(o){if(o.getAttribute('onclick').indexOf('true')>-1)correctBtn=o;});
   if(correct){btn.classList.add('correct');}
-  else{btn.classList.add('wrong');opts.forEach(function(o){if(o.getAttribute('onclick').indexOf('true')>-1)o.classList.add('correct');});}
+  else{btn.classList.add('wrong'); if(correctBtn)correctBtn.classList.add('correct');}
   qb.querySelector('.feedback').classList.add('show');
+  function ot(o){ if(!o) return ''; var k=o.querySelector('.k'); var t=o.textContent; if(k){t=t.replace(k.textContent,'');} return t.trim(); }
+  var qt=qb.querySelector('.q').textContent.trim();
+  var n=parseInt(qt,10)||0; var qtext=qt.replace(/^\s*\d+\s*[\u00b7.\-]\s*/,'');
+  window.quizDetail.push({n:n,q:qtext,selected:ot(btn),answer:ot(correctBtn),correct:!!correct});
   gateAll();
 }
 /* signature */
@@ -775,36 +809,47 @@ var sections=[
 ];
 window.POLICIES=[
  {slug:'Cell-Phone-Distracted-Driving',orig:'Cell-Phone-Distracted-Driving.pdf',tag:'Conduct',title:'Cell Phone & Distracted Driving Policy',revised:'Rev. 2017',
+  script:["Alright, let's talk phones. I know how it is — you're at a light, your phone buzzes, and it's tempting to glance. But here's the deal: the second your wheels are moving, that phone stays down. No calls, no texts, no scrolling, for work or personal.", "Hands-free is only okay where the law allows and it isn't pulling your focus. Set your route and messages before you roll, or pull over somewhere safe. And this one matters — if you get a distracted-driving ticket, that fine's on you, not CPC. Ontario's distracted-driving law is strict, and a conviction means demerit points and can put your licence at risk."],
   points:['Handheld phone or device use while driving is prohibited — no calls, texting, internet, email, or checking messages in motion, for business or personal reasons.','Hands-free is allowed only where it complies with DOT guidelines and your assignment.','Pull over to a safe location to use a handheld device or return calls.','Any fines for violations are the driver’s responsibility — CPC does not cover them.'],
   statement:'I have read and understand CPC Logistics Canada’s Cell Phone & Distracted Driving Policy, and I agree to comply with it at all times while operating a company vehicle.'},
  {slug:'Photographic-Equipment',tag:'Conduct',title:'Photographic Equipment Policy',revised:'',
+  script:["This one's about cameras and photos, especially at client sites like John Deere. Simply put: no taking pictures or video in restricted or private areas without the okay from management.", "Our clients trust us with access to their facilities — one photo in the wrong spot can blow that trust, and our contract. If you ever see someone shooting photos where they shouldn't, flag it to management or security. It's about protecting CPC's name and our clients' privacy."],
   points:['No personal photographic equipment in restricted or private areas without authorization.','Report any unauthorized photography to management or security.','Protects the privacy and security of CPC and its clients, including John Deere.'],
   statement:'I have read and understand the Photographic Equipment Policy and agree to follow it.'},
  {slug:'Dash-Camera-Policy',orig:'Dash-Camera-Policy.pdf',tag:'Conduct',title:'Dash Camera Policy',revised:'',
+  script:["I know the dash cam gets a bad rap, but hear me out — it's on your side. It only saves about 20 seconds around a hard event like a hard brake or a collision. Nobody's watching you live in the cab.", "Picture it: a four-wheeler cuts you off and slams their brakes, and suddenly it's your word against theirs. That footage is what clears your name. The only hard rule is don't tamper with it or block the lens — that's a serious one. Otherwise, it's there to protect the good drivers, and that's you."],
   points:['Cameras save only about 20 seconds around a hard-driving event — there is no live watching.','Footage protects you by providing evidence when you are not at fault.','Tampering with or obstructing the camera is prohibited.'],
   statement:'I acknowledge that I have received and read the Dash Camera information and policy, and I agree to comply with it.'},
  {slug:'Electronic-Cigarettes',orig:'Electronic-Cigarettes.pdf',tag:'Health & Safety',title:'Electronic Cigarettes Policy',revised:'',
+  script:["Vapes and e-cigs — pretty simple. If you're going to vape, it's in the designated outdoor areas on your scheduled breaks. Not in the cab, not on the dock.", "And this is the big one: cannabis, including those cannabis oils people put in vapes, is off-limits on company property or during work hours unless you've got approved medical documentation on file ahead of time. You've got to be fit for duty, always. Trying to sneak cannabis oil into a vape at work is grounds for discipline."],
   points:['Zero-tolerance for e-cigarette or vape use outside designated smoking areas.','Vaping only in designated outdoor areas on scheduled breaks.','Cannabis, including cannabis oils in a vape, is prohibited on company property or during work hours unless approved for medical use with documentation.'],
   statement:'I have read and understand the Electronic Cigarettes Policy, and I agree to adhere to it.'},
  {slug:'Smoke-Free-Workplace-Ontario',orig:'Smoke-Free-Workplace-Ontario.pdf',tag:'Health & Safety',title:'Smoke-Free Workplace Policy (Ontario)',revised:'Updated Jan 2024',
+  script:["Under Ontario's Smoke-Free Ontario Act, there's no smoking or vaping in any enclosed workplace — and that includes your truck cab and any hotel room or rental we book for you. Tobacco or cannabis, same rule.", "If you smoke, it's on your breaks, outside — and never cannabis on a break, because you need to stay fit for the road. This isn't just a company preference, it's provincial law, and breaking it can cost you your safety bonus and lead to discipline."],
   points:['Under the Smoke-Free Ontario Act, 2017: no smoking or vaping in any enclosed workplace, company vehicles, or company-booked hotel rooms and rental cars — tobacco or cannabis.','Smoke or vape only on scheduled breaks, outside; never cannabis during breaks or in a way that affects fitness for duty.','Violations may result in discipline up to termination and loss of any safety bonus.'],
   statement:'I have read and understand the Smoke-Free Workplace Policy, and I agree to comply with it.'},
  {slug:'Attendance-Absenteeism',orig:'Attendance-Absenteeism.pdf',tag:'Employment',title:'Attendance Management & Absenteeism Policy',revised:'',
+  script:["Look, life happens and we get that. But being here, and being on time, is a big part of this job. If you're going to be off or late, call your supervisor as early as you can, tell them why and how long.", "If it's medical, we might ask for a note. There's a real difference between things outside your control, like a genuine illness, and just not showing up or rolling in late without a word — that second kind adds up and leads to discipline. Bottom line: communicate early."],
   points:['Regular attendance and punctuality are expected; minimize absences.','Report absences promptly to your supervisor with the reason and expected duration; a medical note may be required.','Culpable or excessive absences may lead to corrective action up to termination.'],
   statement:'I have read and understand the Attendance Management & Absenteeism Policy, and I agree to comply with it.'},
  {slug:'Controlled-Substances-Alcohol-Testing',orig:'Controlled-Substances-Alcohol-Testing.pdf',tag:'Safety',title:'Controlled Substances & Alcohol Use & Testing Policy',revised:'Feb 2017',
+  script:["This is a safety-critical one. You're operating an 80,000-pound vehicle, so being clear-headed isn't optional — it's the National Safety Code. We run a drug and alcohol testing program through DriveCheck: pre-employment, random, and after any incident.", "Only the authorized people ever see your results — it stays confidential. And if you're ever struggling with something, there's an Employee Assistance Plan to help. We'd much rather get you support than lose you."],
   points:['A program to prevent accidents from alcohol misuse or controlled-substance use by commercial drivers, under the Canadian National Safety Code.','Testing is administered through DriveCheck at designated sites.','Only authorized administrators may see results; an Employee Assistance Plan is available for support.'],
   statement:'I have read and understand the Controlled Substances & Alcohol Use & Testing Policy, and I agree to comply with it.'},
  {slug:'DOT-US-Clearinghouse',orig:'DOT-US-Clearinghouse.pdf',tag:'Cross-border',title:'DOT / US Clearinghouse Policy',revised:'Jan 2020',
+  script:["If you're running loads into the States, this one's for you. Before you can drive a commercial vehicle down there, US DOT requires a Clearinghouse check — and you have to give your consent on their website.", "No consent, no US driving for CPC — simple as that, and it's not a reportable violation, it just means you stick to Canadian runs. It's all managed through certified medical review officers, and if anything ever comes up, there's a clear process to work through it."],
   points:['Before operating a commercial vehicle in the USA, CPC must run a US DOT Clearinghouse check — you provide electronic consent on the Clearinghouse site.','Refusing consent means you cannot drive in the US for CPC.','Managed through a certified Medical Review Officer and Third-Party Administrator; a SAP process applies to any violations.'],
   statement:'I have read and understand the DOT / US Clearinghouse Policy, and I agree to comply with it.'},
  {slug:'Progressive-Discipline',orig:'Progressive-Discipline.pdf',tag:'Employment',title:'Progressive Discipline Policy',revised:'Rev. Dec 2024',
+  script:["Nobody loves talking about discipline, but it helps to know how it works so there are no surprises. It's a fair, step-by-step process — usually a coaching chat first, then a verbal warning, a written one, a final warning, and only then termination. The idea is to correct things, not catch you out.", "Now, the serious stuff — theft, deliberately damaging equipment, weapons — that can jump straight to the end. But for everyday issues, you'll always get a fair chance to fix it first."],
   points:['Used to correct deliberate misconduct or performance issues fairly and consistently.','One informal step (coaching) plus four formal steps: verbal, written, final written or suspension, and termination.','Serious misconduct such as theft, wilful damage, or weapons can start at a later step, up to immediate termination.'],
   statement:'I have read and understand the Progressive Discipline Policy.'},
  {slug:'Accommodation-Policy',orig:'Accommodation-Policy.pdf',tag:'Rights',title:'Accommodation Policy',revised:'',
+  script:["CPC's committed to accommodating you if you've got a need tied to the Human Rights Code — things like a disability, a religious practice, family status, and more. We'll work with you up to what's called undue hardship.", "In plain terms, that means we accommodate unless it would cost so much there's no funding for it, or it creates a real safety hazard. If you need something — including for medical reasons — just start that conversation with us and we'll sort out a suitable arrangement together."],
   points:['CPC accommodates needs tied to Human Rights Code grounds up to the point of undue hardship.','Undue hardship means excessive cost with no funding available, or a genuine health or safety hazard.','Medical needs, including medical cannabis, go through the accommodation process.'],
   statement:'I have read and understand the Accommodation Policy.'},
  {slug:'Training-Manual-Safety-Book',tag:'Reference',title:'Training Manual & Drivers Safety Book',revised:'',
+  script:["Last thing — your Training Manual and the Drivers Safety Book. Think of these as your go-to reference for the day-to-day: procedures, safe practices, how we do things here.", "You're responsible for reading them and following what's in them. You don't need to memorize every page today — just know where to find the answer. And if anything's ever unclear, that's exactly what your trainer and supervisor are for. Just ask."],
   points:['The CPC Canada Training Manual and Drivers Safety Book are your day-to-day reference for procedures and safe practices.','You are responsible for reading them and following the practices they describe.','Ask your trainer or supervisor if anything is unclear.'],
   statement:'I acknowledge that I have received and reviewed the CPC Canada Training Manual and the Drivers Safety Book.'}
 ];
@@ -814,14 +859,14 @@ function renderPolicy(){
   var N=window.POLICIES.length, i=window.polIndex, p=window.POLICIES[i];
   document.getElementById('polfill').style.width=Math.round((i+1)/N*100)+'%';
   document.getElementById('polcount').textContent='Policy '+(i+1)+' of '+N;
-  var pts=p.points.map(function(x){return '<li>'+x+'</li>';}).join('');
+  var scr=(p.script||[]).map(function(x){return '<p>'+x+'</p>';}).join('');
   var agreed=!!window.polAgreed[p.slug];
   document.getElementById('polcard').innerHTML=
     '<div class="paper">'
     +'<div class="secpill">▸ '+p.tag+'</div>'
     +'<button class="listen" id="listenbtn" onclick="toggleSpeak()"><span class="ic">▶</span> <span id="listentxt">Listen</span></button>'
     +'<h3>'+p.title+'</h3>'+(p.revised?'<div class="rev">CPC Logistics Canada · '+p.revised+'</div>':'')
-    +'<ul class="rulebox">'+pts+'</ul>'
+    +'<div class="trainerhead">In plain terms</div><div class="trainer">'+scr+'</div>'
     +(p.orig?'<div class="polreadhead">The full policy — please read</div><div class="polframe"><iframe src="'+p.orig+'#view=FitH" title="Full policy document"></iframe></div>':'<div class="polnote">This document is reviewed with your trainer during onboarding.</div>')
     +'<div class="seal" onclick="polToggle()"><input type="checkbox" id="polagree" '+(agreed?'checked':'')+' onclick="event.stopPropagation()"><label for="polagree">I have read and agree to the '+p.title+'.</label></div>'
     +'</div>';
@@ -850,7 +895,7 @@ function polPrev(){
   if(window.polIndex<=0){ go(3); return; }
   window.polIndex--; renderPolicy(); window.scrollTo({top:0,behavior:'smooth'});
 }
-function speakText(){ var p=window.POLICIES[window.polIndex]; return p.title+'. '+p.points.join(' ')+''; }
+function speakText(){ var p=window.POLICIES[window.polIndex]; return p.title+'. '+(p.script||[]).join(' '); }
 function toggleSpeak(){
   if(!('speechSynthesis' in window)) return;
   if(window.speechSynthesis.speaking){ stopSpeak(); return; }
@@ -877,6 +922,7 @@ function collectData(){
     logo:(document.querySelector('.logo img')||{}).src||null,
     sig:window.masterSig||null,
     score:window.quizScore||0, total:10,
+    detail:window.quizDetail||[],
     policies:window.POLICIES};
 }
 function lastName(){var p=(window.driver||'Driver').trim().split(/\s+/);return p[p.length-1];}
@@ -958,7 +1004,7 @@ function confetti(){
 function restart(){
   window.driver='';nameEl.value='';document.getElementById('start').disabled=true;
   ['seal3','c1','c2'].forEach(function(id){var e=document.getElementById(id);if(e)e.checked=false;});
-  window.quizAnswered=0; window.quizScore=0; window.polIndex=0; window.polAgreed={}; window.masterSig=null;
+  window.quizAnswered=0; window.quizScore=0; window.quizDetail=[]; window.polIndex=0; window.polAgreed={}; window.masterSig=null;
   document.querySelectorAll('.qblock').forEach(function(q){delete q.dataset.done;});
   document.querySelectorAll('.feedback').forEach(function(f){f.classList.remove('show');});
   document.querySelectorAll('.opt').forEach(function(o){o.className='opt';o.style.pointerEvents='auto';});

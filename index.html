@@ -90,11 +90,18 @@
   .rulebox li{list-style:none;display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:14px;color:#33485a}
   .rulebox li::before{content:"\2713";color:var(--blue);font-weight:800;margin-top:1px}
   /* value cards */
-  .vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:14px}
+  .vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:13px;margin-bottom:14px}
   .vcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 18px}
   .vcard .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:20px;margin-bottom:12px}
   .vcard h4{font-size:15.5px;margin-bottom:5px}
   .vcard p{color:var(--muted);font-size:13px;line-height:1.5}
+  .bgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .bf{display:flex;flex-direction:column;gap:5px}
+  .bf.full{grid-column:1/-1}
+  .bf label{font-size:11px;color:var(--card-muted);text-transform:uppercase;letter-spacing:.3px;font-weight:600}
+  .bf input,.bf select{background:#f5f9fc;border:1px solid var(--card-line);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--card-ink);font-family:inherit;outline:none;width:100%}
+  .bf input:focus,.bf select:focus{border-color:var(--blue-l);background:#fff}
+  @media(max-width:560px){.bgrid{grid-template-columns:1fr}}
   .ic.b{background:rgba(53,133,219,.16);color:var(--blue-l)}.ic.g{background:rgba(61,220,151,.16);color:var(--green)}
   .ic.a{background:rgba(245,168,0,.16);color:var(--gold)}
   /* callout */
@@ -150,6 +157,37 @@
   .listen:hover{background:#1c3d5c}
   .listen.playing{background:var(--gold);color:#3a2600}
   .listen .ic{font-size:12px}
+  .videohead{font-size:12.5px;color:var(--card-muted);letter-spacing:.4px;text-transform:uppercase;font-weight:600;margin:2px 0 8px}
+  .idgroup{border:1px solid var(--card-line);border-radius:14px;padding:16px;margin-bottom:14px;background:#fbfdfe}
+  .idgroup.req{border-color:#cfe0f3;background:#f7fbff}
+  .idhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .idhead h4{font-size:15px;color:var(--card-ink);font-family:'Sora'}
+  .idreq{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:3px 9px;border-radius:999px}
+  .idreq.r{background:#e6f0fb;color:#134a8f}.idreq.o{background:#eef2f6;color:#5b7285}
+  .idphotos{display:flex;gap:12px;flex-wrap:wrap}
+  .idtile{flex:1;min-width:130px}
+  .idtile .drop{position:relative;border:2px dashed var(--card-line);border-radius:12px;background:#fff;aspect-ratio:16/10;display:grid;place-items:center;cursor:pointer;overflow:hidden;transition:.16s}
+  .idtile .drop:hover{border-color:var(--blue-l)}
+  .idtile .drop img{width:100%;height:100%;object-fit:cover}
+  .idtile .drop .ph{color:var(--card-muted);font-size:12px;text-align:center;padding:8px;pointer-events:none}
+  .idtile .drop .ph b{display:block;color:var(--blue);font-size:26px;line-height:1;margin-bottom:6px;font-weight:400}
+  .idtile .cap{font-size:10.5px;color:var(--card-muted);text-transform:uppercase;letter-spacing:.3px;font-weight:600;margin-top:6px;text-align:center}
+  .idtile input[type=file]{display:none}
+  .idnum{margin-top:12px}
+  .idnum label{font-size:11px;color:var(--card-muted);text-transform:uppercase;letter-spacing:.3px;font-weight:600;display:flex;align-items:center;gap:8px}
+  .idnum .stat{font-size:10px;font-weight:700;color:var(--gold-d);text-transform:none;letter-spacing:0}
+  .idnum input{background:#fff;border:1px solid var(--card-line);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--card-ink);font-family:inherit;outline:none;width:100%;margin-top:5px}
+  .idnum input:focus{border-color:var(--blue-l)}
+  .bcrow{display:flex;align-items:center;justify-content:space-between;background:#f5f9fc;border:1px solid var(--card-line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+  .bcrow span{font-size:10.5px;color:var(--card-muted);text-transform:uppercase;letter-spacing:.3px;display:block}
+  .bcrow b{font-size:15px;color:var(--card-ink);font-family:'Sora'}
+  .bcbtn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;flex:none}
+  .videowrap{border-radius:12px;overflow:hidden;margin:0 0 6px;box-shadow:0 10px 30px rgba(0,0,0,.22);background:#000}
+  .sigwrap input.val{background:#f5f9fc;border:1px solid var(--card-line);border-radius:11px;padding:12px 14px;font-size:14.5px;color:var(--card-ink);font-weight:500;width:100%;font-family:inherit;outline:none}
+  .sigwrap input.val:focus{border-color:var(--blue-l);background:#fff}
+  .trainerhead{font-size:12px;color:var(--blue);letter-spacing:.4px;text-transform:uppercase;font-weight:600;margin:4px 0 10px}
+  .trainer{color:#33485a;font-size:15px;line-height:1.72;background:#f5f9fc;border:1px solid var(--card-line);border-radius:12px;padding:16px 18px}
+  .trainer p{margin-bottom:12px}.trainer p:last-child{margin-bottom:0}
   .polreadhead{font-size:12px;color:var(--card-muted);letter-spacing:.4px;text-transform:uppercase;margin:18px 0 8px;font-weight:600}
   .polframe{border-radius:12px;overflow:hidden;border:1px solid var(--card-line)}
   .polframe iframe{width:100%;height:440px;border:0;display:block;background:#fff}
@@ -233,7 +271,40 @@
   <section class="screen" id="s1">
     <div class="chap-kick"><span class="no">Chapter 1 of 6</span> · Welcome aboard</div>
     <h3 class="hook" id="h1">Every strong run starts with a <em>solid first mile</em>.</h3>
-    <p class="chap-sub">Glad you're here. Before anything else — a quick hello and a look at what today holds. No forms yet, promise.</p>
+    <p class="chap-sub">Glad you're here. First a quick hello, then we'll capture your border documents — the only paperwork up front.</p>
+    <div class="paper">
+      <div class="tag read">▶ Welcome</div>
+      <div class="videohead">A welcome from CPC Logistics</div>
+      <div class="videowrap"><div style="position: relative; overflow: hidden; aspect-ratio: 1920/1080"><iframe src="https://share.synthesia.io/embeds/videos/b7d38fb6-c03d-4b4b-b0af-34ff74abdf22" loading="lazy" title="Synthesia video player - Welcome to the CPC Logistics Family" allowfullscreen allow="encrypted-media; fullscreen; microphone; screen-wake-lock;" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0; margin: 0; overflow:hidden;"></iframe></div></div>
+    </div>
+    <div class="paper">
+      <div class="tag consent">▣ Border documents</div>
+      <h3>Let's capture your ID</h3>
+      <div class="body"><p>Take a photo of each document with your tablet camera, or upload a picture. We'll read the numbers automatically for Border Connect — give each one a quick check against the card. Your images stay on this device and go straight into your packet.</p></div>
+      <div class="idgroup req">
+        <div class="idhead"><h4>Driver's Licence</h4><span class="idreq r">Required</span></div>
+        <div class="idphotos">
+          <div class="idtile"><label class="drop"><input type="file" accept="image/*" capture="environment" onchange="onPhoto(this,'license','front')"><span class="ph"><b>+</b>Tap to photograph</span></label><div class="cap">Front</div></div>
+          <div class="idtile"><label class="drop"><input type="file" accept="image/*" capture="environment" onchange="onPhoto(this,'license','back')"><span class="ph"><b>+</b>Tap to photograph</span></label><div class="cap">Back</div></div>
+        </div>
+        <div class="idnum"><label>Licence number <span class="stat" id="license_stat"></span></label><input type="text" id="license_num" placeholder="e.g. A1234-56789-01234" oninput="onNum('license',this.value)"></div>
+      </div>
+      <div class="idgroup">
+        <div class="idhead"><h4>Passport</h4><span class="idreq o">Passport or FAST</span></div>
+        <div class="idphotos">
+          <div class="idtile"><label class="drop"><input type="file" accept="image/*" capture="environment" onchange="onPhoto(this,'passport','photo')"><span class="ph"><b>+</b>Tap to photograph</span></label><div class="cap">Photo page</div></div>
+        </div>
+        <div class="idnum"><label>Passport number <span class="stat" id="passport_stat"></span></label><input type="text" id="passport_num" placeholder="e.g. AB123456" oninput="onNum('passport',this.value)"></div>
+      </div>
+      <div class="idgroup">
+        <div class="idhead"><h4>FAST Card</h4><span class="idreq o">Passport or FAST</span></div>
+        <div class="idphotos">
+          <div class="idtile"><label class="drop"><input type="file" accept="image/*" capture="environment" onchange="onPhoto(this,'fast','front')"><span class="ph"><b>+</b>Tap to photograph</span></label><div class="cap">Front</div></div>
+          <div class="idtile"><label class="drop"><input type="file" accept="image/*" capture="environment" onchange="onPhoto(this,'fast','back')"><span class="ph"><b>+</b>Tap to photograph</span></label><div class="cap">Back</div></div>
+        </div>
+        <div class="idnum"><label>FAST card number <span class="stat" id="fast_stat"></span></label><input type="text" id="fast_num" placeholder="e.g. 987654321" oninput="onNum('fast',this.value)"></div>
+      </div>
+    </div>
     <div class="paper">
       <div class="tag read">● Get oriented</div>
       <h3>Who we are, and what today looks like</h3>
@@ -254,19 +325,47 @@
     <h3 class="hook">The best drivers <em>earn the best backing</em>.</h3>
     <p class="chap-sub">Before we ask anything of you, here's what's on your side from day one.</p>
     <div class="vgrid">
-      <div class="vcard"><div class="ic b">$</div><h4>Pay &amp; schedule</h4><p>Steady miles, clear pay, and a schedule built around real life.</p></div>
       <div class="vcard"><div class="ic g">✚</div><h4>Benefits</h4><p>Health &amp; dental through Manulife — enrol in a couple of taps.</p></div>
       <div class="vcard"><div class="ic a">☎</div><h4>Support</h4><p>Dispatch and safety on call 24/7. You're never out there alone.</p></div>
     </div>
     <div class="paper">
       <div class="tag do">◐ Do it now</div>
       <h3>Start your benefits enrolment</h3>
-      <div class="body"><p>We'll pre-fill what we can and hand you off to Manulife when you're ready. Takes about three minutes — and you can finish it later if you'd rather roll now.</p></div>
-      <button class="btn ghost" style="margin-top:4px" onclick="markDone(this,'Benefits enrolment started')">Begin enrolment</button>
+      <div class="body"><p>Answer a few questions and we'll fill your Manulife Group Benefits enrolment form for you — health and dental through the CPC plan.</p></div>
+      <div id="benform" style="margin-top:8px">
+        <div class="bgrid">
+          <div class="bf"><label>Date of birth</label><input type="text" id="b_dob" placeholder="dd/mm/yyyy"></div>
+          <div class="bf"><label>Sex</label><select id="b_sex"><option value="">Select…</option><option>Male</option><option>Female</option><option>Non-binary</option></select></div>
+          <div class="bf"><label>Province of residence</label><select id="b_prov"><option value="">Select…</option><option>Alberta</option><option>British Columbia</option><option>Manitoba</option><option>New Brunswick</option><option>Newfoundland and Labrador</option><option>Northwest Territories</option><option>Nova Scotia</option><option>Nunavut</option><option selected>Ontario</option><option>Prince Edward Island</option><option>Quebec</option><option>Saskatchewan</option><option>Yukon</option></select></div>
+          <div class="bf"><label>Preferred language</label><select id="b_lang"><option>English</option><option>French</option></select></div>
+          <div class="bf full"><label>Home address</label><input type="text" id="b_addr" placeholder="Number, street, apt."></div>
+          <div class="bf"><label>City</label><input type="text" id="b_city"></div>
+          <div class="bf"><label>Postal code</label><input type="text" id="b_postal"></div>
+          <div class="bf"><label>Do you have a spouse?</label><select id="b_spouse"><option value="">Select…</option><option>Yes</option><option>No</option></select></div>
+          <div class="bf"><label>Email</label><input type="email" id="b_email"></div>
+          <div class="bf full"><label>Extended Health Care — I'm applying for</label><select id="b_health"><option value="">Select…</option><option value="Myself only">Myself only</option><option value="Myself and 1 dependant, child or spouse">Myself and 1 dependant</option><option value="Myself and 2 or more dependants, spouse and children">Myself and 2+ dependants</option><option value="None, because my spouse has coverage">None — spouse has coverage</option></select></div>
+          <div class="bf full"><label>Dental Care — I'm applying for</label><select id="b_dental"><option value="">Select…</option><option value="Myself only">Myself only</option><option value="Myself and 1 dependant, child or spouse">Myself and 1 dependant</option><option value="Myself and 2 or more dependants, spouse and children">Myself and 2+ dependants</option><option value="None, because my spouse has coverage">None — spouse has coverage</option></select></div>
+          <div class="bf"><label>Applying for Dependant Life?</label><select id="b_deplife"><option value="">Select…</option><option>Yes</option><option>No</option></select></div>
+        </div>
+        <div id="bsaved" style="margin-top:12px;color:var(--card-muted);font-weight:500;font-size:13px">✓ Your Manulife enrolment form is filled and filed with your packet automatically — no save needed.</div>
+      </div>
+    </div>
+    <div class="paper">
+      <div class="tag do">◐ Do it now</div>
+      <h3>Payroll &amp; tax forms</h3>
+      <div class="body"><p>We'll complete your 2026 federal <b>TD1</b> and Ontario <b>TD1ON</b> personal tax credit forms using the details you just entered. Add your Social Insurance Number and we'll fill, sign, and file both — claiming the basic personal amount, which is what most drivers claim.</p></div>
+      <div id="payform" style="margin-top:8px">
+        <div class="bgrid">
+          <div class="bf"><label>Social Insurance Number</label><input type="text" id="p_sin" placeholder="9 digits" inputmode="numeric"></div>
+          <div class="bf"><label>Employee number (if known)</label><input type="text" id="p_empno" placeholder="Optional"></div>
+          <div class="bf full"><div class="seal" onclick="payToggle()"><input type="checkbox" id="p_basic" checked onclick="event.stopPropagation()"><label for="p_basic">I'm claiming the basic personal amount only — Federal $16,452 · Ontario $12,989. Uncheck if you have other credits to claim; you can add those on the filled form.</label></div></div>
+        </div>
+        <div id="psaved" style="margin-top:12px;color:var(--card-muted);font-weight:500;font-size:13px">✓ Your TD1 and TD1ON are filled, signed, and filed with your packet automatically — no save needed.</div>
+      </div>
     </div>
     <div class="nav">
       <div class="bridge">Up next: the part we care about most — <b>getting you home safe</b>.</div>
-      <div class="navbtns"><button class="btn ghost" onclick="go(1)">Back</button><button class="btn primary" onclick="go(3)">Continue →</button></div>
+      <div class="navbtns"><button class="btn ghost" onclick="go(1)">Back</button><button class="btn primary" onclick="saveBenefits();savePayroll();go(3)">Continue →</button></div>
     </div>
   </section>
 
@@ -274,7 +373,7 @@
   <section class="screen" id="s3">
     <div class="chap-kick"><span class="no">Chapter 3 of 6</span> · Your safety is the point</div>
     <h3 class="hook">The best drivers <em>get home safe</em>. This one's for you.</h3>
-    <p class="chap-sub">Not the filing cabinet — you. A short required safety module with a three-question check, then your confidential emergency contact form.</p>
+    <p class="chap-sub">Not the filing cabinet — you. Watch the short training video, complete the 10-question check, then your confidential emergency contact form.</p>
     <div class="learn">
       <div class="top">
         <div class="tag learn">▲ Required training · OHSA</div>
@@ -294,28 +393,91 @@
         </div>
         <p><strong>How to report:</strong> get to safety first, then call dispatch or your supervisor as soon as you can — you can also report in writing. CPC keeps it confidential, investigates, and takes action. You're protected from any penalty for raising a genuine concern.</p>
       </div>
+      <div class="content" style="padding-top:0">
+        <div class="videohead">Watch: creating a safe workplace</div>
+        <div class="videowrap"><div style="position: relative; overflow: hidden; aspect-ratio: 1920/1080"><iframe src="https://share.synthesia.io/embeds/videos/233dabba-0512-4050-a4c5-f6c93731193f" loading="lazy" title="Creating a Safe Workplace: Understanding Violence and Harassment Policies" allowfullscreen allow="encrypted-media; fullscreen; microphone; screen-wake-lock;" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0; margin: 0; overflow:hidden;"></iframe></div></div>
+      </div>
       <div class="quiz">
-        <h4>Knowledge check <span style="color:var(--card-muted);font-weight:400;font-size:13px">· answer all three</span></h4>
+        <h4>Knowledge check <span style="color:var(--card-muted);font-weight:400;font-size:13px">· answer all 10</span></h4>
         <div class="qblock">
-          <div class="q">1 · Someone at a delivery site turns aggressive and threatening. What's your first move?</div>
-          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Handle it yourself so the load isn't delayed</button>
-          <button class="opt" onclick="answer(this,false)"><span class="k">B</span> Ignore it — comes with the job</button>
-          <button class="opt" onclick="answer(this,true)"><span class="k">C</span> Get yourself clear if you can, then report it to dispatch</button>
-          <div class="feedback"><strong>That's it.</strong> Your safety comes first — disengage when you safely can, then report so CPC can act.</div>
+          <div class="q">1 · What is the definition of workplace harassment according to the video?</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Standard shift scheduling changes</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">B</span> Unwelcome comments or conduct that is inappropriate or offensive</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">C</span> Everyday workplace conversations</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">D</span> Constructive work updates</button>
+          <div class="feedback"><strong>Correct answer: B.</strong> Harassment is unwelcome comments or conduct that is inappropriate or offensive.</div>
         </div>
         <div class="qblock">
-          <div class="q">2 · Which of these is workplace harassment?</div>
-          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> A supervisor giving you fair feedback on a late delivery</button>
-          <button class="opt" onclick="answer(this,true)"><span class="k">B</span> A coworker making repeated unwelcome comments about your appearance</button>
-          <button class="opt" onclick="answer(this,false)"><span class="k">C</span> Security asking to see your ID at a gate</button>
-          <div class="feedback"><strong>Correct.</strong> Reasonable, work-related direction isn't harassment — repeated unwelcome personal comments are.</div>
+          <div class="q">2 · Workplace sexual harassment involves unwelcome actions related to:</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Salary expectations and promotion reviews</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">B</span> Sex, gender, or sexual orientation</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">C</span> Shift scheduling preferences</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">D</span> General job descriptions</button>
+          <div class="feedback"><strong>Correct answer: B.</strong> It relates to sex, gender, or sexual orientation.</div>
         </div>
         <div class="qblock">
-          <div class="q">3 · You report a safety concern in good faith. What can CPC do?</div>
-          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Discipline you for causing trouble</button>
-          <button class="opt" onclick="answer(this,false)"><span class="k">B</span> Ignore it if the load is on time</button>
-          <button class="opt" onclick="answer(this,true)"><span class="k">C</span> Investigate it confidentially — with no penalty to you</button>
-          <div class="feedback"><strong>Right.</strong> Reprisal is prohibited. A good-faith report is always handled confidentially and taken seriously.</div>
+          <div class="q">3 · What specific information must be included when submitting a written complaint?</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Personal opinions about company leadership</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">B</span> Date, time, involved parties, witnesses, and an incident description</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">C</span> A list of all company policies</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">D</span> Signatures from all team members on shift</button>
+          <div class="feedback"><strong>Correct answer: B.</strong> Include date, time, involved parties, witnesses, and an incident description.</div>
+        </div>
+        <div class="qblock">
+          <div class="q">4 · Where do the definitions of workplace violence and harassment apply?</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Only inside the main facility building</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">B</span> Only during standard office hours</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">C</span> In all work-related settings, not just the main facility</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">D</span> Only during off-site business travel</button>
+          <div class="feedback"><strong>Correct answer: C.</strong> They apply in all work-related settings, not just the main facility.</div>
+        </div>
+        <div class="qblock">
+          <div class="q">5 · What is the immediate required step if an emergency occurs and someone is in physical danger?</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Send an email to HR</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">B</span> Call 911 immediately</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">C</span> Wait until the end of the shift to report it</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">D</span> Submit a written form within 24 hours</button>
+          <div class="feedback"><strong>Correct answer: B.</strong> Call 911 immediately.</div>
+        </div>
+        <div class="qblock">
+          <div class="q">6 · How does CPC Logistics handle information during an investigation?</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Shares details openly with all employees</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">B</span> Maintains confidentiality and shares details only when necessary</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">C</span> Posts investigation notes on bulletin boards</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">D</span> Discloses all records to third-party clients</button>
+          <div class="feedback"><strong>Correct answer: B.</strong> It maintains confidentiality and shares details only when necessary.</div>
+        </div>
+        <div class="qblock">
+          <div class="q">7 · What is provided to both parties once an investigation is finished?</div>
+          <button class="opt" onclick="answer(this,true)"><span class="k">A</span> A summary of findings and corrective actions if needed</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">B</span> A public announcement to the company</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">C</span> No written feedback or follow-up</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">D</span> An automatic shift change</button>
+          <div class="feedback"><strong>Correct answer: A.</strong> A summary of findings and corrective actions if needed.</div>
+        </div>
+        <div class="qblock">
+          <div class="q">8 · How often should safety policies be reviewed according to the video?</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Every 5 years</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">B</span> Only when a severe incident occurs</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">C</span> Annually</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">D</span> Every 10 years</button>
+          <div class="feedback"><strong>Correct answer: C.</strong> Annually.</div>
+        </div>
+        <div class="qblock">
+          <div class="q">9 · Why is maintaining a safe work environment essential for everyone?</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> It eliminates the need for policy reviews</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">B</span> It directly impacts productivity, well-being, and overall work environment</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">C</span> It speeds up the hiring process</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">D</span> It replaces the need for emergency protocols</button>
+          <div class="feedback"><strong>Correct answer: B.</strong> It directly impacts productivity, well-being, and the overall work environment.</div>
+        </div>
+        <div class="qblock">
+          <div class="q">10 · Maintaining a safe workplace is considered a:</div>
+          <button class="opt" onclick="answer(this,false)"><span class="k">A</span> Responsibility reserved only for senior executives</button>
+          <button class="opt" onclick="answer(this,true)"><span class="k">B</span> Collective responsibility for everyone</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">C</span> Requirement only for new employees</button>
+          <button class="opt" onclick="answer(this,false)"><span class="k">D</span> Role handled strictly by external auditors</button>
+          <div class="feedback"><strong>Correct answer: B.</strong> It is a collective responsibility for everyone.</div>
         </div>
       </div>
     </div>
@@ -343,13 +505,30 @@
   <section class="screen" id="s4">
     <div class="chap-kick"><span class="no">Chapter 4 of 6</span> · Company policies</div>
     <h3 class="hook">Here's how we <em>roll together</em>.</h3>
-    <p class="chap-sub">A quick pass through the policies that keep you, the fleet, and our name in good shape. Read or listen to each, then agree — your signature at the end seals them all.</p>
-    <div class="polbar"><div class="polbar-fill" id="polfill"></div></div>
-    <div class="polcount" id="polcount">Policy 1</div>
-    <div id="polcard"></div>
-    <div class="nav">
-      <div class="bridge" id="polbridge">&nbsp;</div>
-      <div class="navbtns"><button class="btn ghost" id="polback" onclick="polPrev()">Back</button><button class="btn primary" id="polnext" disabled onclick="polNext()">Next policy →</button></div>
+    <p class="chap-sub">First, sign once — we'll apply your signature and today's date to every policy automatically. Then just read and agree to each.</p>
+    <div id="polsign">
+      <div class="sigwrap">
+        <div class="row">
+          <div class="f"><label>Driver</label><input type="text" class="val" id="sig-name" placeholder="Your full name" oninput="window.driver=this.value;"></div>
+          <div class="f"><label>Date</label><div class="val" id="sig-date">—</div></div>
+        </div>
+        <div class="padlabel"><span>Sign once</span><a onclick="clearPad()">Clear</a></div>
+        <canvas id="pad"></canvas>
+        <p class="consent-txt">Your signature and today's date are applied to every policy you agree to, and to your acknowledgement records — you won't need to sign again.</p>
+      </div>
+      <div class="nav">
+        <div class="bridge">Sign to begin the policies.</div>
+        <div class="navbtns"><button class="btn ghost" onclick="go(3)">Back</button><button class="btn primary" id="usesig" disabled onclick="useSignature()">Use this signature →</button></div>
+      </div>
+    </div>
+    <div id="polstepper" style="display:none">
+      <div class="polbar"><div class="polbar-fill" id="polfill"></div></div>
+      <div class="polcount" id="polcount">Policy 1</div>
+      <div id="polcard"></div>
+      <div class="nav">
+        <div class="bridge" id="polbridge">&nbsp;</div>
+        <div class="navbtns"><button class="btn ghost" id="polback" onclick="polPrev()">Back</button><button class="btn primary" id="polnext" disabled onclick="polNext()">Next policy →</button></div>
+      </div>
     </div>
   </section>
 
@@ -377,23 +556,21 @@
     </div>
   </section>
 
-  <!-- 6 SIGN -->
+  <!-- 6 REVIEW -->
   <section class="screen" id="s6">
     <div class="chap-kick"><span class="no">Chapter 6 of 6</span> · Make it official</div>
-    <h3 class="hook">One signature. You're not filling out a form — <em>you're joining the best</em>.</h3>
-    <p class="chap-sub">This single signature applies across every section you've completed. Then a couple of payroll basics, and you're road ready.</p>
+    <h3 class="hook">You're <em>signed and ready</em>.</h3>
+    <p class="chap-sub">Your signature — captured at the start — has been applied to every policy and acknowledgement. One tap and we generate your filed documents.</p>
     <div class="sigwrap">
       <div class="row">
-        <div class="f"><label>Driver</label><div class="val" id="sig-name">—</div></div>
-        <div class="f"><label>Date</label><div class="val" id="sig-date">—</div></div>
+        <div class="f"><label>Driver</label><input type="text" class="val" id="sig-name2" placeholder="Your full name" oninput="window.driver=this.value;"></div>
+        <div class="f"><label>Date</label><div class="val" id="sig-date2">—</div></div>
       </div>
-      <div class="padlabel"><span>Sign below</span><a onclick="clearPad()">Clear</a></div>
-      <canvas id="pad"></canvas>
-      <p class="consent-txt">By signing, you confirm you've reviewed and agree to the safety, conduct, and accountability sections completed above, and that your acknowledgements and training record are accurate. Name, date, and time are recorded with each generated document. Payroll forms (TD1 &amp; TD1ON) are completed in the final step.</p>
+      <p class="consent-txt">By completing, you confirm you've reviewed and agree to the policies, safety training, and consents above. Your name, signature, and today's date are recorded on each generated document.</p>
     </div>
     <div class="nav">
       <div class="bridge">One tap from the finish line.</div>
-      <div class="navbtns"><button class="btn ghost" onclick="go(5)">Back</button><button class="btn primary" id="sign-next" disabled onclick="finish()">Complete onboarding ✓</button></div>
+      <div class="navbtns"><button class="btn ghost" onclick="go(5)">Back</button><button class="btn primary" onclick="finish()">Complete onboarding ✓</button></div>
     </div>
   </section>
 
@@ -403,7 +580,7 @@
       <div class="check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#04331f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="fin">The best drivers drive CPC</div>
       <h2>You're <em>road ready</em>, <span id="done-name">driver</span>!</h2>
-      <p>Welcome to the fleet where the best drivers drive. Everything's bundled into three sections and filed to your record — now let's roll.</p>
+      <p>Welcome to the fleet where the best drivers drive. Everything's bundled into clear sections and filed to your record — now let's roll.</p>
       <div class="emailbox">
         <h4><span class="i">✉</span> Send the packet to the driver</h4>
         <p>Trainer step: the packet PDF downloads to this device automatically. Enter the driver's email and click to open your CPC email pre-filled — then attach the packet and send.</p>
@@ -414,6 +591,7 @@
         <div class="sent" id="sent-msg">✓ Email opening — attach the packet and send to <span id="sent-to"></span></div>
         <button class="btn ghost" id="pkgbtn" onclick="genPacket()" style="margin-top:12px;width:100%;justify-content:center">↓ Download packet again</button>
       </div>
+      <div class="emailbox" id="bordercopy" style="display:none"></div>
       <div class="bundle" id="bundle"></div>
       <button class="btn ghost" onclick="restart()" style="margin-top:4px">Run the demo again</button>
     </div>
@@ -434,14 +612,17 @@
   // Fixed (non-policy) documents rendered after the policy acknowledgements.
   function fixedDocs(){
     return [
-      {slug:'Workplace-Violence-Harassment-Certificate', kind:'cert', kicker:'CERTIFICATE OF TRAINING COMPLETION',
-        title:'Workplace Violence & Harassment', ref:'Ontario Occupational Health and Safety Act (OHSA)'},
+      {slug:'Workplace-Violence-Harassment-Quiz-Results', kind:'quiz', kicker:'QUIZ RESULTS',
+        title:'Workplace Violence & Harassment — Quiz Results'},
       {slug:'Emergency-Response-Form', kind:'emergency', kicker:'EMERGENCY RESPONSE',
         title:'Emergency Response Form',
         intro:'Emergency contact information for this driver is collected through CPC’s confidential Annual Emergency Contact form (Microsoft Forms) and is retained separately in the employee’s confidential file.'},
       {slug:'Drug-Alcohol-Background-Consent', kind:'consent', kicker:'CONSENT',
         title:'Drug & Alcohol and Background Check Consent',
         intro:'I provide the following consents as part of my onboarding with CPC Logistics Canada:'},
+      {slug:'Drug-Alcohol-Policy-Release', kind:'release', kicker:'ACKNOWLEDGEMENT & RELEASE',
+        title:'DOT Alcohol & Drug Policy — Acknowledgement',
+        paras:['I hereby acknowledge and agree that I have received, have read, and understand the DOT Alcohol & Drug Policy addendum, Appendix A — US DOT 49 CFR Part 382.7 (The Clearinghouse), and I agree to abide by the terms and conditions of the addendum.','I understand and agree that my compliance with the terms and conditions of the addendum forms part of my essential job functions, and that the terms of the addendum have been properly mandated by the Company for my own safety, that of my co-workers, and that of the general public.','I understand and agree that my compliance with this addendum is an essential and required term of my new or continuing contract of employment or contract for services with the Company, and that my offer of, or continuation of, employment or services is conditional upon my signing of this Acknowledgement.']},
       {slug:'Onboarding-Summary', kind:'summary', kicker:'RECORD OF COMPLETION', title:'Onboarding Summary'}
     ];
   }
@@ -539,30 +720,56 @@
       doc.text('CONFIDENTIAL · FILED SEPARATELY', M+14, y+18);
       doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(NAVY[0],NAVY[1],NAVY[2]);
       doc.text('Submitted via Microsoft Forms — Annual Emergency Contact Info.', M+14, y+38);
-    } else if(d.kind==='cert'){
-      doc.setDrawColor(GOLD[0],GOLD[1],GOLD[2]); doc.setLineWidth(2);
-      doc.roundedRect(M,y,CW,150,8,8,'S');
-      doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(40,55,70);
-      doc.text('This certifies that', PW/2, y+34, {align:'center'});
-      doc.setFont('helvetica','bold'); doc.setFontSize(20); doc.setTextColor(NAVY[0],NAVY[1],NAVY[2]);
-      doc.text(data.name, PW/2, y+62, {align:'center'});
-      doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(40,55,70);
-      var c=doc.splitTextToSize('has completed the Workplace Violence & Harassment training module and passed the knowledge check, in accordance with the '+d.ref+'.', CW-60);
-      doc.text(c, PW/2, y+88, {align:'center'});
-      doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(BLUE[0],BLUE[1],BLUE[2]);
-      doc.text('Knowledge check: PASSED', PW/2, y+134, {align:'center'});
+    } else if(d.kind==='quiz'){
+      var qs=(data.score||0), qt=(data.total||10), pct=Math.round(qs/qt*100), pass=pct>=80;
+      doc.setFillColor(245,249,252); doc.roundedRect(M,y,CW,104,8,8,'F');
+      doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(GREY[0],GREY[1],GREY[2]);
+      doc.text('SCORE', M+24, y+30); doc.text('PERCENTAGE', M+196, y+30); doc.text('RESULT', M+372, y+30);
+      doc.setFont('helvetica','bold'); doc.setFontSize(24); doc.setTextColor(NAVY[0],NAVY[1],NAVY[2]);
+      doc.text(qs+' / '+qt, M+24, y+62); doc.text(pct+'%', M+196, y+62);
+      var pc = pass?[30,140,90]:[196,45,45];
+      doc.setTextColor(pc[0],pc[1],pc[2]); doc.text(pass?'PASS':'FAIL', M+372, y+62);
+      doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(GREY[0],GREY[1],GREY[2]);
+      doc.text('Workplace Violence & Harassment knowledge check ('+qt+' questions). Passing score: 80%.', M+24, y+90);
+      signatureBlock(doc, data); footer(doc, data.ts);
+      var det=(data.detail||[]).slice().sort(function(a,b){return (a.n||0)-(b.n||0);});
+      if(det.length){
+        doc.addPage(); header(doc, data.logo);
+        doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(GOLD[0],GOLD[1],GOLD[2]); doc.text('ANSWER REVIEW', M, 128);
+        doc.setFont('helvetica','bold'); doc.setFontSize(18); doc.setTextColor(NAVY[0],NAVY[1],NAVY[2]); doc.text('Quiz answer review', M, 150);
+        var yy=180;
+        det.forEach(function(it,ix){
+          if(yy>706){ footer(doc, data.ts); doc.addPage(); header(doc, data.logo); yy=128; }
+          doc.setFont('helvetica','bold'); doc.setFontSize(10.5); doc.setTextColor(NAVY[0],NAVY[1],NAVY[2]);
+          var ql=doc.splitTextToSize((it.n||ix+1)+'. '+it.q, CW); doc.text(ql, M, yy); yy+=ql.length*14+3;
+          var gc=[30,140,90], rc=[196,45,45], mk=it.correct?gc:rc;
+          doc.setFillColor(mk[0],mk[1],mk[2]); doc.circle(M+3, yy-3.4, 2.2, 'F');
+          doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(mk[0],mk[1],mk[2]);
+          var al=doc.splitTextToSize('Your answer: '+it.selected+(it.correct?'   — correct':'   — incorrect'), CW-18); doc.text(al, M+14, yy); yy+=al.length*13+2;
+          if(!it.correct){
+            doc.setFillColor(gc[0],gc[1],gc[2]); doc.circle(M+3, yy-3.4, 2.2, 'F');
+            doc.setTextColor(gc[0],gc[1],gc[2]);
+            var cl=doc.splitTextToSize('Correct answer: '+it.answer, CW-18); doc.text(cl, M+14, yy); yy+=cl.length*13+2;
+          }
+          yy+=9;
+        });
+        footer(doc, data.ts);
+      }
+      return;
     } else if(d.kind==='consent'){
       y=bodyText(doc, d.intro, y)+12;
       y=checkRows(doc, [
         {checked:!!data.c1, text:'I consent to CPC’s drug & alcohol testing program (pre-employment, random, and post-incident) administered through DriveCheck, meeting Canadian and US (FMCSA) requirements.'},
         {checked:!!data.c2, text:'I authorize a criminal record check through ISB for the purpose of employment screening.'}
       ], y);
+    } else if(d.kind==='release'){
+      (d.paras||[]).forEach(function(pp){ y=bodyText(doc, pp, y)+12; });
     } else if(d.kind==='summary'){
       var np=(data.policies?data.policies.length:0);
       y=bodyText(doc, 'The following onboarding items were completed by '+data.name+' via CPC RoadReady.', y)+10;
       var rows=[
         ['Company policies acknowledged & signed', np+' policies'],
-        ['OHSA safety training + knowledge check','Passed'],
+        ['OHSA violence & harassment quiz',(data.score||0)+'/'+(data.total||10)+' ('+Math.round((data.score||0)/(data.total||10)*100)+'%)'],
         ['Emergency contact form submitted','Complete'],
         ['Drug/alcohol testing consent', data.c1?'Consented':'—'],
         ['Background check authorization', data.c2?'Authorized':'—'],
@@ -616,11 +823,10 @@ function go(n){
   document.getElementById('stepbadge').textContent=badges[cur];
   setRail(); window.scrollTo({top:0,behavior:'smooth'});
   if(cur===1){ var nm=(window.driver||'').split(' ')[0]||'driver'; document.getElementById('h1').innerHTML="Every strong run starts with a <em>solid first mile</em>, "+nm+"."; }
-  if(cur===4){ initPolicies(); }
+  if(cur===4){ if(window.masterSig){ document.getElementById('polsign').style.display='none'; document.getElementById('polstepper').style.display='block'; if(!document.querySelector('#polcard .paper')) initPolicies(); } else { document.getElementById('polsign').style.display='block'; document.getElementById('polstepper').style.display='none'; document.getElementById('sig-name').value=window.driver||''; document.getElementById('sig-date').textContent=todayStr(); setTimeout(initPad,50); } }
   if(cur===6){
-    document.getElementById('sig-name').textContent=window.driver||'—';
-    document.getElementById('sig-date').textContent=new Date().toLocaleDateString('en-CA',{year:'numeric',month:'short',day:'numeric'});
-    setTimeout(initPad,50);
+    document.getElementById('sig-name2').value=window.driver||'';
+    document.getElementById('sig-date2').textContent=todayStr();
   }
 }
 var nameEl=document.getElementById('name');
@@ -628,10 +834,41 @@ nameEl.addEventListener('input',function(){var v=nameEl.value.trim();window.driv
 document.getElementById('start').addEventListener('click',function(){go(1);});
 nameEl.addEventListener('keydown',function(e){if(e.key==='Enter'&&nameEl.value.trim().length>=2)go(1);});
 function markDone(btn,txt){ btn.textContent='✓ '+txt; btn.disabled=true; btn.style.opacity=.7; }
+function beginBenefits(){ document.getElementById('benbtn').style.display='none'; document.getElementById('benform').style.display='block'; }
+function beginPayroll(){ document.getElementById('paybtn').style.display='none'; document.getElementById('payform').style.display='block'; }
+function payToggle(){ var b=document.getElementById('p_basic'); b.checked=!b.checked; }
+function savePayroll(){ window.payroll={sin:bval('p_sin'),empno:bval('p_empno'),basicOnly:document.getElementById('p_basic').checked}; document.getElementById('psaved').style.display='block'; }
+function bval(id){var e=document.getElementById(id);return e?e.value.trim():'';}
+function saveBenefits(){
+  window.benefits={dob:bval('b_dob'),sex:bval('b_sex'),prov:bval('b_prov'),lang:bval('b_lang'),address:bval('b_addr'),city:bval('b_city'),postal:bval('b_postal'),spouse:bval('b_spouse'),email:bval('b_email'),health:bval('b_health'),dental:bval('b_dental'),depLife:bval('b_deplife')};
+  document.getElementById('bsaved').style.display='block';
+}
+function mfSetRadio(form,name,value){
+  try{ var f=form.getField(name); if(!f||!value) return; var af=f.acroField;
+    af.dict.set(PDFLib.PDFName.of('V'), PDFLib.PDFName.of(value));
+    af.getWidgets().forEach(function(w){ var wd=w.dict; var ap=wd.lookup(PDFLib.PDFName.of('AP')); var has=false;
+      if(ap){ var n=ap.lookup(PDFLib.PDFName.of('N')); if(n&&n.keys){ n.keys().forEach(function(k){ if(k.encodedName===PDFLib.PDFName.of(value).encodedName) has=true; }); } }
+      wd.set(PDFLib.PDFName.of('AS'), has?PDFLib.PDFName.of(value):PDFLib.PDFName.of('Off')); });
+  }catch(e){ console.error('mfRadio',name,e); }
+}
+async function fillManulife(){
+  var r=await fetch('Manulife-Enrolment.pdf'); var bytes=await r.arrayBuffer();
+  var doc=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true});
+  var form=doc.getForm(); var b=window.benefits||{}; var nm=(window.driver||'').trim().split(/\s+/);
+  var ln=nm.length>1?nm[nm.length-1]:''; var fn=(nm.length>1?nm.slice(0,nm.length-1):nm).join(' ');
+  function T(n,v){ try{ if(v) form.getTextField(n).setText(String(v)); }catch(e){} }
+  function D(n,v){ try{ if(v) form.getDropdown(n).select(v); }catch(e){} }
+  T('lname',ln); T('fname',fn); T('date.4',b.dob); T('member_address',b.address); T('city',b.city); T('code.1',b.postal); T('email',b.email); T('members_occ','Commercial Driver');
+  D('prov_of_res',b.prov); D('plan_member_prov',b.prov);
+  mfSetRadio(form,'sex',b.sex); mfSetRadio(form,'language',b.lang); mfSetRadio(form,'haveSpouse',b.spouse);
+  mfSetRadio(form,'health',b.health); mfSetRadio(form,'dental',b.dental); mfSetRadio(form,'depend_life',b.depLife);
+  try{ form.acroForm.dict.delete(PDFLib.PDFName.of('XFA')); form.acroForm.dict.set(PDFLib.PDFName.of('NeedAppearances'),PDFLib.PDFBool.True); }catch(e){}
+  return await doc.save();
+}
 /* seals */
 function toggleSeal(id){var b=document.getElementById(id);b.checked=!b.checked;gateAll();}
 function gateAll(){
-  document.getElementById('n3').disabled=!(window.quizAnswered>=3 && document.getElementById('seal3').checked);
+  document.getElementById('n3').disabled=!(window.quizAnswered>=10 && document.getElementById('seal3').checked);
 }
 document.getElementById('seal3').addEventListener('change',gateAll);
 /* consents */
@@ -640,15 +877,19 @@ function consentCheck(){document.getElementById('n5').disabled=!(document.getEle
 document.getElementById('c1').addEventListener('change',consentCheck);
 document.getElementById('c2').addEventListener('change',consentCheck);
 /* quiz */
-window.quizAnswered=0;
+window.quizAnswered=0; window.quizScore=0; window.quizDetail=[];
 function answer(btn,correct){
   var qb=btn.closest('.qblock'); if(!qb||qb.dataset.done) return;
-  qb.dataset.done='1'; window.quizAnswered++;
-  var opts=qb.querySelectorAll('.opt');
-  opts.forEach(function(o){o.style.pointerEvents='none'});
+  qb.dataset.done='1'; window.quizAnswered++; if(correct) window.quizScore++;
+  var opts=qb.querySelectorAll('.opt'); opts.forEach(function(o){o.style.pointerEvents='none'});
+  var correctBtn=null; opts.forEach(function(o){if(o.getAttribute('onclick').indexOf('true')>-1)correctBtn=o;});
   if(correct){btn.classList.add('correct');}
-  else{btn.classList.add('wrong');opts.forEach(function(o){if(o.getAttribute('onclick').indexOf('true')>-1)o.classList.add('correct');});}
+  else{btn.classList.add('wrong'); if(correctBtn)correctBtn.classList.add('correct');}
   qb.querySelector('.feedback').classList.add('show');
+  function ot(o){ if(!o) return ''; var k=o.querySelector('.k'); var t=o.textContent; if(k){t=t.replace(k.textContent,'');} return t.trim(); }
+  var qt=qb.querySelector('.q').textContent.trim();
+  var n=parseInt(qt,10)||0; var qtext=qt.replace(/^\s*\d+\s*[\u00b7.\-]\s*/,'');
+  window.quizDetail.push({n:n,q:qtext,selected:ot(btn),answer:ot(correctBtn),correct:!!correct});
   gateAll();
 }
 /* signature */
@@ -657,11 +898,11 @@ function initPad(){
   pad=document.getElementById('pad');var r=pad.getBoundingClientRect();
   pad.width=r.width*2;pad.height=r.height*2;ctx=pad.getContext('2d');ctx.scale(2,2);
   ctx.lineWidth=2.4;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#0f2233';
-  document.getElementById('sign-next').disabled=true;
+  document.getElementById('usesig').disabled=true;
 }
 function pos(e){var r=pad.getBoundingClientRect();var t=e.touches?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top};}
 function down(e){drawing=true;var p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);e.preventDefault();}
-function move(e){if(!drawing)return;var p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();document.getElementById('sign-next').disabled=false;e.preventDefault();}
+function move(e){if(!drawing)return;var p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();document.getElementById('usesig').disabled=false;e.preventDefault();}
 function up(){drawing=false;}
 document.addEventListener('mousedown',function(e){if(e.target&&e.target.id==='pad')down(e);});
 document.addEventListener('mousemove',function(e){if(pad)move(e);});
@@ -669,7 +910,20 @@ document.addEventListener('mouseup',up);
 document.addEventListener('touchstart',function(e){if(e.target&&e.target.id==='pad')down(e);},{passive:false});
 document.addEventListener('touchmove',function(e){if(pad&&drawing)move(e);},{passive:false});
 document.addEventListener('touchend',up);
-function clearPad(){if(ctx){ctx.clearRect(0,0,pad.width,pad.height);document.getElementById('sign-next').disabled=true;}}
+function clearPad(){if(ctx){ctx.clearRect(0,0,pad.width,pad.height);document.getElementById('usesig').disabled=true;}}
+window.masterSig=null;
+function todayStr(){return new Date().toLocaleDateString('en-CA',{year:'numeric',month:'long',day:'numeric'});}
+function useSignature(){
+  window.masterSig=(typeof pad!=='undefined'&&pad&&pad.toDataURL)?pad.toDataURL('image/png'):null;
+  document.getElementById('polsign').style.display='none';
+  document.getElementById('polstepper').style.display='block';
+  initPolicies(); window.scrollTo({top:0,behavior:'smooth'});
+}
+window.RECREATE={
+  'Cell-Phone-Distracted-Driving':{page:0,name:{x:175,y:172},sig:{x:172,y:124,w:150,h:26},date:{x:175,y:100}},
+  'Dash-Camera-Policy':{page:4,name:{x:175,y:144},sig:{x:172,y:100,w:150,h:26},date:{x:175,y:72}},
+  'Electronic-Cigarettes':{page:1,name:{x:150,y:403},sig:{x:150,y:369,w:140,h:24},date:{x:150,y:352}}
+};
 /* finish */
 var sections=[
   {name:'Section 1 · On-the-road conduct',files:[
@@ -677,46 +931,57 @@ var sections=[
     {t:'Photographic Equipment Policy',s:'Signed acknowledgement',slug:'Photographic-Equipment-Policy-Ack'}]},
   {name:'Section 2 · Emergency & safety',files:[
     {t:'Emergency Response Form',s:'Completed & signed',slug:'Emergency-Response-Form'},
-    {t:'Workplace Violence & Harassment',s:'Training certificate · OHSA',slug:'Workplace-Violence-Harassment-Certificate'}]},
+    {t:'Workplace Violence & Harassment',s:'Quiz results · scored',slug:'Workplace-Violence-Harassment-Quiz-Results'}]},
   {name:'Section 3 · Trust & records',files:[
     {t:'Drug & Alcohol + Background Consent',s:'Signed consent',slug:'Drug-Alcohol-Background-Consent'},
     {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}]}
 ];
 window.POLICIES=[
- {slug:'Cell-Phone-Distracted-Driving',orig:'policies/Cell-Phone-Distracted-Driving.pdf',tag:'Conduct',title:'Cell Phone & Distracted Driving Policy',revised:'Rev. 2017',
+ {slug:'Cell-Phone-Distracted-Driving',orig:'Cell-Phone-Distracted-Driving.pdf',tag:'Conduct',title:'Cell Phone & Distracted Driving Policy',revised:'Rev. 2017',
+  script:["Alright, let's talk phones. I know how it is — you're at a light, your phone buzzes, and it's tempting to glance. But here's the deal: the second your wheels are moving, that phone stays down. No calls, no texts, no scrolling, for work or personal.", "Hands-free is only okay where the law allows and it isn't pulling your focus. Set your route and messages before you roll, or pull over somewhere safe. And this one matters — if you get a distracted-driving ticket, that fine's on you, not CPC. Ontario's distracted-driving law is strict, and a conviction means demerit points and can put your licence at risk."],
   points:['Handheld phone or device use while driving is prohibited — no calls, texting, internet, email, or checking messages in motion, for business or personal reasons.','Hands-free is allowed only where it complies with DOT guidelines and your assignment.','Pull over to a safe location to use a handheld device or return calls.','Any fines for violations are the driver’s responsibility — CPC does not cover them.'],
   statement:'I have read and understand CPC Logistics Canada’s Cell Phone & Distracted Driving Policy, and I agree to comply with it at all times while operating a company vehicle.'},
  {slug:'Photographic-Equipment',tag:'Conduct',title:'Photographic Equipment Policy',revised:'',
+  script:["This one's about cameras and photos, especially at client sites like John Deere. Simply put: no taking pictures or video in restricted or private areas without the okay from management.", "Our clients trust us with access to their facilities — one photo in the wrong spot can blow that trust, and our contract. If you ever see someone shooting photos where they shouldn't, flag it to management or security. It's about protecting CPC's name and our clients' privacy."],
   points:['No personal photographic equipment in restricted or private areas without authorization.','Report any unauthorized photography to management or security.','Protects the privacy and security of CPC and its clients, including John Deere.'],
   statement:'I have read and understand the Photographic Equipment Policy and agree to follow it.'},
- {slug:'Dash-Camera-Policy',orig:'policies/Dash-Camera-Policy.pdf',tag:'Conduct',title:'Dash Camera Policy',revised:'',
+ {slug:'Dash-Camera-Policy',orig:'Dash-Camera-Policy.pdf',tag:'Conduct',title:'Dash Camera Policy',revised:'',
+  script:["I know the dash cam gets a bad rap, but hear me out — it's on your side. It only saves about 20 seconds around a hard event like a hard brake or a collision. Nobody's watching you live in the cab.", "Picture it: a four-wheeler cuts you off and slams their brakes, and suddenly it's your word against theirs. That footage is what clears your name. The only hard rule is don't tamper with it or block the lens — that's a serious one. Otherwise, it's there to protect the good drivers, and that's you."],
   points:['Cameras save only about 20 seconds around a hard-driving event — there is no live watching.','Footage protects you by providing evidence when you are not at fault.','Tampering with or obstructing the camera is prohibited.'],
   statement:'I acknowledge that I have received and read the Dash Camera information and policy, and I agree to comply with it.'},
- {slug:'Electronic-Cigarettes',orig:'policies/Electronic-Cigarettes.pdf',tag:'Health & Safety',title:'Electronic Cigarettes Policy',revised:'',
+ {slug:'Electronic-Cigarettes',orig:'Electronic-Cigarettes.pdf',tag:'Health & Safety',title:'Electronic Cigarettes Policy',revised:'',
+  script:["Vapes and e-cigs — pretty simple. If you're going to vape, it's in the designated outdoor areas on your scheduled breaks. Not in the cab, not on the dock.", "And this is the big one: cannabis, including those cannabis oils people put in vapes, is off-limits on company property or during work hours unless you've got approved medical documentation on file ahead of time. You've got to be fit for duty, always. Trying to sneak cannabis oil into a vape at work is grounds for discipline."],
   points:['Zero-tolerance for e-cigarette or vape use outside designated smoking areas.','Vaping only in designated outdoor areas on scheduled breaks.','Cannabis, including cannabis oils in a vape, is prohibited on company property or during work hours unless approved for medical use with documentation.'],
   statement:'I have read and understand the Electronic Cigarettes Policy, and I agree to adhere to it.'},
- {slug:'Smoke-Free-Workplace-Ontario',orig:'policies/Smoke-Free-Workplace-Ontario.pdf',tag:'Health & Safety',title:'Smoke-Free Workplace Policy (Ontario)',revised:'Updated Jan 2024',
+ {slug:'Smoke-Free-Workplace-Ontario',orig:'Smoke-Free-Workplace-Ontario.pdf',tag:'Health & Safety',title:'Smoke-Free Workplace Policy (Ontario)',revised:'Updated Jan 2024',
+  script:["Under Ontario's Smoke-Free Ontario Act, there's no smoking or vaping in any enclosed workplace — and that includes your truck cab and any hotel room or rental we book for you. Tobacco or cannabis, same rule.", "If you smoke, it's on your breaks, outside — and never cannabis on a break, because you need to stay fit for the road. This isn't just a company preference, it's provincial law, and breaking it can cost you your safety bonus and lead to discipline."],
   points:['Under the Smoke-Free Ontario Act, 2017: no smoking or vaping in any enclosed workplace, company vehicles, or company-booked hotel rooms and rental cars — tobacco or cannabis.','Smoke or vape only on scheduled breaks, outside; never cannabis during breaks or in a way that affects fitness for duty.','Violations may result in discipline up to termination and loss of any safety bonus.'],
   statement:'I have read and understand the Smoke-Free Workplace Policy, and I agree to comply with it.'},
- {slug:'Attendance-Absenteeism',orig:'policies/Attendance-Absenteeism.pdf',tag:'Employment',title:'Attendance Management & Absenteeism Policy',revised:'',
+ {slug:'Attendance-Absenteeism',orig:'Attendance-Absenteeism.pdf',tag:'Employment',title:'Attendance Management & Absenteeism Policy',revised:'',
+  script:["Look, life happens and we get that. But being here, and being on time, is a big part of this job. If you're going to be off or late, call your supervisor as early as you can, tell them why and how long.", "If it's medical, we might ask for a note. There's a real difference between things outside your control, like a genuine illness, and just not showing up or rolling in late without a word — that second kind adds up and leads to discipline. Bottom line: communicate early."],
   points:['Regular attendance and punctuality are expected; minimize absences.','Report absences promptly to your supervisor with the reason and expected duration; a medical note may be required.','Culpable or excessive absences may lead to corrective action up to termination.'],
   statement:'I have read and understand the Attendance Management & Absenteeism Policy, and I agree to comply with it.'},
- {slug:'Controlled-Substances-Alcohol-Testing',orig:'policies/Controlled-Substances-Alcohol-Testing.pdf',tag:'Safety',title:'Controlled Substances & Alcohol Use & Testing Policy',revised:'Feb 2017',
+ {slug:'Controlled-Substances-Alcohol-Testing',orig:'Controlled-Substances-Alcohol-Testing.pdf',tag:'Safety',title:'Controlled Substances & Alcohol Use & Testing Policy',revised:'Feb 2017',
+  script:["This is a safety-critical one. You're operating an 80,000-pound vehicle, so being clear-headed isn't optional — it's the National Safety Code. We run a drug and alcohol testing program through DriveCheck: pre-employment, random, and after any incident.", "Only the authorized people ever see your results — it stays confidential. And if you're ever struggling with something, there's an Employee Assistance Plan to help. We'd much rather get you support than lose you."],
   points:['A program to prevent accidents from alcohol misuse or controlled-substance use by commercial drivers, under the Canadian National Safety Code.','Testing is administered through DriveCheck at designated sites.','Only authorized administrators may see results; an Employee Assistance Plan is available for support.'],
   statement:'I have read and understand the Controlled Substances & Alcohol Use & Testing Policy, and I agree to comply with it.'},
- {slug:'DOT-US-Clearinghouse',orig:'policies/DOT-US-Clearinghouse.pdf',tag:'Cross-border',title:'DOT / US Clearinghouse Policy',revised:'Jan 2020',
+ {slug:'DOT-US-Clearinghouse',orig:'DOT-US-Clearinghouse.pdf',tag:'Cross-border',title:'DOT / US Clearinghouse Policy',revised:'Jan 2020',
+  script:["If you're running loads into the States, this one's for you. Before you can drive a commercial vehicle down there, US DOT requires a Clearinghouse check — and you have to give your consent on their website.", "No consent, no US driving for CPC — simple as that, and it's not a reportable violation, it just means you stick to Canadian runs. It's all managed through certified medical review officers, and if anything ever comes up, there's a clear process to work through it."],
   points:['Before operating a commercial vehicle in the USA, CPC must run a US DOT Clearinghouse check — you provide electronic consent on the Clearinghouse site.','Refusing consent means you cannot drive in the US for CPC.','Managed through a certified Medical Review Officer and Third-Party Administrator; a SAP process applies to any violations.'],
   statement:'I have read and understand the DOT / US Clearinghouse Policy, and I agree to comply with it.'},
- {slug:'Progressive-Discipline',orig:'policies/Progressive-Discipline.pdf',tag:'Employment',title:'Progressive Discipline Policy',revised:'Rev. Dec 2024',
+ {slug:'Progressive-Discipline',orig:'Progressive-Discipline.pdf',tag:'Employment',title:'Progressive Discipline Policy',revised:'Rev. Dec 2024',
+  script:["Nobody loves talking about discipline, but it helps to know how it works so there are no surprises. It's a fair, step-by-step process — usually a coaching chat first, then a verbal warning, a written one, a final warning, and only then termination. The idea is to correct things, not catch you out.", "Now, the serious stuff — theft, deliberately damaging equipment, weapons — that can jump straight to the end. But for everyday issues, you'll always get a fair chance to fix it first."],
   points:['Used to correct deliberate misconduct or performance issues fairly and consistently.','One informal step (coaching) plus four formal steps: verbal, written, final written or suspension, and termination.','Serious misconduct such as theft, wilful damage, or weapons can start at a later step, up to immediate termination.'],
   statement:'I have read and understand the Progressive Discipline Policy.'},
- {slug:'Accommodation-Policy',orig:'policies/Accommodation-Policy.pdf',tag:'Rights',title:'Accommodation Policy',revised:'',
+ {slug:'Accommodation-Policy',orig:'Accommodation-Policy.pdf',tag:'Rights',title:'Accommodation Policy',revised:'',
+  script:["CPC's committed to accommodating you if you've got a need tied to the Human Rights Code — things like a disability, a religious practice, family status, and more. We'll work with you up to what's called undue hardship.", "In plain terms, that means we accommodate unless it would cost so much there's no funding for it, or it creates a real safety hazard. If you need something — including for medical reasons — just start that conversation with us and we'll sort out a suitable arrangement together."],
   points:['CPC accommodates needs tied to Human Rights Code grounds up to the point of undue hardship.','Undue hardship means excessive cost with no funding available, or a genuine health or safety hazard.','Medical needs, including medical cannabis, go through the accommodation process.'],
   statement:'I have read and understand the Accommodation Policy.'},
- {slug:'Physical-Demands-Assessment',orig:'policies/Physical-Demands-Assessment.pdf',tag:'Safety',title:'Physical Demands Assessment',revised:'',
-  points:['Describes the physical requirements of the driver role so you know what is expected.','Lifting and lowering up to about 24 kg (53 lb) maximum, usually about 4.5 kg (10 lb); regular climbing in and out of the cab and load handling.','Raise any accommodation needs through the Accommodation Policy.'],
-  statement:'I acknowledge that I have reviewed and understand the Physical Demands Assessment for the Commercial Vehicle Operator role.'},
+ {slug:"Right-to-Refuse-Unsafe-Work",orig:"Right-to-Refuse-Unsafe-Work.pdf",tag:"Safety",title:"Right to Refuse Unsafe Work Policy",revised:"",script:["This is a right you have under Ontario law, so it's worth knowing well. If you've got a genuine reason to believe a task, a piece of equipment, or a situation is unsafe — and that includes a risk of workplace violence — you can refuse to do it, and you won't lose your regular pay for refusing in good faith.", "Here's how it works: report it to your supervisor right away, then stay in a safe spot nearby while they investigate with a health and safety rep. Two things to keep in mind — you can't refuse if that would put someone else in danger, and it has to be beyond what's a normal part of the job. When in doubt, stop and ask. We'd always rather that."],points:["You can refuse work you reasonably believe is unsafe, including a risk of workplace violence.", "You keep your regular pay while a good-faith refusal is investigated.", "Report to your supervisor immediately and stay in a safe place nearby.", "You can't refuse if it endangers someone else, or if it's a normal condition of the job."],statement:"I have read and understand CPC Logistics Canada's Right to Refuse Unsafe Work Policy, and I understand my rights and responsibilities under Ontario's Occupational Health and Safety Act."},
+ {slug:"Reporting-Accidents-Injuries",orig:"Reporting-Accidents-Injuries.pdf",tag:"Safety",title:"Reporting Workplace Accidents & Injuries Policy",revised:"",script:["If something happens out there — an accident, an injury, even a near miss — we need to know, and fast. Ontario law has strict timelines for reporting, especially for a serious or 'critical' injury, so the sooner you tell us, the better we can handle it the right way.", "The rule of thumb: report any work-related accident or injury to your supervisor as soon as you safely can, no matter how minor it seems — and get medical attention first if you need it. Reporting protects you: it makes sure you're covered under WSIB, and it lets us fix whatever caused it so it doesn't happen to the next driver."],points:["Report any work-related accident or injury to your supervisor as soon as you safely can.", "Serious or critical injuries have strict legal reporting timelines under OHSA.", "Get medical attention first if you need it.", "Reporting protects your WSIB coverage and helps prevent a repeat."],statement:"I have read and understand CPC Logistics Canada's Reporting Workplace Accidents & Injuries Policy, and I agree to report accidents and injuries as required under Ontario's Occupational Health and Safety Act."},
+ {slug:"FMCSR-Receipt-and-Reference-Release",tag:"Records",title:"FMCSR Pocketbook Receipt & Reference Release",revised:"",script:["Two quick things rolled into one sign-off. First, the FMCSR Pocketbook — that's your Federal Motor Carrier Safety Regulations handbook for running in the States. Signing here confirms you received it and you'll familiarize yourself with the US DOT rules inside.", "Second is a reference release — you're giving us the okay to contact your previous employers to confirm your work history, your dates, and your wages. That's standard for hiring. Just so it's clear, checking references doesn't guarantee the position; it's simply part of us getting to know you."],points:["I confirm I received the FMCSR Pocketbook and will familiarize myself with the US DOT regulations it contains.", "I authorize CPC to contact my previous employers to verify my work history, dates, and wages.", "I understand that referencing does not guarantee a position with CPC."],statement:"I acknowledge receipt of the Federal Motor Carrier Safety Regulations (FMCSR) Pocketbook and agree to familiarize myself with the applicable US DOT regulations. I also authorize CPC Logistics Canada to contact my previous employers to verify my work history, dates of employment, and wages for reference purposes, and I understand that referencing does not guarantee a position."},
  {slug:'Training-Manual-Safety-Book',tag:'Reference',title:'Training Manual & Drivers Safety Book',revised:'',
+  script:["Last thing — your Training Manual and the Drivers Safety Book. Think of these as your go-to reference for the day-to-day: procedures, safe practices, how we do things here.", "You're responsible for reading them and following what's in them. You don't need to memorize every page today — just know where to find the answer. And if anything's ever unclear, that's exactly what your trainer and supervisor are for. Just ask."],
   points:['The CPC Canada Training Manual and Drivers Safety Book are your day-to-day reference for procedures and safe practices.','You are responsible for reading them and following the practices they describe.','Ask your trainer or supervisor if anything is unclear.'],
   statement:'I acknowledge that I have received and reviewed the CPC Canada Training Manual and the Drivers Safety Book.'}
 ];
@@ -726,14 +991,14 @@ function renderPolicy(){
   var N=window.POLICIES.length, i=window.polIndex, p=window.POLICIES[i];
   document.getElementById('polfill').style.width=Math.round((i+1)/N*100)+'%';
   document.getElementById('polcount').textContent='Policy '+(i+1)+' of '+N;
-  var pts=p.points.map(function(x){return '<li>'+x+'</li>';}).join('');
+  var scr=(p.script||[]).map(function(x){return '<p>'+x+'</p>';}).join('');
   var agreed=!!window.polAgreed[p.slug];
   document.getElementById('polcard').innerHTML=
     '<div class="paper">'
     +'<div class="secpill">▸ '+p.tag+'</div>'
     +'<button class="listen" id="listenbtn" onclick="toggleSpeak()"><span class="ic">▶</span> <span id="listentxt">Listen</span></button>'
     +'<h3>'+p.title+'</h3>'+(p.revised?'<div class="rev">CPC Logistics Canada · '+p.revised+'</div>':'')
-    +'<ul class="rulebox">'+pts+'</ul>'
+    +'<div class="trainerhead">In plain terms</div><div class="trainer">'+scr+'</div>'
     +(p.orig?'<div class="polreadhead">The full policy — please read</div><div class="polframe"><iframe src="'+p.orig+'#view=FitH" title="Full policy document"></iframe></div>':'<div class="polnote">This document is reviewed with your trainer during onboarding.</div>')
     +'<div class="seal" onclick="polToggle()"><input type="checkbox" id="polagree" '+(agreed?'checked':'')+' onclick="event.stopPropagation()"><label for="polagree">I have read and agree to the '+p.title+'.</label></div>'
     +'</div>';
@@ -762,7 +1027,7 @@ function polPrev(){
   if(window.polIndex<=0){ go(3); return; }
   window.polIndex--; renderPolicy(); window.scrollTo({top:0,behavior:'smooth'});
 }
-function speakText(){ var p=window.POLICIES[window.polIndex]; return p.title+'. '+p.points.join(' ')+''; }
+function speakText(){ var p=window.POLICIES[window.polIndex]; return p.title+'. '+(p.script||[]).join(' '); }
 function toggleSpeak(){
   if(!('speechSynthesis' in window)) return;
   if(window.speechSynthesis.speaking){ stopSpeak(); return; }
@@ -781,13 +1046,15 @@ function setListen(on){
 function collectData(){
   var d=new Date();
   return {name:window.driver||'Driver',
-    date:d.toLocaleDateString('en-CA',{year:'numeric',month:'short',day:'numeric'}),
+    date:todayStr(),
     ts:d.toLocaleString('en-CA'),
     ec:(document.getElementById('ice')||{}).value||'',
     c1:!!(document.getElementById('c1')&&document.getElementById('c1').checked),
     c2:!!(document.getElementById('c2')&&document.getElementById('c2').checked),
     logo:(document.querySelector('.logo img')||{}).src||null,
-    sig:(typeof pad!=='undefined'&&pad)?pad.toDataURL('image/png'):null,
+    sig:window.masterSig||null,
+    score:window.quizScore||0, total:10,
+    detail:window.quizDetail||[],
     policies:window.POLICIES};
 }
 function lastName(){var p=(window.driver||'Driver').trim().split(/\s+/);return p[p.length-1];}
@@ -795,9 +1062,184 @@ function downloadBytes(bytes,name){var blob=new Blob([bytes],{type:'application/
 function setPacketStatus(t){var b=document.getElementById('pkgbtn');if(b)b.textContent=t;}
 async function mergeMany(arr){var out=await PDFLib.PDFDocument.create();for(var i=0;i<arr.length;i++){try{var src=await PDFLib.PDFDocument.load(arr[i],{ignoreEncryption:true});var pg=await out.copyPages(src,src.getPageIndices());pg.forEach(function(x){out.addPage(x);});}catch(e){console.error('merge fail',i,e);}}return await out.save();}
 function ackBytes(slug){return window.CPCPDF.buildSingle(slug,window.pdfData,window.jspdf.jsPDF).output('arraybuffer');}
-async function policyBytes(pl){var ab=ackBytes(pl.slug);if(pl.orig){try{var r=await fetch(pl.orig);var ob=await r.arrayBuffer();return await mergeMany([ab,ob]);}catch(e){console.error('orig fetch fail',pl.slug,e);return ab;}}return ab;}
-async function genSingle(slug){try{var pl=(window.POLICIES||[]).filter(function(x){return x.slug===slug;})[0];var bytes=pl?await policyBytes(pl):ackBytes(slug);downloadBytes(bytes,lastName()+'_'+slug+'.pdf');}catch(e){console.error(e);}}
-async function genPacket(){try{setPacketStatus('Generating packet…');var parts=[];for(var i=0;i<window.POLICIES.length;i++){parts.push(await policyBytes(window.POLICIES[i]));}['Workplace-Violence-Harassment-Certificate','Emergency-Response-Form','Drug-Alcohol-Background-Consent','Onboarding-Summary'].forEach(function(sl){parts.push(ackBytes(sl));});var merged=await mergeMany(parts);downloadBytes(merged,lastName()+'_CPC_Onboarding_Packet.pdf');setPacketStatus('↓ Download packet again');}catch(e){console.error(e);setPacketStatus('Packet error — retry');}}
+async function policyBytes(pl){
+  if(window.RECREATE&&window.RECREATE[pl.slug]) return await stampPolicy(pl);
+  var ab=ackBytes(pl.slug);
+  if(pl.orig){try{var r=await fetch(pl.orig);var ob=await r.arrayBuffer();return await mergeMany([ab,ob]);}catch(e){console.error('orig fetch fail',pl.slug,e);return ab;}}
+  return ab;
+}
+async function stampPolicy(pl){
+  var cfg=window.RECREATE[pl.slug];
+  var r=await fetch(pl.orig); var bytes=await r.arrayBuffer();
+  var doc=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true});
+  var font=await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+  var pg=doc.getPages()[cfg.page]; var ink=PDFLib.rgb(0.06,0.13,0.2); var d=window.pdfData;
+  pg.drawText(d.name,{x:cfg.name.x,y:cfg.name.y,size:11,font:font,color:ink});
+  pg.drawText(d.date,{x:cfg.date.x,y:cfg.date.y,size:11,font:font,color:ink});
+  if(d.sig){try{var png=await doc.embedPng(d.sig);pg.drawImage(png,{x:cfg.sig.x,y:cfg.sig.y,width:cfg.sig.w,height:cfg.sig.h});}catch(e){console.error('sig',e);}}
+  return await doc.save();
+}
+function dobYMD(d){ if(!d) return ''; var m=String(d).split('/'); if(m.length===3){ return m[2]+String(m[1]).padStart(2,'0')+String(m[0]).padStart(2,'0'); } return String(d).replace(/\D/g,''); }
+function ymdToday(){ var d=new Date(); return ''+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0'); }
+async function fillCPS(){
+  var r=await fetch('CPS-Consent.pdf'); var bytes=await r.arrayBuffer();
+  var doc=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true});
+  var form=doc.getForm(); var b=window.benefits||{}; var nm=(window.driver||'').trim().split(/\s+/);
+  var ln=nm.length>1?nm[nm.length-1]:''; var fn=(nm.length>1?nm.slice(0,nm.length-1):nm).join(' ');
+  function T(n,v){ try{ if(v) form.getTextField(n).setText(String(v)); }catch(e){} }
+  T('Given namess',fn); T('Surname last name at birth',ln); T('Date of birth YYYYMMDD',dobYMD(b.dob));
+  T('Email address',b.email); T('Street',b.address); T('City',b.city); T('Prov Terr State',b.prov); T('Postal Code',b.postal);
+  T('Date YYYYMMDD',ymdToday());
+  mfSetRadio(form,'Sex',b.sex);
+  if(window.masterSig){ try{ var png=await doc.embedPng(window.masterSig); doc.getPages()[0].drawImage(png,{x:26,y:196,width:120,height:26}); doc.getPages()[1].drawImage(png,{x:50,y:189,width:130,height:24}); }catch(e){console.error('cps sig',e);} }
+  try{ form.acroForm.dict.delete(PDFLib.PDFName.of('XFA')); form.acroForm.dict.set(PDFLib.PDFName.of('NeedAppearances'),PDFLib.PDFBool.True); }catch(e){}
+  return await doc.save();
+}
+/* ===== ID / border document capture ===== */
+window.idDocs={license:{front:null,back:null,num:''},passport:{photo:null,num:''},fast:{front:null,back:null,num:''}};
+function onNum(key,v){ if(window.idDocs[key]) window.idDocs[key].num=(v||'').trim(); }
+function downscaleImage(src,maxW,cb){
+  var img=new Image();
+  img.onload=function(){
+    var scale=Math.min(1,maxW/img.width); var w=Math.round(img.width*scale), h=Math.round(img.height*scale);
+    var c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h);
+    try{ cb(c.toDataURL('image/jpeg',0.82)); }catch(e){ cb(src); }
+  };
+  img.onerror=function(){ cb(src); };
+  img.src=src;
+}
+function onPhoto(input,key,side){
+  var f=input.files&&input.files[0]; if(!f) return;
+  var drop=input.parentNode;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    downscaleImage(e.target.result,1400,function(dataURL){
+      window.idDocs[key][side]=dataURL;
+      drop.innerHTML='';
+      var img=new Image(); img.src=dataURL; drop.appendChild(img);
+      var ni=document.createElement('input'); ni.type='file'; ni.accept='image/*'; ni.setAttribute('capture','environment');
+      ni.onchange=function(){ onPhoto(ni,key,side); }; drop.appendChild(ni);
+      runOCR(dataURL,key);
+    });
+  };
+  reader.readAsDataURL(f);
+}
+window._tessQ=null;
+function ensureTesseract(cb){
+  if(window.Tesseract){ cb(true); return; }
+  if(window._tessQ){ window._tessQ.push(cb); return; }
+  window._tessQ=[cb];
+  var s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+  s.onload=function(){ var q=window._tessQ; window._tessQ=null; q.forEach(function(f){ f(true); }); };
+  s.onerror=function(){ var q=window._tessQ; window._tessQ=null; q.forEach(function(f){ f(false); }); };
+  document.head.appendChild(s);
+}
+function setStat(key,txt){ var e=document.getElementById(key+'_stat'); if(e) e.textContent=txt; }
+function extractIdNumber(text){
+  var lines=(text||'').replace(/[^\x20-\x7E\n]/g,' ').split(/\n/); var cands=[];
+  lines.forEach(function(ln){
+    var m=ln.toUpperCase().match(/[A-Z0-9][A-Z0-9\-\s]{5,}[A-Z0-9]/g);
+    if(m) m.forEach(function(x){ var c=x.replace(/\s+/g,''); var a=c.replace(/[^A-Z0-9]/g,''); if(a.length>=7&&a.length<=20&&/\d/.test(a)) cands.push(c); });
+  });
+  cands.sort(function(a,b){ return b.replace(/[^A-Z0-9]/g,'').length-a.replace(/[^A-Z0-9]/g,'').length; });
+  return cands[0]||'';
+}
+function runOCR(dataURL,key){
+  var fld=document.getElementById(key+'_num'); if(fld&&fld.value){ setStat(key,''); return; }
+  setStat(key,'Reading…');
+  ensureTesseract(function(ok){
+    if(!ok){ setStat(key,'type it in below'); return; }
+    Tesseract.recognize(dataURL,'eng').then(function(res){
+      var guess=extractIdNumber(res&&res.data&&res.data.text);
+      var f=document.getElementById(key+'_num');
+      if(guess&&f&&!f.value){ f.value=guess; window.idDocs[key].num=guess; setStat(key,'auto-read — please verify'); }
+      else { setStat(key,'type it in below'); }
+    }).catch(function(){ setStat(key,'type it in below'); });
+  });
+}
+function idDocMeta(key){ return {
+  license:{title:"Driver's Licence",kicker:'IDENTITY DOCUMENT',numlabel:'Licence No.',sides:[['front','Front'],['back','Back']]},
+  passport:{title:'Passport',kicker:'IDENTITY DOCUMENT',numlabel:'Passport No.',sides:[['photo','Photo Page']]},
+  fast:{title:'FAST Card',kicker:'IDENTITY DOCUMENT',numlabel:'FAST Card No.',sides:[['front','Front'],['back','Back']]}
+}[key]; }
+function idDocHasContent(key){ var d=window.idDocs[key]; if(!d) return false; return !!(d.front||d.back||d.photo||d.num); }
+function idPlacePhoto(doc,dataURL,label,x,y,w,maxH,C){
+  doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(C.grey[0],C.grey[1],C.grey[2]); doc.text(label.toUpperCase(),x+2,y);
+  var top=y+7, props; try{ props=doc.getImageProperties(dataURL); }catch(e){ props={width:16,height:10}; }
+  var ar=(props.width/props.height)||1.6; var iw=w-16, ih=iw/ar;
+  if(ih>maxH-16){ ih=maxH-16; iw=ih*ar; if(iw>w-16){ iw=w-16; ih=iw/ar; } }
+  var frameH=ih+16;
+  doc.setFillColor(255,255,255); doc.setDrawColor(C.line[0],C.line[1],C.line[2]); doc.setLineWidth(1.2);
+  doc.roundedRect(x,top,w,frameH,10,10,'FD');
+  var ix=x+(w-iw)/2, iy=top+8;
+  try{ doc.addImage(dataURL,'JPEG',ix,iy,iw,ih,undefined,'FAST'); }catch(e){}
+  doc.setFillColor(C.blue[0],C.blue[1],C.blue[2]); doc.roundedRect(x,top,5,frameH,2,2,'F');
+  return top+frameH;
+}
+function buildIdDoc(key){
+  var J=window.jspdf.jsPDF; var doc=new J({unit:'pt',format:'letter'});
+  var C={navy:[15,34,51],blue:[28,86,168],gold:[213,143,0],grey:[110,124,138],line:[210,222,234]};
+  var M=54, PW=612; var data=window.pdfData||collectData(); var meta=idDocMeta(key); var d=window.idDocs[key];
+  if(data.logo){ try{ doc.addImage(data.logo,'PNG',M,38,46,46); }catch(e){} }
+  doc.setTextColor(C.navy[0],C.navy[1],C.navy[2]); doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.text('CPC LOGISTICS CANADA',M+58,57);
+  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(C.grey[0],C.grey[1],C.grey[2]); doc.text('Driver Onboarding Record',M+58,71);
+  doc.setDrawColor(C.line[0],C.line[1],C.line[2]); doc.setLineWidth(1); doc.line(M,96,PW-M,96);
+  doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(C.gold[0],C.gold[1],C.gold[2]); doc.text(meta.kicker,M,128);
+  doc.setFont('helvetica','bold'); doc.setFontSize(18); doc.setTextColor(C.navy[0],C.navy[1],C.navy[2]); doc.text(meta.title,M,150);
+  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(C.grey[0],C.grey[1],C.grey[2]); doc.text('Driver:  '+data.name+'          Date:  '+data.date,M,172);
+  var y=192;
+  doc.setFillColor(245,249,252); doc.roundedRect(M,y,PW-2*M,48,8,8,'F');
+  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(C.grey[0],C.grey[1],C.grey[2]); doc.text(meta.numlabel.toUpperCase()+'  (for Border Connect)',M+16,y+18);
+  doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.setTextColor(C.navy[0],C.navy[1],C.navy[2]); doc.text(d.num||'—',M+16,y+38);
+  y+=48+26;
+  var sides=meta.sides.filter(function(s){ return d[s[0]]; });
+  if(sides.length===1){ idPlacePhoto(doc,d[sides[0][0]],sides[0][1],M,y,PW-2*M,340,C); }
+  else if(sides.length===2){ var gap=18, half=(PW-2*M-gap)/2; idPlacePhoto(doc,d[sides[0][0]],sides[0][1],M,y,half,300,C); idPlacePhoto(doc,d[sides[1][0]],sides[1][1],M+half+gap,y,half,300,C); }
+  else { doc.setFont('helvetica','italic'); doc.setFontSize(10.5); doc.setTextColor(C.grey[0],C.grey[1],C.grey[2]); doc.text('Number recorded; no image was captured for this document.',M,y+10); }
+  doc.setDrawColor(C.line[0],C.line[1],C.line[2]); doc.setLineWidth(1); doc.line(M,752,PW-M,752);
+  doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(C.grey[0],C.grey[1],C.grey[2]); doc.text('Generated via CPC RoadReady · '+data.ts+' · Retained in the employee file.',M,766);
+  return doc.output('arraybuffer');
+}
+function copyText(t,btn){ try{ navigator.clipboard.writeText(t).then(function(){ if(btn){ var o=btn.textContent; btn.textContent='Copied'; setTimeout(function(){ btn.textContent=o; },1200); } }); }catch(e){} }
+function renderBorderCopy(){
+  var el=document.getElementById('bordercopy'); if(!el) return;
+  var rows=[["Driver's Licence",window.idDocs.license.num],['Passport',window.idDocs.passport.num],['FAST Card',window.idDocs.fast.num]].filter(function(r){ return r[1]; });
+  if(!rows.length){ el.style.display='none'; el.innerHTML=''; return; }
+  el.style.display='block';
+  var html='<div class="videohead">▣ Copy for Border Connect</div>', all=[];
+  rows.forEach(function(r){ var v=r[1].replace(/'/g,'').replace(/"/g,''); all.push(r[0]+': '+r[1]); html+='<div class="bcrow"><div><span>'+r[0]+'</span><b>'+r[1]+'</b></div><button class="bcbtn" onclick="copyText(\''+v+'\',this)">Copy</button></div>'; });
+  html+='<button class="btn ghost" style="margin-top:6px" onclick="copyText(\''+all.join('\\n').replace(/'/g,'').replace(/"/g,'')+'\',this)">Copy all for Border Connect</button>';
+  el.innerHTML=html;
+}
+function dobSlash(d){ var y=dobYMD(d); return y&&y.length===8 ? y.slice(0,4)+'/'+y.slice(4,6)+'/'+y.slice(6,8) : ''; }
+async function fillTaxForm(cfg){
+  var r=await fetch(cfg.file); var bytes=await r.arrayBuffer();
+  var doc=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true});
+  var form=doc.getForm(); var b=window.benefits||{}; var p=window.payroll||{};
+  var nm=(window.driver||'').trim().split(/\s+/);
+  var ln=nm.length>1?nm[nm.length-1]:''; var fn=(nm.length>1?nm.slice(0,nm.length-1):nm).join(' ');
+  function T(n,v){ try{ if(v!=null&&v!=='') form.getTextField(n).setText(String(v)); }catch(e){} }
+  var ID=cfg.pfx+cfg.idsf+'[0].Identification[0].';
+  T(ID+'Last_name[0]',ln); T(ID+'First_name[0]',fn);
+  T(ID+'DOB[0]',dobSlash(b.dob));
+  T(ID+'Employee_number[0]',p.empno);
+  T(ID+'Address[0]',(b.address||'')+(b.city?', '+b.city:''));
+  T(ID+'PostalCode_Comb_BordersAll[0].PostalCode[0]',(b.postal||'').replace(/\s+/g,'').toUpperCase());
+  T(ID+'SIN_Comb_BordersAll[0].SIN_Comb[0]',(p.sin||'').replace(/\D/g,''));
+  if(p.basicOnly!==false){
+    T(cfg.pfx+cfg.idsf+'[0].number1_subform[0].Amount_fld[0]',cfg.basic);
+    T(cfg.pfx+cfg.idsf+'[0].'+cfg.totalField+'[0].Amount_fld[0]',cfg.basic);
+  }
+  T('form1[0].Page2[0].Certification_subform[0].DateYYYYMMDD_BordersAll[0]',ymdToday());
+  if(window.masterSig){ try{ var png=await doc.embedPng(window.masterSig); doc.getPages()[1].drawImage(png,cfg.sig); }catch(e){console.error('tax sig',e);} }
+  try{ doc.catalog.lookup(PDFLib.PDFName.of('AcroForm')).set(PDFLib.PDFName.of('NeedAppearances'),PDFLib.PDFBool.True); }catch(e){}
+  return await doc.save();
+}
+function fillTD1(){ return fillTaxForm({file:'TD1-2026.pdf',pfx:'form1[0].Page1[0].',idsf:'Subform1',basic:'16,452.00',totalField:'number13_subform',sig:{x:80,y:82,width:150,height:22}}); }
+function fillTD1ON(){ return fillTaxForm({file:'TD1ON-2026.pdf',pfx:'form1[0].Page1[0].',idsf:'Main_SF',basic:'12,989.00',totalField:'number10_subform',sig:{x:80,y:300,width:150,height:22}}); }
+async function genSingle(slug){try{if(slug==='Manulife-Enrolment'){downloadBytes(await fillManulife(),lastName()+'_Manulife-Enrolment.pdf');return;}if(slug==='CPS-Consent'){downloadBytes(await fillCPS(),lastName()+'_CPS-Consent.pdf');return;}if(slug==='TD1-2026'){downloadBytes(await fillTD1(),lastName()+'_TD1-2026.pdf');return;}if(slug==='TD1ON-2026'){downloadBytes(await fillTD1ON(),lastName()+'_TD1ON-2026.pdf');return;}if(slug==='id-license'){downloadBytes(buildIdDoc('license'),lastName()+'_Drivers-Licence.pdf');return;}if(slug==='id-passport'){downloadBytes(buildIdDoc('passport'),lastName()+'_Passport.pdf');return;}if(slug==='id-fast'){downloadBytes(buildIdDoc('fast'),lastName()+'_FAST-Card.pdf');return;}var pl=(window.POLICIES||[]).filter(function(x){return x.slug===slug;})[0];var bytes=pl?await policyBytes(pl):ackBytes(slug);downloadBytes(bytes,lastName()+'_'+slug+'.pdf');}catch(e){console.error(e);}}
+async function genPacket(){try{setPacketStatus('Generating packet…');var parts=[];for(var i=0;i<window.POLICIES.length;i++){parts.push(await policyBytes(window.POLICIES[i]));}['Workplace-Violence-Harassment-Quiz-Results','Emergency-Response-Form','Drug-Alcohol-Background-Consent','Drug-Alcohol-Policy-Release','Onboarding-Summary'].forEach(function(sl){parts.push(ackBytes(sl));});['license','passport','fast'].forEach(function(k){if(idDocHasContent(k)){try{parts.push(buildIdDoc(k));}catch(e){console.error('iddoc',k,e);}}});if(window.benefits){try{parts.push(await fillManulife());}catch(e){console.error('manulife',e);}}if(window.pdfData&&window.pdfData.c2){try{parts.push(await fillCPS());}catch(e){console.error('cps',e);}}if(window.payroll){try{parts.push(await fillTD1());}catch(e){console.error('td1',e);}try{parts.push(await fillTD1ON());}catch(e){console.error('td1on',e);}}var merged=await mergeMany(parts);downloadBytes(merged,lastName()+'_CPC_Onboarding_Packet.pdf');setPacketStatus('↓ Download packet again');}catch(e){console.error(e);setPacketStatus('Packet error — retry');}}
 function finish(){
   window.pdfData=collectData();
   go(7);
@@ -805,12 +1247,19 @@ function finish(){
   var groups=[
     {name:'Section 1 · Policies acknowledged',items:window.POLICIES.map(function(p){return {t:p.title,s:'Signed acknowledgement',slug:p.slug};})},
     {name:'Section 2 · Safety & emergency',items:[
-      {t:'Workplace Violence & Harassment',s:'Training certificate · OHSA',slug:'Workplace-Violence-Harassment-Certificate'},
+      {t:'Workplace Violence & Harassment',s:'Quiz results · scored',slug:'Workplace-Violence-Harassment-Quiz-Results'},
       {t:'Emergency Response Form',s:'Confidential · via Microsoft Forms',slug:'Emergency-Response-Form'}]},
-    {name:'Section 3 · Consents & record',items:[
+    {name:'Section 3 · Benefits, consents & record',items:[
       {t:'Drug & Alcohol + Background Consent',s:'Signed consent',slug:'Drug-Alcohol-Background-Consent'},
-      {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}]}
+      {t:'DOT Alcohol & Drug Policy — Acknowledgement',s:'Signed release',slug:'Drug-Alcohol-Policy-Release'},
+      {t:'Onboarding Summary',s:'Audit trail · time stamped',slug:'Onboarding-Summary'}].concat(window.benefits?[{t:'Manulife Group Benefits Enrolment',s:'Filled form',slug:'Manulife-Enrolment'}]:[]).concat((window.pdfData&&window.pdfData.c2)?[{t:'Criminal Record Check Consent (ISB)',s:'Filled & signed',slug:'CPS-Consent'}]:[]).concat(window.payroll?[{t:'TD1 · 2026 Federal Personal Tax Credits',s:'Filled & signed',slug:'TD1-2026'},{t:'TD1ON · 2026 Ontario Personal Tax Credits',s:'Filled & signed',slug:'TD1ON-2026'}]:[])}
   ];
+  var idSec={name:'Section 4 · Identity & border documents',items:[]};
+  if(idDocHasContent('license')) idSec.items.push({t:"Driver's Licence",s:'Photos · number for Border Connect',slug:'id-license'});
+  if(idDocHasContent('passport')) idSec.items.push({t:'Passport',s:'Photo · number for Border Connect',slug:'id-passport'});
+  if(idDocHasContent('fast')) idSec.items.push({t:'FAST Card',s:'Photos · number for Border Connect',slug:'id-fast'});
+  if(idSec.items.length) groups.push(idSec);
+  renderBorderCopy();
   var box=document.getElementById('bundle');box.innerHTML='';var delay=200;
   groups.forEach(function(sec){
     var g=document.createElement('div');g.className='secgroup';
@@ -853,7 +1302,7 @@ function confetti(){
 function restart(){
   window.driver='';nameEl.value='';document.getElementById('start').disabled=true;
   ['seal3','c1','c2'].forEach(function(id){var e=document.getElementById(id);if(e)e.checked=false;});
-  window.quizAnswered=0; window.polIndex=0; window.polAgreed={};
+  window.quizAnswered=0; window.quizScore=0; window.quizDetail=[]; window.polIndex=0; window.polAgreed={}; window.masterSig=null; window.payroll=null; window.idDocs={license:{front:null,back:null,num:''},passport:{photo:null,num:''},fast:{front:null,back:null,num:''}};
   document.querySelectorAll('.qblock').forEach(function(q){delete q.dataset.done;});
   document.querySelectorAll('.feedback').forEach(function(f){f.classList.remove('show');});
   document.querySelectorAll('.opt').forEach(function(o){o.className='opt';o.style.pointerEvents='auto';});
